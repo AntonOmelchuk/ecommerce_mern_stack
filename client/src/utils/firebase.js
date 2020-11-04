@@ -1,4 +1,6 @@
-import * as firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAtYv1AdEgs5EOFLhaPAccDiF9hGLocJZs',
@@ -8,6 +10,9 @@ const firebaseConfig = {
   storageBucket: 'ecommerce-mern-ded3f.appspot.com',
   messagingSenderId: '731621646987',
   appId: '1:731621646987:web:e6390014dd78bd2f2e6a8e'
-};
+}
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig)
+
+export const auth = firebase.auth()
+export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
