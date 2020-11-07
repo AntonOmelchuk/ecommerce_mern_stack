@@ -39,7 +39,7 @@ const Header = () => {
       <Item key='login' icon={<UserOutlined />} className='float-right'>
         <Link to='/login'>Login</Link>
       </Item>
-      <SubMenu key='SubMenu' icon={<SettingOutlined />} title={user?.name || 'USERNAME'}>
+      <SubMenu key='SubMenu' icon={<SettingOutlined />} title={user?.name.split(' ')[0] || 'USERNAME'}>
         <Item key='setting:1'>Option 1</Item>
         <Item key='setting:2'>Option 2</Item>
         <Item icon={<LogoutOutlined />} onClick={() => logout()}>Logout</Item>

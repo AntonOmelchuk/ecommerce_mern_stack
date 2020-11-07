@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import { Button } from 'antd'
-import { MailOutlined } from '@ant-design/icons'
+import { GoogleOutlined, MailOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { auth } from '../../utils/firebase'
+import { auth, googleAuthProvider } from '../../utils/firebase'
 import { LOGGED_IN_USER } from '../../constants/actionTypes'
 
 const Login = ({ history }) => {
@@ -46,6 +46,30 @@ const Login = ({ history }) => {
       setLoading(false)
     }
   }
+
+  const googleLogin = async () => {
+    setLoading(true)
+    try {
+      const { user } = await auth.signInWithPopup(googleAuthProvider)
+      const { token } = await user.getIdTokenResult()
+
+      dispatch({
+        type: LOGGED_IN_USER,
+        payload: {
+          name: user.displayName,
+          email: user.email,
+          token
+        }
+      })
+
+      history.push('/')
+    } catch (error) {
+      toast.error(`Error: ${error.message}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className='container p-5'>
       <div className='row'>
@@ -69,14 +93,26 @@ const Login = ({ history }) => {
             <Button
               onClick={handleSubmit}
               type='primary'
-              className='btn btn-raised my-3'
+              className='my-3'
               block
               icon={<MailOutlined />}
               shape='round'
               size='large'
               disabled={!email || password.length < 6 || loading}
             >
-              sign in with email
+              SIGN IN WITH EMAIL
+            </Button>
+            <Button
+              onClick={googleLogin}
+              type='danger'
+              className='my-3'
+              block
+              icon={<GoogleOutlined />}
+              shape='round'
+              size='large'
+              disabled={loading}
+            >
+              SIGN IN WITH GOOGLE
             </Button>
           </form>
         </div>
