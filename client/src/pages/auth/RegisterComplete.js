@@ -8,6 +8,7 @@ const { localStorage } = window
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [password, setPassword] = useState('')
 
   useEffect(() => {
@@ -18,12 +19,16 @@ const RegisterComplete = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!email || !password) {
-      return toast.error('Email and password is required')
+    if (!email || !password || !name) {
+      return toast.error('All fields are required')
     }
 
     if (password.length < 6) {
       return toast.error('Password must be at least 6 characters long')
+    }
+
+    if (name.length < 2) {
+      return toast.error('Password must be at least 2 characters long')
     }
 
     try {
@@ -33,7 +38,10 @@ const RegisterComplete = ({ history }) => {
         localStorage.removeItem(constants.REGISTRATION_EMAIL)
 
         const user = auth.currentUser
-        await user.updateEmail(password)
+        await user.updatePassword(password)
+        await user.updateProfile({
+          displayName: name
+        })
 
         history.push('/')
       } else {
@@ -61,12 +69,18 @@ const RegisterComplete = ({ history }) => {
               disabled
             />
             <input
+              type='text'
+              className='form-control my-3'
+              value={name}
+              onChange={({ target }) => setName(target.value)}
+              placeholder='Name'
+            />
+            <input
               type='password'
               className='form-control my-3'
               value={password}
               onChange={({ target }) => setPassword(target.value)}
               placeholder='Password'
-              autoFocus
             />
             <button type='submit' className='btn btn-raised my-3'>complete registration</button>
           </form>
