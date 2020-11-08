@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { auth, googleAuthProvider } from '../../utils/firebase'
 import { LOGGED_IN_USER } from '../../constants/actionTypes'
+import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('')
@@ -14,6 +15,8 @@ const Login = ({ history }) => {
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
+
+  useLoggedUserRedirect()
 
   // eslint-disable-next-line consistent-return
   const handleSubmit = async (e) => {

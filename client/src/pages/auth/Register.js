@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import constants from '../../constants/general'
 import { auth } from '../../utils/firebase'
+import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
 
 const { localStorage } = window
 
 const Register = () => {
   const [email, setEmail] = useState('')
+
+  useLoggedUserRedirect()
 
   const handleSubmit = async (e) => {
     try {

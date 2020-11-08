@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import { auth } from '../../utils/firebase'
+import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
 
 const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    return () => {}
-  }, [])
+  // const { user } = useSelector(state => state.user)
+
+  // useEffect(() => {
+  //   if (user && user.token) {
+  //     history.push('/')
+  //   }
+  // }, [user])
+
+  useLoggedUserRedirect()
 
   const handleSubmit = async e => {
     e.preventDefault()
