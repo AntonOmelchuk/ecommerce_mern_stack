@@ -33,17 +33,34 @@ const Header = () => {
       <Item key='home' icon={<AppstoreOutlined />}>
         <Link to='/'>Home</Link>
       </Item>
-      <Item key='register' icon={<UserAddOutlined />} className='float-right'>
-        <Link to='/register'>Register</Link>
-      </Item>
-      <Item key='login' icon={<UserOutlined />} className='float-right'>
-        <Link to='/login'>Login</Link>
-      </Item>
-      <SubMenu key='SubMenu' icon={<SettingOutlined />} title={user?.name.split(' ')[0] || 'USERNAME'}>
-        <Item key='setting:1'>Option 1</Item>
-        <Item key='setting:2'>Option 2</Item>
-        <Item icon={<LogoutOutlined />} onClick={() => logout()}>Logout</Item>
-      </SubMenu>
+      {
+        !user && (
+          <Item key='register' icon={<UserAddOutlined />} className='float-right'>
+            <Link to='/register'>Register</Link>
+          </Item>
+        )
+      }
+      {
+        !user && (
+          <Item key='login' icon={<UserOutlined />} className='float-right'>
+            <Link to='/login'>Login</Link>
+          </Item>
+        )
+      }
+      {
+        user && (
+          <SubMenu
+            key='SubMenu'
+            className='float-right'
+            icon={<SettingOutlined />}
+            title={user?.name.split(' ')[0] || user?.email.split('@')[0] || 'USERNAME'}
+          >
+            <Item key='setting:1'>Option 1</Item>
+            <Item key='setting:2'>Option 2</Item>
+            <Item icon={<LogoutOutlined />} onClick={() => logout()}>Logout</Item>
+          </SubMenu>
+        )
+      }
     </Menu>
   )
 }

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { Button } from 'antd'
 import { GoogleOutlined, MailOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { auth, googleAuthProvider } from '../../utils/firebase'
 import { LOGGED_IN_USER } from '../../constants/actionTypes'
 
@@ -114,6 +115,8 @@ const Login = ({ history }) => {
             >
               SIGN IN WITH GOOGLE
             </Button>
+
+            <Link to='/forgot/password' className='float-right text-danger'>Forgot Password</Link>
           </form>
         </div>
       </div>
