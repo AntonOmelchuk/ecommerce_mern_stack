@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const bodyParse = require('body-parser')
 const cors = require('cors')
-const fs = require('fs')
+const { readdirSync } = require('fs')
 require('dotenv').config()
 
 // app
@@ -28,7 +28,7 @@ app.use(bodyParse.json())
 app.use(cors())
 
 // routes
-fs.readdirSync('./routes').forEach(route => app.use('/api', require(`./routes/${route}`)))
+readdirSync('./routes').forEach(route => app.use('/api', require(`./routes/${route}`)))
 
 // port
 const port = process.env.PORT || 9000
