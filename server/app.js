@@ -1,19 +1,38 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const dotenv = require('dotenv')
+const morgan = require('morgan')
+const bodyParse = require('body-parser')
+const cors = require('cors')
+require('dotenv').config()
 
+// import routes
+const auth = require('./routes/auth')
+
+// app
 const app = express()
 
-dotenv.config()
-
+// mongoDB connection
 mongoose.connect(
   process.env.MONGODB_URI,
-  { useNewUrlParser: true }
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: true,
+  },
 )
-.then(() => console.log("DB Connected"));
+.then(() => console.log("DB Connected"))
+.catch(error => console.log(`DB connection error: ${error}`))
 
-mongoose.connection.on("error", err => {
-    console.log(`DB connection error: ${err.message}`);
-});
+// middlewares
+app.use(morgan('dev'))
+app.use(bodyParse.json())
+app.use(cors())
 
-app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`))
+// routes
+app.use('/api', auth)
+
+// port
+const port = process.env.PORT || 9000
+
+app.listen(port, () => console.log(`Server is running on port ${port}`))
