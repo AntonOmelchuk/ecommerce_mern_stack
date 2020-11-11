@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import { auth } from '../../utils/firebase'
@@ -8,13 +9,13 @@ const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
-  // const { user } = useSelector(state => state.user)
+  const { user } = useSelector(state => state.user)
 
-  // useEffect(() => {
-  //   if (user && user.token) {
-  //     history.push('/')
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (user && user.token) {
+      history.push('/')
+    }
+  }, [user])
 
   useLoggedUserRedirect()
 

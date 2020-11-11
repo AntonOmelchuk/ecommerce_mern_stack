@@ -2,9 +2,12 @@ const express = require('express')
 
 const route = express.Router()
 
-// imports controllers
+// middlewares
+const authCheck = require('../middlewares/auth')
+
+// controllers
 const { createOrUpdateUser } = require('../controllers/auth')
 
-route.get('/create-or-update-user', createOrUpdateUser)
+route.post('/create-or-update-user', authCheck, createOrUpdateUser)
 
 module.exports = route

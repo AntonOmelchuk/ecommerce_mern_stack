@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom'
 import { auth, googleAuthProvider } from '../../utils/firebase'
 import { LOGGED_IN_USER } from '../../constants/actionTypes'
 import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
+import authAPI from '../../api/auth'
+import { login } from '../../actions/auth'
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('')
@@ -31,14 +33,13 @@ const Login = ({ history }) => {
       const { user } = await auth.signInWithEmailAndPassword(email, password)
       const { token } = await user.getIdTokenResult()
 
-      dispatch({
-        type: LOGGED_IN_USER,
-        payload: {
-          name: user.displayName,
-          email: user.email,
-          token
-        }
-      })
+      authAPI.checkAuthToken(token)
+        .then(res => {
+          const { status } = res
+          if (status === 200) {
+            dispatch(login(user.displayName, user.email, token))
+          }
+        })
 
       history.push('/')
     } catch (error) {
