@@ -4,9 +4,10 @@ const url = process.env.REACT_APP_API_BASE_URL
 
 export default {
   checkAuthToken(authtoken) {
-    axios.post(`${url}/create-or-update-user`, {}, {
+    return axios.post(`${url}/create-or-update-user`, {}, {
       headers: {
-        authtoken
+        Authorization: authtoken,
+        'Content-Type': 'application/json'
       }
     })
   }

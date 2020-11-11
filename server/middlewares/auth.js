@@ -1,8 +1,14 @@
 const admin = require('../firebase')
 
-const authCheck = (req, res, next) => {
-  console.log('request: ', req.headers)
-  next()
+const authCheck = async (req, res, next) => {
+  try {
+    const {authorization} = req.headers
+    const firebaseUser = await admin.auth().verifyIdToken(authorization)
+    req.user = firebaseUser
+    next()
+  } catch (error) {
+    res.status(401).json({message: 'Token is not valid'})
+  }
 }
 
 module.exports = authCheck

@@ -37,7 +37,10 @@ const Login = ({ history }) => {
         .then(res => {
           const { status } = res
           if (status === 200) {
-            dispatch(login(user.displayName, user.email, token))
+            const { data } = res
+            dispatch(login(data.name, data.email, token))
+          } else {
+            toast.error(`Error: ${res.error.message}`)
           }
         })
 
