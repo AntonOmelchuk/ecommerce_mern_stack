@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import { Button } from 'antd'
 import { GoogleOutlined, MailOutlined } from '@ant-design/icons'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { auth, googleAuthProvider } from '../../utils/firebase'
-import { LOGGED_IN_USER } from '../../constants/actionTypes'
 import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
-import authAPI from '../../api/auth'
-import { login } from '../../actions/auth'
+import { checkAuth } from '../../actions/auth'
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('')
@@ -19,6 +17,12 @@ const Login = ({ history }) => {
   const dispatch = useDispatch()
 
   useLoggedUserRedirect()
+
+  useEffect(() => {
+    setEmail('')
+    setPassword('')
+    return () => setLoading(false)
+  }, [])
 
   // eslint-disable-next-line consistent-return
   const handleSubmit = async (e) => {
@@ -33,18 +37,7 @@ const Login = ({ history }) => {
       const { user } = await auth.signInWithEmailAndPassword(email, password)
       const { token } = await user.getIdTokenResult()
 
-      authAPI.checkAuthToken(token)
-        .then(res => {
-          const { status } = res
-          if (status === 200) {
-            const { data } = res
-            dispatch(login(data.name, data.email, token))
-          } else {
-            toast.error(`Error: ${res.error.message}`)
-          }
-        })
-
-      history.push('/')
+      dispatch(checkAuth(token, () => history.push('/'), toast))
     } catch (error) {
       if (error.message !== 'The email address is badly formatted.') {
         toast.error(`Error: ${error.message}`)
@@ -61,16 +54,7 @@ const Login = ({ history }) => {
       const { user } = await auth.signInWithPopup(googleAuthProvider)
       const { token } = await user.getIdTokenResult()
 
-      dispatch({
-        type: LOGGED_IN_USER,
-        payload: {
-          name: user.displayName,
-          email: user.email,
-          token
-        }
-      })
-
-      history.push('/')
+      dispatch(checkAuth(token, history, toast))
     } catch (error) {
       toast.error(`Error: ${error.message}`)
     } finally {

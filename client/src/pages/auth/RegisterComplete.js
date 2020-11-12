@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import constants from '../../constants/general'
 import { auth } from '../../utils/firebase'
+import { validation } from '../../utils/helpers/registrationValidation'
+import { checkAuth } from '../../actions/auth'
 
 const { localStorage } = window
 
@@ -10,6 +13,8 @@ const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setEmail(localStorage.getItem(constants.REGISTRATION_EMAIL))
@@ -19,16 +24,10 @@ const RegisterComplete = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!email || !password || !name) {
-      return toast.error('All fields are required')
-    }
+    const validationError = validation(email, password, name)
 
-    if (password.length < 6) {
-      return toast.error('Password must be at least 6 characters long')
-    }
-
-    if (name.length < 2) {
-      return toast.error('Password must be at least 2 characters long')
+    if (validationError.length > 0) {
+      toast.error(validationError)
     }
 
     try {
@@ -43,7 +42,9 @@ const RegisterComplete = ({ history }) => {
           displayName: name
         })
 
-        history.push('/')
+        const { token } = await user.getIdTokenResult()
+
+        dispatch(checkAuth(token, () => history.push('/'), toast, name))
       } else {
         toast.error('Something went wrong. Please, try one more time')
       }
@@ -93,7 +94,7 @@ const RegisterComplete = ({ history }) => {
 RegisterComplete.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
 }
 
 export default RegisterComplete

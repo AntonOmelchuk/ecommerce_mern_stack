@@ -1,8 +1,9 @@
 const User = require('../models/user')
 
 exports.createOrUpdateUser = async (req, res) => {
+  const name = req.user.name || req.body.name
   try {
-    const { name, email, picture } = req.user
+    const { email, picture } = req.user
 
     const user = await User.findOneAndUpdate({ email }, { name, picture }, { new: true })
 
@@ -10,7 +11,9 @@ exports.createOrUpdateUser = async (req, res) => {
       res.json(user)
     } else {
       const newUser = await new User({
-        name, email, picture
+        name,
+        email,
+        picture
       }).save()
       res.json(newUser)
     }
