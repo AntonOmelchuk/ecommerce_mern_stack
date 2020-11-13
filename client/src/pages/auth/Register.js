@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import constants from '../../constants/general'
 import { auth } from '../../utils/firebase'
-import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
+import { useLoggedUserRedirect } from '../../utils/helpers/hooks/useLoggedUserRedirect'
 
 const { localStorage } = window
 

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import { auth } from '../../utils/firebase'
-import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
+import { useLoggedUserRedirect } from '../../utils/helpers/hooks/useLoggedUserRedirect'
 
 const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState('')

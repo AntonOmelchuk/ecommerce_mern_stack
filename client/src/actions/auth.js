@@ -1,5 +1,6 @@
 import { SET_USER_DATA } from '../constants/actionTypes'
 import authAPI from '../api/auth'
+import { redirectUserByRole } from '../utils/helpers/helpers';
 
 const setUserData = data => {
   const {
@@ -17,13 +18,12 @@ const setUserData = data => {
   }
 }
 
-export const checkAuth = (authtoken, callback, toast, registrationName = '') => async (dispatch) => {
+export const checkAuth = (authtoken, history, toast, registrationName = '') => async (dispatch) => {
   try {
     const { status, data } = await authAPI.checkAuthToken(authtoken, registrationName)
     if (status === 200) {
       dispatch(setUserData(data))
-
-      callback()
+      redirectUserByRole(data.role, history)
     } else {
       toast.error(`Error: ${data.error.message}`)
     }

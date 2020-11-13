@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import constants from '../../constants/general'
 import { auth } from '../../utils/firebase'
-import { validation } from '../../utils/helpers/registrationValidation'
+import { validation } from '../../utils/helpers/helpers'
 import { checkAuth } from '../../actions/auth'
 
 const { localStorage } = window
@@ -44,7 +44,7 @@ const RegisterComplete = ({ history }) => {
 
         const { token } = await user.getIdTokenResult()
 
-        dispatch(checkAuth(token, () => history.push('/'), toast, name))
+        dispatch(checkAuth(token, history, toast, name))
       } else {
         toast.error('Something went wrong. Please, try one more time')
       }

@@ -6,7 +6,7 @@ import { Button } from 'antd'
 import { GoogleOutlined, MailOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { auth, googleAuthProvider } from '../../utils/firebase'
-import { useLoggedUserRedirect } from '../../utils/useLoggedUserRedirect'
+import { useLoggedUserRedirect } from '../../utils/helpers/hooks/useLoggedUserRedirect'
 import { checkAuth } from '../../actions/auth'
 
 const Login = ({ history }) => {
@@ -16,6 +16,7 @@ const Login = ({ history }) => {
 
   const dispatch = useDispatch()
 
+  // check if user logged in
   useLoggedUserRedirect()
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const Login = ({ history }) => {
       const { user } = await auth.signInWithEmailAndPassword(email, password)
       const { token } = await user.getIdTokenResult()
 
-      dispatch(checkAuth(token, () => history.push('/'), toast))
+      dispatch(checkAuth(token, history, toast))
     } catch (error) {
       if (error.message !== 'The email address is badly formatted.') {
         toast.error(`Error: ${error.message}`)
