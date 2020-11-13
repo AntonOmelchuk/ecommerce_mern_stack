@@ -17,7 +17,7 @@ const { SubMenu, Item } = Menu
 const Header = () => {
   const [state, setState] = useState('home')
 
-  const { user } = useSelector(store => store.user)
+  const { user } = useSelector(store => store.auth)
 
   const dispatch = useDispatch()
   const history = useHistory()

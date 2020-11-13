@@ -21,3 +21,10 @@ exports.createOrUpdateUser = async (req, res) => {
     res.status(401).json({ message: 'Error while creare/update user', error})
   }
 }
+
+exports.currentUser = (req, res) => {
+  User.findOne({ eamil: req.user.emial }).exec((err, user) => {
+    if (err) throw new Error('Invalid token')
+    res.json(user)
+  })
+}

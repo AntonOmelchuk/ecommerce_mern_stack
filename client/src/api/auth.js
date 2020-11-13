@@ -14,5 +14,12 @@ export default {
         Authorization: authtoken,
       }
     })
+  },
+  getCurrentUser(authtoken) {
+    return instance.post('/current-user', {}, {
+      headers: {
+        Authorization: authtoken
+      }
+    })
   }
 }

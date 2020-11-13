@@ -1,4 +1,4 @@
-import { LOGGED_IN_USER, LOGOUT_USER } from '../constants/actionTypes'
+import { LOGOUT_USER, SET_USER_DATA } from '../constants/actionTypes'
 
 const initialState = {
   user: null
@@ -6,11 +6,12 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case LOGGED_IN_USER:
+    case SET_USER_DATA: {
       return {
         ...state,
         user: action.payload
       }
+    }
     case LOGOUT_USER:
       return {
         ...state,
