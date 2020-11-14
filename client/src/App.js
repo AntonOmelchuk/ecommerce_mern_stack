@@ -3,12 +3,16 @@ import { Switch, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer, toast } from 'react-toastify'
+
 import Header from './components/nav/Header'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 import Home from './pages/home/Home'
 import RegisterComplete from './pages/auth/RegisterComplete'
 import ForgotPassword from './pages/auth/ForgotPassword'
+import History from './pages/user/History'
+import UserRoute from './routes/UserRoute'
+
 import { auth } from './utils/firebase'
 import { getCurrentUser } from './actions/auth'
 
@@ -34,6 +38,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+        <UserRoute exact path="/user/history" children={<History />} />
       </Switch>
     </>
   );

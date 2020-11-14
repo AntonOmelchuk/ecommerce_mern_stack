@@ -37,7 +37,6 @@ const Login = ({ history }) => {
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password)
       const { token } = await user.getIdTokenResult()
-
       dispatch(checkAuth(token, history, toast))
     } catch (error) {
       if (error.message !== 'The email address is badly formatted.') {

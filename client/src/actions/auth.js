@@ -2,16 +2,17 @@ import { SET_USER_DATA } from '../constants/actionTypes'
 import authAPI from '../api/auth'
 import { redirectUserByRole } from '../utils/helpers/helpers';
 
-const setUserData = data => {
+const setUserData = (data, token) => {
   const {
-    name, email, role, authtoken, _id
+    name, email, role, _id
   } = data;
+
   return {
     type: SET_USER_DATA,
     payload: {
       name,
       email,
-      authtoken,
+      token,
       role,
       _id
     }
@@ -22,7 +23,7 @@ export const checkAuth = (authtoken, history, toast, registrationName = '') => a
   try {
     const { status, data } = await authAPI.checkAuthToken(authtoken, registrationName)
     if (status === 200) {
-      dispatch(setUserData(data))
+      dispatch(setUserData(data, authtoken))
       redirectUserByRole(data.role, history)
     } else {
       toast.error(`Error: ${data.error.message}`)
@@ -36,7 +37,7 @@ export const getCurrentUser = (authtoken, toast) => async (dispatch) => {
   try {
     const { status, data } = await authAPI.getCurrentUser(authtoken)
     if (status === 200) {
-      dispatch(setUserData(data))
+      dispatch(setUserData(data, authtoken))
     }
   } catch (error) {
     toast.error(error)

@@ -20,5 +20,5 @@ export const redirectUserByRole = (role, history) => {
   if (role === constants.ADMIN) {
     return history.push('/admin/dashboard')
   }
-  return history.push('/')
+  return history.push('/user/history')
 }
