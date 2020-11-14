@@ -1,15 +1,17 @@
 import React from 'react'
+import UserNav from '../../components/nav/UserNav'
 
-const HIstory = () => {
+const History = () => {
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid px-5 py-2'>
       <div className='row'>
-        <div className='col'>
-          user page
+        <div className='col-md-2'>
+          <UserNav />
         </div>
+        <div className='col'>user history page</div>
       </div>
     </div>
   )
 }
 
-export default HIstory
+export default History
