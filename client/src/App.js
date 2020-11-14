@@ -11,6 +11,8 @@ import Home from './pages/home/Home'
 import RegisterComplete from './pages/auth/RegisterComplete'
 import ForgotPassword from './pages/auth/ForgotPassword'
 import History from './pages/user/History'
+import PasswordUpdate from './pages/user/PasswordUpdate'
+import Wishlist from './pages/user/WishList'
 import UserRoute from './routes/UserRoute'
 
 import { auth } from './utils/firebase'
@@ -33,12 +35,14 @@ const App = () => {
       <Header />
       <ToastContainer />
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/register/complete" component={RegisterComplete} />
-        <Route exact path="/forgot/password" component={ForgotPassword} />
-        <UserRoute exact path="/user/history" children={<History />} />
+        <Route exact path='/' component={Home} />
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/register' component={Register} />
+        <Route exact path='/register/complete' component={RegisterComplete} />
+        <Route exact path='/forgot/password' component={ForgotPassword} />
+        <UserRoute exact path='/user/history' children={<History />} />
+        <UserRoute exact path='/user/password-update' children={<PasswordUpdate />} />
+        <UserRoute exact path='/user/wishlist' children={<Wishlist />} />
       </Switch>
     </>
   );
