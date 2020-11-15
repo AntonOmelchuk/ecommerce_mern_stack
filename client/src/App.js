@@ -17,6 +17,8 @@ import UserRoute from './routes/UserRoute'
 
 import { auth } from './utils/firebase'
 import { getCurrentUser } from './actions/auth'
+import AdminRoute from './routes/AdminRoute'
+import AdminDashboard from './pages/admin/AdminDashboard'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -43,6 +45,7 @@ const App = () => {
         <UserRoute exact path='/user/history' children={<History />} />
         <UserRoute exact path='/user/password-update' children={<PasswordUpdate />} />
         <UserRoute exact path='/user/wishlist' children={<Wishlist />} />
+        <AdminRoute exact path='/admin/dashboard' children={<AdminDashboard />} />
       </Switch>
     </>
   );

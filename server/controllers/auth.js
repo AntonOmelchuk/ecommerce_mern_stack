@@ -2,6 +2,7 @@ const User = require('../models/user')
 
 exports.createOrUpdateUser = async (req, res) => {
   const name = req.user.name || req.body.name
+  const authtoken = req.headers.authorization
   try {
     const { email, picture } = req.user
 

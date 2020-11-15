@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     idnex: true
   },
+  role: {
+    type: String,
+    default: 'subscriber'
+  },
   cart: {
     type: Array,
     default: []
