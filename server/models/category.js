@@ -5,7 +5,7 @@ const categorySchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: 'Nami is required',
-    minlength: [3, 'Min length is 3 characters'],
+    minlength: [2, 'Min length is 2 characters'],
     maxlength: [32, 'Max length is 32 characters'],
   },
   slug: {

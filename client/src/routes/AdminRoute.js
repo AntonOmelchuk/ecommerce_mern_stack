@@ -19,14 +19,13 @@ const AdminRoute = ({ children, ...rest }) => {
         setIsAdmin(false)
       }
     } catch (error) {
-      console.log(error)
       setIsAdmin(false)
     }
 
     return () => setIsAdmin(false)
   }, [isAdmin])
 
-  return isAdmin ? <Route {...rest} /> : <LoadingToRedirect />
+  return isAdmin ? <Route {...rest} render={() => children} /> : <LoadingToRedirect />
 }
 
 AdminRoute.propTypes = {

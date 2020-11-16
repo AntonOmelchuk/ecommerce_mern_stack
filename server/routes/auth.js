@@ -6,7 +6,7 @@ const route = express.Router()
 const { authCheck, adminCheck } = require('../middlewares/auth')
 
 // controllers
-const { createOrUpdateUser, currentUser, currentAdmin } = require('../controllers/auth')
+const { createOrUpdateUser, currentUser } = require('../controllers/auth')
 
 route.post('/create-or-update-user', authCheck, createOrUpdateUser)
 
