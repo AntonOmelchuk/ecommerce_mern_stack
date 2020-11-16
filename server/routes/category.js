@@ -9,7 +9,7 @@ const { authCheck, adminCheck } = require('../middlewares/auth')
 const { read, list, create, update, remove } = require('../controllers/category')
 
 route.get('/categories', list)
-route.get('/category/:slug', authCheck, adminCheck, read)
+route.get('/category/:slug', read)
 route.post('/category', authCheck, adminCheck, create)
 route.put('/category/:slug', authCheck, adminCheck, update)
 route.delete('/category/:slug', authCheck, adminCheck, remove)
