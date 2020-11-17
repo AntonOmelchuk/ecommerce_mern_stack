@@ -13,12 +13,12 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import History from './pages/user/History'
 import PasswordUpdate from './pages/user/PasswordUpdate'
 import Wishlist from './pages/user/WishList'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import CreateCategory from './pages/admin/CategoryCreate'
 import UserRoute from './routes/UserRoute'
-
+import AdminRoute from './routes/AdminRoute'
 import { auth } from './utils/firebase'
 import { getCurrentUser } from './actions/auth'
-import AdminRoute from './routes/AdminRoute'
-import AdminDashboard from './pages/admin/AdminDashboard'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -45,11 +45,12 @@ const App = () => {
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/register/complete' component={RegisterComplete} />
-        <Route exact path='/forgot/password' component={ForgotPassword} />
+        <Route exact path='/ /password' component={ForgotPassword} />
         <UserRoute exact path='/user/history' children={<History />} />
         <UserRoute exact path='/user/password-update' children={<PasswordUpdate />} />
         <UserRoute exact path='/user/wishlist' children={<Wishlist />} />
         <AdminRoute exact path='/admin/dashboard' children={<AdminDashboard />} />
+        <AdminRoute exact path='/admin/category' children={<CreateCategory />} />
       </Switch>
     </>
   );
