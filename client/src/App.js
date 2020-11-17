@@ -25,13 +25,17 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async user => {
-      if (user) {
-        const { token } = await user.getIdTokenResult()
-        dispatch(getCurrentUser(token, toast))
+      try {
+        if (user) {
+          const { token } = await user.getIdTokenResult()
+          dispatch(getCurrentUser(token, toast))
+        }
+      } catch (error) {
+        console.error(error)
       }
     })
     return () => unsubscribe()
-  }, [])
+  }, [dispatch])
   return (
     <>
       <Header />
