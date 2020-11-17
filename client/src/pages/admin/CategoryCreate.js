@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import AdminNav from '../../components/nav/AdminNav'
 import categoryAPI from '../../api/category'
 import CategoryForm from './components/CategoryForm'
+import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 
 const CategoryCreate = () => {
   const [name, setName] = useState('')
@@ -17,7 +18,7 @@ const CategoryCreate = () => {
       setLoading(true)
       const { status } = await categoryAPI.createCategory(name, user.token)
 
-      if (status === 200) toast.success(`Category ${name} created`)
+      if (status === 200) toast.success(`Category "${name}" is created`)
       else toast.error('Something went wrong, please try again')
     } catch (error) {
       if (error.response.status === 400) toast.error(error.response.data)
@@ -34,7 +35,7 @@ const CategoryCreate = () => {
           <AdminNav />
         </div>
         <div className='col'>
-          <h1>Create category</h1>
+          <LoadingTitle loading={loading} title='Create category' />
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}

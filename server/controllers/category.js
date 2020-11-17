@@ -21,12 +21,12 @@ exports.read = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
+  const { name } = req.body
   try {
-    const { name } = req.body
     const category = await new Category({ name, slug: slugify(name) }).save()
     res.json(category)
   } catch (error) {
-    const msg = error.code == 11000 ? 'Category is already exists' : error
+    const msg = error.code == 11000 ? `Category "${name}" is already exists` : error
     res.status(400).send(`Create category failed. ${msg}`)
   }
 }

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { auth, googleAuthProvider } from '../../utils/firebase'
 import { useLoggedUserRedirect } from '../../utils/helpers/hooks/useLoggedUserRedirect'
 import { checkAuth } from '../../actions/auth'
+import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('')
@@ -66,7 +67,7 @@ const Login = ({ history }) => {
     <div className='container p-5'>
       <div className='row'>
         <div className='col-md-6 offset-md-3'>
-          <h4 className={loading ? 'text-info' : ''}>{loading ? 'Loading...' : 'Login'}</h4>
+          <LoadingTitle loading={loading} title='Login' />
           <form onSubmit={handleSubmit}>
             <input
               type='email'

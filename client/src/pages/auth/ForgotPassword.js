@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 import { auth } from '../../utils/firebase'
 import { useLogoutUserRedirect } from '../../utils/helpers/hooks/useLogoutUserRedirect'
+import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 
 const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState('')
@@ -33,7 +34,7 @@ const ForgotPassword = ({ history }) => {
 
   return (
     <div className='container col-md-6 offset-md-3 p-5'>
-      <h4 className={loading ? 'text-info' : ''}>{loading ? 'Loading...' : 'Forgot Password'}</h4>
+      <LoadingTitle loading={loading} title='Forgot Password' />
       <form onSubmit={handleSubmit}>
         <input
           type='email'
