@@ -9,10 +9,10 @@ const instance = axios.create({
 
 export default {
   getCategories() {
-    return instance.post('/categories',)
+    return instance.get('/categories')
   },
   getCategory(slug) {
-    return instance.post(`/category/${slug}`)
+    return instance.get(`/category/${slug}`)
   },
   createCategory(name, authtoken) {
     return instance.post('/category', { name }, {

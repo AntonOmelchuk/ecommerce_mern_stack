@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import AdminNav from '../../components/nav/AdminNav'
 import categoryAPI from '../../api/category'
 import CategoryForm from './components/CategoryForm'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
+import { getAllCategories } from '../../actions/category'
 
 const CategoryCreate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const { user } = useSelector(state => state.auth)
+  const { auth: { user } } = useSelector(state => state)
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCategories())
+  }, [])
 
   const handleSubmit = async e => {
     e.preventDefault()

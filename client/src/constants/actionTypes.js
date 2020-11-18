@@ -1,2 +1,3 @@
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const SET_USER_DATA = 'SET_USER_DATA'
+export const SET_CATEGORIES_DATA = 'SET_CATEGORIES_DATA'
