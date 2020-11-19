@@ -14,21 +14,21 @@ export default {
   getCategory(slug) {
     return instance.get(`/category/${slug}`)
   },
-  createCategory(name, authtoken) {
+  createCategory(authtoken, name) {
     return instance.post('/category', { name }, {
       headers: {
         Authorization: authtoken
       }
     })
   },
-  removeCategory(slug, authtoken) {
+  removeCategory(authtoken, slug) {
     return instance.delete(`/category/${slug}`, {
       headers: {
         Authorization: authtoken
       }
     })
   },
-  updateCategory(slug, authtoken, newName) {
+  updateCategory(authtoken, slug, newName) {
     return instance.put(`/catagory/${slug}`, { newName }, {
       headers: {
         Authorization: authtoken
