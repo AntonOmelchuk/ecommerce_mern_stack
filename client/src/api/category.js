@@ -28,8 +28,8 @@ export default {
       }
     })
   },
-  updateCategory(authtoken, slug, newName) {
-    return instance.put(`/catagory/${slug}`, { newName }, {
+  updateCategory(authtoken, slug, name) {
+    return instance.put(`/category/${slug}`, { name }, {
       headers: {
         Authorization: authtoken
       }

@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer, toast } from 'react-toastify'
+import { auth } from './utils/firebase'
+import { getCurrentUser } from './actions/auth'
 
 import Header from './components/nav/Header'
 import Login from './pages/auth/Login'
@@ -17,8 +19,7 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import CreateCategory from './pages/admin/CategoryCreate'
 import UserRoute from './routes/UserRoute'
 import AdminRoute from './routes/AdminRoute'
-import { auth } from './utils/firebase'
-import { getCurrentUser } from './actions/auth'
+import CategoryUpdate from './pages/admin/components/CategoryUpdate'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -51,6 +52,7 @@ const App = () => {
         <UserRoute exact path='/user/wishlist' children={<Wishlist />} />
         <AdminRoute exact path='/admin/dashboard' children={<AdminDashboard />} />
         <AdminRoute exact path='/admin/category' children={<CreateCategory />} />
+        <AdminRoute exact path='/admin/category/:slug' children={<CategoryUpdate />} />
       </Switch>
     </>
   );

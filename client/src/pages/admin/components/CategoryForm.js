@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const CategoryForm = ({
-  handleSubmit, name, setName, loading
+  handleSubmit, value, onChange, loading, placeholder
 }) => {
   return (
     <form onSubmit={handleSubmit}>
@@ -11,8 +11,9 @@ const CategoryForm = ({
         <input
           type='text'
           className='form-control my-3'
-          value={name}
-          onChange={({ target }) => setName(target.value)}
+          value={value}
+          onChange={({ target }) => onChange(target.value)}
+          placeholder={placeholder}
           autoFocus
           required
           disabled={loading}
@@ -27,9 +28,14 @@ const CategoryForm = ({
 
 CategoryForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  setName: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   loading: PropTypes.bool.isRequired,
+}
+
+CategoryForm.defaultProps = {
+  placeholder: ''
 }
 
 export default CategoryForm

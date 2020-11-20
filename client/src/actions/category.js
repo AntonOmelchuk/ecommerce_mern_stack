@@ -1,5 +1,5 @@
 import categoryAPI from '../api/category'
-import { SET_CATEGORIES_DATA } from '../constants/actionTypes'
+import { SET_CATEGORIES_DATA, SET_CURRENT_CATEGORY } from '../constants/actionTypes'
 
 export const getAllCategories = () => async (dispatch) => {
   try {
@@ -50,3 +50,26 @@ export const removeCategory = (token, slug, toast, setLoading) => async (dispatc
     setLoading(false)
   }
 }
+
+export const updateCategory = (token, slug, name, toast, setLoading, history) => async (dispatch) => {
+  try {
+    setLoading(true)
+
+    const response = await categoryAPI.updateCategory(token, slug, name)
+
+    if (response.status === 200) {
+      const { data } = response
+      toast.success(`Category ${name} updated to ${data.name}`)
+      dispatch(getAllCategories());
+      history.push('/admin/category')
+    } else {
+      toast.error(response.error)
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    setLoading(false)
+  }
+}
+
+export const setCurrentCategory = category => ({ type: SET_CURRENT_CATEGORY, payload: category })

@@ -32,8 +32,8 @@ const CategoryCreate = () => {
           <LoadingTitle loading={loading} title='Create category' />
           <CategoryForm
             handleSubmit={handleSubmit}
-            name={categoryName}
-            setName={setName}
+            value={categoryName}
+            onChange={setName}
             loading={loading}
           />
           <hr />

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { toast } from 'react-toastify'
-import { removeCategory } from '../../../actions/category'
+import { removeCategory, setCurrentCategory } from '../../../actions/category'
 
 const CategoryItem = ({ name, slug, setLoading }) => {
   const dispatch = useDispatch()
@@ -25,7 +25,7 @@ const CategoryItem = ({ name, slug, setLoading }) => {
         <DeleteOutlined className='text-danger' />
       </span>
       {' '}
-      <Link to={`/admin/category/${slug}`}>
+      <Link to={`/admin/category/${slug}`} onClick={() => dispatch(setCurrentCategory(name))}>
         <span className='btn btn-sm float-right'><EditOutlined className='text-warning' /></span>
       </Link>
     </div>
