@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
+
 import AdminNav from '../../components/nav/AdminNav'
 import CategoryForm from './components/CategoryForm'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
-import { createCategory, getAllCategories } from '../../actions/category'
 import CategoryItem from './components/CategoryItem'
+
+import {
+  createCategory, getAllCategories, removeCategory, setCurrentCategory
+} from '../../actions/category'
 import { searchCategory } from '../../utils/helpers/helpers'
 
 const CategoryCreate = () => {
@@ -53,7 +57,14 @@ const CategoryCreate = () => {
           }
           <hr />
           {categories.map(({ _id, name, slug }) => (
-            <CategoryItem key={_id} name={name} slug={slug} setLoading={setLoading} />
+            <CategoryItem
+              key={_id}
+              name={name}
+              slug={slug}
+              setLoading={setLoading}
+              removeHandler={() => dispatch(removeCategory(user.token, slug, toast, setLoading))}
+              setCurrentItem={() => dispatch(setCurrentCategory(name))}
+            />
           ))}
         </div>
       </div>

@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-import AdminNav from '../../../components/nav/AdminNav'
-import CategoryForm from './CategoryForm'
-import LoadingTitle from '../../../components/LoadingTitle/LoadingTitle'
-import { createSub, getAllSubs } from '../../../actions/sub'
-import CategoryItem from './CategoryItem'
-import { searchCategory } from '../../../utils/helpers/helpers'
-import { getAllCategories } from '../../../actions/category'
+
+import AdminNav from '../../components/nav/AdminNav'
+import CategoryForm from './components/CategoryForm'
+import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
+import CategoryItem from './components/CategoryItem'
+
+import {
+  createSub, getAllSubs, removeSub, setCurrentSub 
+} from '../../actions/sub'
+import { searchCategory } from '../../utils/helpers/helpers'
+import { getAllCategories } from '../../actions/category'
 
 const SubCreate = () => {
   const [subName, setName] = useState('')
@@ -67,7 +71,14 @@ const SubCreate = () => {
             )
           }
           {subs.map(({ _id, name, slug }) => (
-            <CategoryItem key={_id} name={name} slug={slug} setLoading={setLoading} />
+            <CategoryItem
+              key={_id}
+              name={name}
+              slug={slug}
+              setLoading={setLoading}
+              removeHandler={() => dispatch(removeSub(user.token, slug, toast, setLoading))}
+              setCurrentItem={() => dispatch(setCurrentSub(name))}
+            />
           ))}
         </div>
       </div>

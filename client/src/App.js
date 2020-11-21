@@ -20,7 +20,7 @@ import CreateCategory from './pages/admin/CategoryCreate'
 import UserRoute from './routes/UserRoute'
 import AdminRoute from './routes/AdminRoute'
 import CategoryUpdate from './pages/admin/components/CategoryUpdate'
-import SubCreate from './pages/admin/components/SubCreate'
+import SubCreate from './pages/admin/SubCreate'
 
 const App = () => {
   const dispatch = useDispatch()

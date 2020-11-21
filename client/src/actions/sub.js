@@ -72,4 +72,4 @@ export const updateSub = (token, slug, name, toast, setLoading, history, current
   }
 }
 
-export const setCurrentCategory = sub => ({ type: SET_CURRENT_SUB, payload: sub })
+export const setCurrentSub = sub => ({ type: SET_CURRENT_SUB, payload: sub })
