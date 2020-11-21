@@ -15,10 +15,10 @@ export const getAllSubs = () => async (dispatch) => {
   }
 }
 
-export const createSub = (token, name, toast, setLoading, setName) => async (dispatch) => {
+export const createSub = (token, name, category, toast, setLoading, setName) => async (dispatch) => {
   try {
     setLoading(true)
-    const { status } = await subAPI.createSub(token, name)
+    const { status } = await subAPI.createSub(token, name, category)
 
     if (status === 200) toast.success(`Sub "${name}" is created`)
     else toast.error('Something went wrong, please try again')

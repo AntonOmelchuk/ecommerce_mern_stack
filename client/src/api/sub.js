@@ -14,8 +14,8 @@ export default {
   getSub(slug) {
     return instance.get(`/sub/${slug}`)
   },
-  createSub(authtoken, name) {
-    return instance.post('/sub', { name }, {
+  createSub(authtoken, name, category) {
+    return instance.post('/sub', { name, category }, {
       headers: {
         Authorization: authtoken
       }

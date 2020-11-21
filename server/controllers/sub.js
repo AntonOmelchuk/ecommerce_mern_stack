@@ -25,9 +25,9 @@ exports.read = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { name } = req.body
+    const { name, category } = req.body
 
-    const sub = await new Sub({ name, slug: slugify(name) }).save()
+    const sub = await new Sub({ name, slug: slugify(name), parent: category }).save()
     if (sub) return res.json(sub)
     else return res.send(`Sub ${slug} not created`)
   } catch (error) {
