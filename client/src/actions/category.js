@@ -39,7 +39,7 @@ export const removeCategory = (token, slug, toast, setLoading) => async (dispatc
 
     if (response.status === 200) {
       const { data } = response
-      toast.success(`Category ${data.name} deleted`)
+      toast.success(`Category "${data.name}" deleted`)
       dispatch(getAllCategories());
     } else {
       toast.error(response.error)
@@ -51,7 +51,7 @@ export const removeCategory = (token, slug, toast, setLoading) => async (dispatc
   }
 }
 
-export const updateCategory = (token, slug, name, toast, setLoading, history) => async (dispatch) => {
+export const updateCategory = (token, slug, name, toast, setLoading, history, currentCategory) => async (dispatch) => {
   try {
     setLoading(true)
 
@@ -59,7 +59,7 @@ export const updateCategory = (token, slug, name, toast, setLoading, history) =>
 
     if (response.status === 200) {
       const { data } = response
-      toast.success(`Category ${name} updated to ${data.name}`)
+      toast.success(`Category "${currentCategory}" updated to "${data.name}"`)
       dispatch(getAllCategories());
       history.push('/admin/category')
     } else {

@@ -6,10 +6,12 @@ import CategoryForm from './components/CategoryForm'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import { createCategory, getAllCategories } from '../../actions/category'
 import CategoryItem from './components/CategoryItem'
+import { searchCategory } from '../../utils/helpers/helpers'
 
 const CategoryCreate = () => {
   const [categoryName, setName] = useState('')
   const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
 
   const { auth: { user }, category } = useSelector(state => state)
   const dispatch = useDispatch();
@@ -21,6 +23,8 @@ const CategoryCreate = () => {
     e.preventDefault()
     dispatch(createCategory(user.token, categoryName, toast, setLoading, setName))
   }
+
+  const categories = search.length > 0 ? searchCategory(search, category.categories) : category.categories
 
   return (
     <div className='container-fluid px-5 py-2'>
@@ -36,8 +40,15 @@ const CategoryCreate = () => {
             onChange={setName}
             loading={loading}
           />
+          <input
+            type='search'
+            className='form-control mb-4'
+            placeholder='Filter'
+            value={search}
+            onChange={({ target }) => setSearch(target.value)}
+          />
           <hr />
-          {category.categories.map(({ _id, name, slug }) => (
+          {categories.map(({ _id, name, slug }) => (
             <CategoryItem key={_id} name={name} slug={slug} setLoading={setLoading} />
           ))}
         </div>

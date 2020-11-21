@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -25,7 +24,7 @@ const CategoryUpdate = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    dispatch(updateCategory(token, slug, name, toast, setLoading, history))
+    dispatch(updateCategory(token, slug, name, toast, setLoading, history, currentCategory))
   }
 
   return (

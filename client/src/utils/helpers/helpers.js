@@ -22,3 +22,7 @@ export const redirectUserByRole = (role, history) => {
   }
   return history.push('/user/history')
 }
+
+export const searchCategory = (search, categories) => {
+  return categories.filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()))
+}
