@@ -34,3 +34,33 @@ exports.create = async (req, res) => {
     res.status(400).send(error)
   }
 }
+
+exports.update = async (req, res) => {
+  try {
+    const { name } = req.body
+    const { slug } = req.params
+
+    const updated = await Sub.findOneAndUpdate(
+      { slug },
+      { name, slug: slugify(name) },
+      { new: true }
+    )
+    if (updated) return res.json(updated)
+    else return res.send(`Sub ${updated} not updated`)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+
+exports.remove = async (req, res) => {
+  try {
+    const { slug } = req.params
+
+    const deleted = await Sub.findOneAndDelete({ slug }).exec()
+
+    if (deleted) return res.json(deleted)
+    else return res.send(`Sub ${deleted} not deleted`)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}

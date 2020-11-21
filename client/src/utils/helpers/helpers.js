@@ -1,6 +1,5 @@
 import constants from '../../constants/general'
 
-// eslint-disable-next-line import/prefer-default-export
 export const validation = (email, password, name) => {
   if (!email || !password || !name) {
     return 'All fields are required'

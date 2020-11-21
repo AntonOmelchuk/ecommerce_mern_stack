@@ -40,13 +40,17 @@ const CategoryCreate = () => {
             onChange={setName}
             loading={loading}
           />
-          <input
-            type='search'
-            className='form-control mb-4'
-            placeholder='Filter'
-            value={search}
-            onChange={({ target }) => setSearch(target.value)}
-          />
+          {
+            categories.length > 0 && (
+              <input
+                type='search'
+                className='form-control mb-4'
+                placeholder='Filter'
+                value={search}
+                onChange={({ target }) => setSearch(target.value)}
+              />
+            )
+          }
           <hr />
           {categories.map(({ _id, name, slug }) => (
             <CategoryItem key={_id} name={name} slug={slug} setLoading={setLoading} />
