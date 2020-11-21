@@ -1,6 +1,6 @@
 const express = require('express')
 
-const route = express.Router()
+const router = express.Router()
 
 // middlewares
 const { authCheck, adminCheck } = require('../middlewares/auth')
@@ -8,10 +8,10 @@ const { authCheck, adminCheck } = require('../middlewares/auth')
 // controllers
 const { read, list, create, update, remove } = require('../controllers/sub')
 
-route.get('/subs', list)
-route.get('/sub/:slug', read)
-route.post('/sub', authCheck, adminCheck, create)
-route.put('/sub/:slug', authCheck, adminCheck, update)
-route.delete('/sub/:slug', authCheck, adminCheck, remove)
+router.get('/subs', list)
+router.get('/sub/:slug', read)
+router.post('/sub', authCheck, adminCheck, create)
+router.put('/sub/:slug', authCheck, adminCheck, update)
+router.delete('/sub/:slug', authCheck, adminCheck, remove)
 
-module.exports = route
+module.exports = router

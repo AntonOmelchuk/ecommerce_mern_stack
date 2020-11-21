@@ -1,11 +1,11 @@
 const express = require('express')
 
-const route = express.Router()
+const router = express.Router()
 
-route.get('/user', (req, res) => {
+router.get('/user', (req, res) => {
   res.json({
     data: `You hit /api/user api endpoint`
   })
 })
 
-module.exports = route
+module.exports = router
