@@ -8,7 +8,7 @@ import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import CategoryItem from './components/CategoryItem'
 
 import {
-  createSub, getAllSubs, removeSub, setCurrentSub 
+  createSub, getAllSubs, removeSub, setCurrentSub
 } from '../../actions/sub'
 import { searchCategory } from '../../utils/helpers/helpers'
 import { getAllCategories } from '../../actions/category'
@@ -16,10 +16,11 @@ import { getAllCategories } from '../../actions/category'
 const SubCreate = () => {
   const [subName, setName] = useState('')
   const [categoryId, setCategoryId] = useState('')
-  const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
 
-  const { auth: { user }, category, sub } = useSelector(state => state)
+  const {
+    auth: { user }, category, sub, general: { loading }
+  } = useSelector(state => state)
 
   const dispatch = useDispatch();
 
@@ -30,7 +31,7 @@ const SubCreate = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    dispatch(createSub(user.token, subName, categoryId, toast, setLoading, setName))
+    dispatch(createSub(user.token, subName, categoryId, toast, setName))
   }
 
   const subs = search.length > 0 ? searchCategory(search, sub.subs) : sub.subs
@@ -75,8 +76,7 @@ const SubCreate = () => {
               key={_id}
               name={name}
               slug={slug}
-              setLoading={setLoading}
-              removeHandler={() => dispatch(removeSub(user.token, slug, toast, setLoading))}
+              removeHandler={() => dispatch(removeSub(user.token, slug, toast))}
               setCurrentItem={() => dispatch(setCurrentSub(name))}
             />
           ))}

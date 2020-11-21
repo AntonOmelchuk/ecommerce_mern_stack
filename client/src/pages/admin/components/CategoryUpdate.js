@@ -10,11 +10,13 @@ import { updateSub } from '../../../actions/sub'
 
 const CategoryUpdate = () => {
   const dispatch = useDispatch()
-  const { currentCategory } = useSelector(state => state.category)
-  const { currentSub } = useSelector(state => state.sub)
-  const { user: { token } } = useSelector(state => state.auth)
+  const {
+    category: { currentCategory },
+    sub: { currentSub },
+    auth: { user },
+    general: { loading }
+  } = useSelector(state => state)
 
-  const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const { slug } = useParams()
   const history = useHistory()
@@ -27,9 +29,9 @@ const CategoryUpdate = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     if (currentCategory) {
-      return dispatch(updateCategory(token, slug, name, toast, setLoading, history, currentCategory))
+      return dispatch(updateCategory(user.token, slug, name, toast, history, currentCategory))
     }
-    return dispatch(updateSub(token, slug, name, toast, setLoading, history, currentSub))
+    return dispatch(updateSub(user.token, slug, name, toast, history, currentSub))
   }
 
   const title = currentCategory ? 'Update category' : 'Update sub category'

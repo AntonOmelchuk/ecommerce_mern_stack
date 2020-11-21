@@ -7,18 +7,22 @@ import authAPI from '../api/auth'
 
 const AdminRoute = ({ children, ...rest }) => {
   const [isAdmin, setIsAdmin] = useState(true)
-  const { user } = useSelector(state => state.auth)
+  const { auth } = useSelector(state => state)
 
   useEffect(async () => {
-    const { email, token } = user;
-    try {
-      const { status } = await authAPI.isAdmin(email, token)
-      if (status === 200) {
-        setIsAdmin(true)
-      } else {
+    if (auth.user) {
+      const { email, token } = auth.user;
+      try {
+        const { status } = await authAPI.isAdmin(email, token)
+        if (status === 200) {
+          setIsAdmin(true)
+        } else {
+          setIsAdmin(false)
+        }
+      } catch (error) {
         setIsAdmin(false)
       }
-    } catch (error) {
+    } else {
       setIsAdmin(false)
     }
 

@@ -14,10 +14,10 @@ import { searchCategory } from '../../utils/helpers/helpers'
 
 const CategoryCreate = () => {
   const [categoryName, setName] = useState('')
-  const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
 
-  const { auth: { user }, category } = useSelector(state => state)
+  const { auth: { user }, category, general: { loading } } = useSelector(state => state)
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCategories())
@@ -25,7 +25,7 @@ const CategoryCreate = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    dispatch(createCategory(user.token, categoryName, toast, setLoading, setName))
+    dispatch(createCategory(user.token, categoryName, toast, setName))
   }
 
   const categories = search.length > 0 ? searchCategory(search, category.categories) : category.categories
@@ -61,8 +61,7 @@ const CategoryCreate = () => {
               key={_id}
               name={name}
               slug={slug}
-              setLoading={setLoading}
-              removeHandler={() => dispatch(removeCategory(user.token, slug, toast, setLoading))}
+              removeHandler={() => dispatch(removeCategory(user.token, slug, toast))}
               setCurrentItem={() => dispatch(setCurrentCategory(name))}
             />
           ))}

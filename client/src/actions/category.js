@@ -1,8 +1,12 @@
 import categoryAPI from '../api/category'
+import { setLoadingValue } from './general'
 import { SET_CATEGORIES_DATA, SET_CURRENT_CATEGORY } from '../constants/actionTypes'
+
+export const setCurrentCategory = category => ({ type: SET_CURRENT_CATEGORY, payload: category })
 
 export const getAllCategories = () => async (dispatch) => {
   try {
+    dispatch(setLoadingValue(true))
     const response = await categoryAPI.getCategories()
 
     if (response.status === 200) {
@@ -12,12 +16,14 @@ export const getAllCategories = () => async (dispatch) => {
     }
   } catch (error) {
     console.error(error)
+  } finally {
+    dispatch(setLoadingValue(false))
   }
 }
 
-export const createCategory = (token, name, toast, setLoading, setName) => async (dispatch) => {
+export const createCategory = (token, name, toast, setName) => async (dispatch) => {
   try {
-    setLoading(true)
+    dispatch(setLoadingValue(true))
     const { status } = await categoryAPI.createCategory(token, name)
 
     if (status === 200) toast.success(`Category "${name}" is created`)
@@ -27,14 +33,14 @@ export const createCategory = (token, name, toast, setLoading, setName) => async
     else console.error(error)
   } finally {
     setName('')
-    setLoading(false)
+    dispatch(setLoadingValue(false))
     dispatch(getAllCategories())
   }
 }
 
-export const removeCategory = (token, slug, toast, setLoading) => async (dispatch) => {
+export const removeCategory = (token, slug, toast) => async (dispatch) => {
   try {
-    setLoading(true)
+    dispatch(setLoadingValue(true))
     const response = await categoryAPI.removeCategory(token, slug)
 
     if (response.status === 200) {
@@ -47,13 +53,13 @@ export const removeCategory = (token, slug, toast, setLoading) => async (dispatc
   } catch (error) {
     console.error(error)
   } finally {
-    setLoading(false)
+    dispatch(setLoadingValue(false))
   }
 }
 
-export const updateCategory = (token, slug, name, toast, setLoading, history, currentCategory) => async (dispatch) => {
+export const updateCategory = (token, slug, name, toast, history, currentCategory) => async (dispatch) => {
   try {
-    setLoading(true)
+    dispatch(setLoadingValue(true))
 
     const response = await categoryAPI.updateCategory(token, slug, name)
 
@@ -68,8 +74,7 @@ export const updateCategory = (token, slug, name, toast, setLoading, history, cu
   } catch (error) {
     console.error(error)
   } finally {
-    setLoading(false)
+    dispatch(setCurrentCategory(''))
+    dispatch(setLoadingValue(false))
   }
 }
-
-export const setCurrentCategory = category => ({ type: SET_CURRENT_CATEGORY, payload: category })

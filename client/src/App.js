@@ -21,6 +21,7 @@ import UserRoute from './routes/UserRoute'
 import AdminRoute from './routes/AdminRoute'
 import CategoryUpdate from './pages/admin/components/CategoryUpdate'
 import SubCreate from './pages/admin/SubCreate'
+import ProductCreate from './pages/admin/ProductCreate'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -55,6 +56,7 @@ const App = () => {
         <AdminRoute exact path='/admin/category' children={<CreateCategory />} />
         <AdminRoute exact path='/admin/category/:slug' children={<CategoryUpdate />} />
         <AdminRoute exact path='/admin/sub' children={<SubCreate />} />
+        <AdminRoute exact path='/admin/product' children={<ProductCreate />} />
       </Switch>
     </>
   );

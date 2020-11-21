@@ -1,5 +1,8 @@
 import subAPI from '../api/sub'
 import { SET_SUB_DATA, SET_CURRENT_SUB } from '../constants/actionTypes'
+import { setLoadingValue } from './general'
+
+export const setCurrentSub = sub => ({ type: SET_CURRENT_SUB, payload: sub })
 
 export const getAllSubs = () => async (dispatch) => {
   try {
@@ -15,9 +18,9 @@ export const getAllSubs = () => async (dispatch) => {
   }
 }
 
-export const createSub = (token, name, category, toast, setLoading, setName) => async (dispatch) => {
+export const createSub = (token, name, category, toast, setName) => async (dispatch) => {
   try {
-    setLoading(true)
+    dispatch(setLoadingValue(true))
     const { status } = await subAPI.createSub(token, name, category)
 
     if (status === 200) toast.success(`Sub "${name}" is created`)
@@ -27,14 +30,14 @@ export const createSub = (token, name, category, toast, setLoading, setName) => 
     else console.error(error)
   } finally {
     setName('')
-    setLoading(false)
+    dispatch(setLoadingValue(false))
     dispatch(getAllSubs())
   }
 }
 
-export const removeSub = (token, slug, toast, setLoading) => async (dispatch) => {
+export const removeSub = (token, slug, toast) => async (dispatch) => {
   try {
-    setLoading(true)
+    dispatch(setLoadingValue(true))
     const response = await subAPI.removeSub(token, slug)
 
     if (response.status === 200) {
@@ -47,13 +50,13 @@ export const removeSub = (token, slug, toast, setLoading) => async (dispatch) =>
   } catch (error) {
     console.error(error)
   } finally {
-    setLoading(false)
+    dispatch(setLoadingValue(false))
   }
 }
 
-export const updateSub = (token, slug, name, toast, setLoading, history, currentSub) => async (dispatch) => {
+export const updateSub = (token, slug, name, toast, history, currentSub) => async (dispatch) => {
   try {
-    setLoading(true)
+    dispatch(setLoadingValue(true))
 
     const response = await subAPI.updateSub(token, slug, name)
 
@@ -68,8 +71,7 @@ export const updateSub = (token, slug, name, toast, setLoading, history, current
   } catch (error) {
     console.error(error)
   } finally {
-    setLoading(false)
+    dispatch(setCurrentSub(''))
+    dispatch(setLoadingValue(false))
   }
 }
-
-export const setCurrentSub = sub => ({ type: SET_CURRENT_SUB, payload: sub })
