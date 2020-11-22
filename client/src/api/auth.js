@@ -22,7 +22,7 @@ export default {
       }
     })
   },
-  isAdmin(email, authtoken) {
+  isAdmin(authtoken, email) {
     return instance.post('/current-admin', { email }, {
       headers: {
         Authorization: authtoken

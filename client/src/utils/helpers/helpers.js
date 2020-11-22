@@ -25,3 +25,10 @@ export const redirectUserByRole = (role, history) => {
 export const searchCategory = (search, categories) => {
   return categories.filter(({ name }) => name.toLowerCase().includes(search.toLowerCase()))
 }
+
+export const capitalize = str => {
+  if (str && str !== '') {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  return '';
+};

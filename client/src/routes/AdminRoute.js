@@ -13,7 +13,7 @@ const AdminRoute = ({ children, ...rest }) => {
     if (auth.user) {
       const { email, token } = auth.user;
       try {
-        const { status } = await authAPI.isAdmin(email, token)
+        const { status } = await authAPI.isAdmin(token, email)
         if (status === 200) {
           setIsAdmin(true)
         } else {
@@ -25,9 +25,7 @@ const AdminRoute = ({ children, ...rest }) => {
     } else {
       setIsAdmin(false)
     }
-
-    return () => setIsAdmin(false)
-  }, [isAdmin])
+  }, [auth])
 
   return isAdmin ? <Route {...rest} render={() => children} /> : <LoadingToRedirect />
 }
