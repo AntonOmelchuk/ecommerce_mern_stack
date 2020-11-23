@@ -7,14 +7,14 @@ export default {
   shipping: [{ _id: 'Yes', name: 'Yes' }, { _id: 'No', name: 'No' }],
   quantity: '',
   images: [],
-  colors: [
+  color: [
     { _id: 0, name: 'Black' },
     { _id: 1, name: 'White' },
     { _id: 2, name: 'Silver' },
     { _id: 3, name: 'Brown' },
     { _id: 4, name: 'Blue' }
   ],
-  brands: [
+  brand: [
     { _id: 0, name: 'Apple' },
     { _id: 1, name: 'Lenovo' },
     { _id: 2, name: 'Samsung' },
@@ -23,6 +23,4 @@ export default {
     { _id: 5, name: 'Microsoft' },
     { _id: 6, name: 'Asus' },
   ],
-  color: '',
-  brand: ''
 }

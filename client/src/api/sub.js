@@ -14,6 +14,9 @@ export default {
   getSub(slug) {
     return instance.get(`/sub/${slug}`)
   },
+  getCurrentCategorySubs(id) {
+    return instance.get(`/subs/${id}`)
+  },
   createSub(authtoken, name, category) {
     return instance.post('/sub', { name, category }, {
       headers: {

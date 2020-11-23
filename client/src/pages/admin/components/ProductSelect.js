@@ -11,10 +11,15 @@ const ProductSelect = ({
       <select
         name={prop}
         className='form-control'
-        onSelect={onChange}
+        onChange={onChange}
       >
-        <option>Please select</option>
-        {values.map(({ _id, name }) => <option key={_id} value={_id}>{name}</option>)}
+        <option>{values.length ? 'Please select' : 'No options'}</option>
+        {values.map(({ _id, name }) => {
+          const value = (prop === 'category' || prop === 'subs') ? _id : name
+          return (
+            <option key={_id} value={value}>{name}</option>
+          )
+        })}
       </select>
     </div>
   )

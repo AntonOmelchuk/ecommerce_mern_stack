@@ -3,7 +3,7 @@ const slugify = require('slugify')
 
 exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).exec()
+    const products = await Product.find({})
     console.log('server products: ', products)
     res.json(products)
   } catch (error) {

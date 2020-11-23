@@ -1,5 +1,5 @@
 import subAPI from '../api/sub'
-import { SET_SUB_DATA, SET_CURRENT_SUB } from '../constants/actionTypes'
+import { SET_SUB_DATA, SET_CURRENT_SUB, SET_CATEGORY_SUBS } from '../constants/actionTypes'
 import { setLoadingValue } from './general'
 
 export const setCurrentSub = sub => ({ type: SET_CURRENT_SUB, payload: sub })
@@ -73,5 +73,19 @@ export const updateSub = (token, slug, name, toast, history, currentSub) => asyn
   } finally {
     dispatch(setCurrentSub(''))
     dispatch(setLoadingValue(false))
+  }
+}
+
+export const getCurrentCategorySubs = id => async (dispatch) => {
+  try {
+    const { data, status } = await subAPI.getCurrentCategorySubs(id)
+
+    if (status === 200) {
+      dispatch({ type: SET_CATEGORY_SUBS, payload: data })
+    } else {
+      console.error(data)
+    }
+  } catch (error) {
+    console.error(error)
   }
 }

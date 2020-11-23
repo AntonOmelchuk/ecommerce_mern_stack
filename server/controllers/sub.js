@@ -64,3 +64,15 @@ exports.remove = async (req, res) => {
     res.status(400).send(error)
   }
 }
+
+exports.getCategorySub = async (req, res) => {
+  try {
+    const { _id } = req.params
+
+    const subs = await Sub.find({ parent: _id })
+
+    res.json(subs)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}

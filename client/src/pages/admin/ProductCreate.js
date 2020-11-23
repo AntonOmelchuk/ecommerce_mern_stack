@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch, batch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 
 import AdminNav from '../../components/nav/AdminNav'
@@ -11,26 +12,54 @@ import { createProduct, getProducts } from '../../actions/product'
 import { capitalize } from '../../utils/helpers/helpers'
 import { getAllCategories } from '../../actions/category'
 import initialState from '../../constants/initialStates'
+import { getCurrentCategorySubs } from '../../actions/sub'
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState)
+  const [selectedValues, setSelectedValues] = useState({})
+
   const {
-    general: { loading }, auth: { user }, category: { categories }
+    general: { loading },
+    auth: { user },
+    category: { categories },
+    sub: { categorySubs }
   } = useSelector(state => state)
   const dispatch = useDispatch();
 
   useEffect(() => {
-    batch(() => {
-      dispatch(getAllCategories())
-      dispatch(getProducts())
-    })
-    setValues({ ...values, category: [...categories.map(({ _id, name }) => ({ _id, name }))] })
-  }, [dispatch])
+    dispatch(getAllCategories())
+    dispatch(getProducts())
+
+    setValues(prev => ({ ...prev, category: [...categories.map(({ _id, name }) => ({ _id, name }))] }))
+    setValues(prev => ({ ...prev, subs: [...categorySubs.map(({ _id, name }) => ({ _id, name }))] }))
+  }, [dispatch, categorySubs])
 
   const handleSubmit = e => {
     e.preventDefault()
-    const newProduct = { ...values, brand: capitalize(values.brand), color: capitalize(values.color) }
+    const {
+      title, description, price, quantity
+    } = values
+
+    const { shipping, color, brand } = selectedValues
+
+    const newProduct = {
+      title,
+      description,
+      price,
+      category: selectedValues.category,
+      subs: selectedValues.subs,
+      quantity,
+      shipping,
+      color,
+      brand
+    }
+
+    console.log('new product: ', newProduct)
     dispatch(createProduct(user.token, newProduct, toast, () => setValues(initialState)))
+  }
+
+  const getSubs = id => {
+    dispatch(getCurrentCategorySubs(id))
   }
 
   const renderFormContent = () => {
@@ -50,7 +79,14 @@ const ProductCreate = () => {
           key={key}
           prop={key}
           values={values[key]}
-          onChange={({ target }) => setValues({ ...values, [key]: target.value })}
+          onChange={({ target }) => {
+            if (key === 'category') {
+              getSubs(target.value)
+              setSelectedValues({ ...selectedValues, [key]: target.value })
+            } else {
+              setSelectedValues({ ...selectedValues, [key]: target.value })
+            }
+          }}
         />
       )
     })
