@@ -13,6 +13,7 @@ const ProductInput = ({ prop, value, onChange }) => {
         className='form-control'
         value={value}
         onChange={onChange}
+        required
       />
     </div>
   )

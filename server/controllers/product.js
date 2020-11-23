@@ -1,14 +1,25 @@
 const Product = require('../models/product')
 const slugify = require('slugify')
 
+exports.getProducts = async (req, res) => {
+  try {
+    const products = await Product.find({}).exec()
+    console.log('server products: ', products)
+    res.json(products)
+  } catch (error) {
+    res.status(400).send('Get products failed')
+  }
+}
+
 exports.create = async (req, res) => {
   try {
-    console.log('recieved data: ', req.body)
-    req.body.slug = slugify(req.body.title)
+    const { product } = req.body
 
-    const product = await new Product(req.body).save()
+    product.slug = slugify(product.title)
 
-    res.json(product)
+    const newProduct = await new Product(product).save()
+
+    res.json(newProduct)
   } catch (error) {
     console.error(error)
     res.status(400).send('Create product failed')

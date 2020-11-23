@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
 
 import AdminNav from '../../components/nav/AdminNav'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import ProductInput from './components/ProductInput'
 import ProductSelect from './components/ProductSelect'
+
+import { createProduct } from '../../actions/product'
+import { capitalize } from '../../utils/helpers/helpers'
 
 const initialState = {
   title: '',
@@ -12,7 +16,7 @@ const initialState = {
   price: '',
   category: '',
   subs: [],
-  shipping: '',
+  shipping: ['Yes', 'No'],
   quantity: '',
   images: [],
   colors: ['Black', 'White', 'Silver', 'Brown', 'Blue'],
@@ -23,10 +27,13 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState)
-  const { general: { loading } } = useSelector(state => state)
+  const { general: { loading }, auth: { user } } = useSelector(state => state)
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault()
+    const newProduct = { ...values, brand: capitalize(values.brand), color: capitalize(values.color) }
+    dispatch(createProduct(user.token, newProduct, toast))
   }
 
   const renderFormContent = () => {
@@ -46,8 +53,7 @@ const ProductCreate = () => {
           key={key}
           prop={key}
           values={values[key]}
-          // onChange={({ target }) => setValues({ ...values, [key]: target.value })}
-          onChange={({ target }) => console.log('target: ', target.value)}
+          onChange={({ target }) => setValues({ ...values, [key]: target.value })}
         />
       )
     })
@@ -63,6 +69,7 @@ const ProductCreate = () => {
           <LoadingTitle loading={loading} title='Create product' />
           <form onSubmit={handleSubmit} className='form-group'>
             {renderFormContent()}
+            <button type='submit' className='btn btn-outline-info'>Save</button>
           </form>
         </div>
       </div>

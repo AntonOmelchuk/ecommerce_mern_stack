@@ -6,10 +6,10 @@ const router = express.Router()
 const { authCheck, adminCheck } = require('../middlewares/auth')
 
 // controllers
-const { create } = require('../controllers/product')
+const { getProducts, create } = require('../controllers/product')
 
 // routes
-
-router.post('/product', authCheck, adminCheck, create)
+router.get('/products', getProducts)
+router.post('/products', authCheck, adminCheck, create)
 
 module.exports = router

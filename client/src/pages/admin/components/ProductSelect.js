@@ -6,7 +6,7 @@ const ProductSelect = ({
   prop, onChange, values
 }) => {
   return (
-    <div className='from-group'>
+    <div className='from-group mb-3'>
       <label name={prop}>{capitalize(prop)}</label>
       <select
         name={prop}
