@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, batch } from 'react-redux'
+import { getAllCategories } from '../../actions/category'
+import { getProducts } from '../../actions/product'
+import { getAllSubs } from '../../actions/sub'
 
 const AdminNav = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    batch(() => {
+      dispatch(getAllCategories())
+      dispatch(getProducts())
+      dispatch(getAllSubs())
+    })
+  }, [])
+
   return (
     <nav>
       <ul className='nav flex-column'>

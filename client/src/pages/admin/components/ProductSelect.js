@@ -14,7 +14,7 @@ const ProductSelect = ({
         onSelect={onChange}
       >
         <option>Please select</option>
-        {values.map(value => <option key={value} value={value}>{value}</option>)}
+        {values.map(({ _id, name }) => <option key={_id} value={_id}>{name}</option>)}
       </select>
     </div>
   )
@@ -23,7 +23,7 @@ const ProductSelect = ({
 ProductSelect.propTypes = {
   prop: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  values: PropTypes.arrayOf(PropTypes.string).isRequired,
+  values: PropTypes.arrayOf(PropTypes.any).isRequired,
 }
 
 export default ProductSelect

@@ -19,18 +19,19 @@ export const getProducts = () => async (dispatch) => {
   }
 }
 
-export const createProduct = (token, product, toast) => async (dispatch) => {
+export const createProduct = (token, product, toast, callback) => async (dispatch) => {
   try {
     dispatch(setLoadingValue(true))
     const { data, status } = await productAPI.createProduct(token, product)
     if (status === 200) {
+      callback()
       dispatch(getProducts())
       toast.success(`Product ${data.title} created`)
     } else {
-      toast.error(data)
+      toast.error(data.message)
     }
   } catch (error) {
-    console.error(error)
+    toast.error(error?.data?.message || error)
   } finally {
     dispatch(setLoadingValue(false))
   }
