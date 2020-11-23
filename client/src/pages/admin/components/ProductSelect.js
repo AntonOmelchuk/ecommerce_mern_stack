@@ -11,7 +11,7 @@ const ProductSelect = ({
       <select
         name={prop}
         className='form-control'
-        onChange={onChange}
+        onSelect={onChange}
       >
         <option>Please select</option>
         {values.map(value => <option key={value} value={value}>{value}</option>)}
