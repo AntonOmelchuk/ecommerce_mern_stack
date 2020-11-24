@@ -6,7 +6,6 @@ export default {
   subs: [],
   shipping: [{ _id: 'Yes', name: 'Yes' }, { _id: 'No', name: 'No' }],
   quantity: '',
-  images: [],
   color: [
     { _id: 0, name: 'Black' },
     { _id: 1, name: 'White' },
@@ -23,4 +22,5 @@ export default {
     { _id: 5, name: 'Microsoft' },
     { _id: 6, name: 'Asus' },
   ],
+  images: [],
 }

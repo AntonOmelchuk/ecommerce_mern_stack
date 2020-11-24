@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -8,9 +7,9 @@ import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import ProductInput from './components/ProductInput'
 import ProductSelect from './components/ProductSelect'
 import MultipleSelect from '../../components/MultipleSelect.js/MultipleSelect'
+import FileUpload from '../../components/FileUpload/FileUpload'
 
 import { createProduct, getProducts } from '../../actions/product'
-import { capitalize } from '../../utils/helpers/helpers'
 import { getAllCategories } from '../../actions/category'
 import initialState from '../../constants/initialStates'
 import { getCurrentCategorySubs } from '../../actions/sub'
@@ -90,6 +89,8 @@ const ProductCreate = () => {
             onChange={value => setSelectedValues({ ...selectedValues, [key]: value })}
           />
         ) : null
+      } if (key === 'images') {
+        return <FileUpload key={key} />
       }
       return (
         <ProductSelect
