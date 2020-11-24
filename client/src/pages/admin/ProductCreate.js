@@ -7,6 +7,7 @@ import AdminNav from '../../components/nav/AdminNav'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import ProductInput from './components/ProductInput'
 import ProductSelect from './components/ProductSelect'
+import MultipleSelect from '../../components/MultipleSelect.js/MultipleSelect'
 
 import { createProduct, getProducts } from '../../actions/product'
 import { capitalize } from '../../utils/helpers/helpers'
@@ -54,12 +55,11 @@ const ProductCreate = () => {
       brand
     }
 
-    console.log('new product: ', newProduct)
     dispatch(createProduct(user.token, newProduct, toast, () => setValues(initialState)))
   }
 
   const getSubs = id => {
-    dispatch(getCurrentCategorySubs(id))
+    dispatch(getCurrentCategorySubs(id, () => setSelectedValues({ ...selectedValues, subs: [] })))
   }
 
   const renderFormContent = () => {
@@ -71,6 +71,16 @@ const ProductCreate = () => {
             prop={key}
             value={values[key]}
             onChange={({ target }) => setValues({ ...values, [key]: target.value })}
+          />
+        )
+      } if (typeof values[key] !== 'string' && key === 'subs') {
+        return (
+          <MultipleSelect
+            name={key}
+            key={key}
+            values={values[key]}
+            selectedValues={selectedValues[key]}
+            onChange={value => setSelectedValues({ ...selectedValues, [key]: value })}
           />
         )
       }

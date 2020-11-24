@@ -76,11 +76,12 @@ export const updateSub = (token, slug, name, toast, history, currentSub) => asyn
   }
 }
 
-export const getCurrentCategorySubs = id => async (dispatch) => {
+export const getCurrentCategorySubs = (id, callback) => async (dispatch) => {
   try {
     const { data, status } = await subAPI.getCurrentCategorySubs(id)
 
     if (status === 200) {
+      callback()
       dispatch({ type: SET_CATEGORY_SUBS, payload: data })
     } else {
       console.error(data)
