@@ -55,11 +55,18 @@ const ProductCreate = () => {
       brand
     }
 
+    console.log('new product: ', newProduct)
     dispatch(createProduct(user.token, newProduct, toast, () => setValues(initialState)))
   }
 
   const getSubs = id => {
-    dispatch(getCurrentCategorySubs(id, () => setSelectedValues({ ...selectedValues, subs: [] })))
+    console.log('get subs: ', id)
+    if (id === 'default') {
+      setSelectedValues({ ...selectedValues, subs: [], category: id })
+      setValues({ ...values, subs: [] })
+    } else {
+      dispatch(getCurrentCategorySubs(id, () => setSelectedValues({ ...selectedValues, subs: [], category: id })))
+    }
   }
 
   const renderFormContent = () => {
@@ -73,8 +80,8 @@ const ProductCreate = () => {
             onChange={({ target }) => setValues({ ...values, [key]: target.value })}
           />
         )
-      } if (typeof values[key] !== 'string' && key === 'subs') {
-        return (
+      } if (key === 'subs') {
+        return values[key].length > 0 ? (
           <MultipleSelect
             name={key}
             key={key}
@@ -82,7 +89,7 @@ const ProductCreate = () => {
             selectedValues={selectedValues[key]}
             onChange={value => setSelectedValues({ ...selectedValues, [key]: value })}
           />
-        )
+        ) : null
       }
       return (
         <ProductSelect
@@ -92,7 +99,6 @@ const ProductCreate = () => {
           onChange={({ target }) => {
             if (key === 'category') {
               getSubs(target.value)
-              setSelectedValues({ ...selectedValues, [key]: target.value })
             } else {
               setSelectedValues({ ...selectedValues, [key]: target.value })
             }

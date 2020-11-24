@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Select } from 'antd'
+import { capitalize } from '../../utils/helpers/helpers'
 
 const { Option } = Select
 
 const MultipleSelect = ({
-  name, label, values, selectedValues, onChange
+  name, values, selectedValues, onChange
 }) => {
   return (
     <div className='mb-3'>
-      <label>{label}</label>
+      <label>{capitalize(name)}</label>
       <Select
         mode='multiple'
         style={{ width: '100%' }}
@@ -27,7 +28,6 @@ const MultipleSelect = ({
 }
 
 MultipleSelect.propTypes = {
-  label: PropTypes.string,
   name: PropTypes.string,
   values: PropTypes.arrayOf(PropTypes.any),
   selectedValues: PropTypes.arrayOf(PropTypes.any),
@@ -35,7 +35,6 @@ MultipleSelect.propTypes = {
 }
 
 MultipleSelect.defaultProps = {
-  label: '',
   name: '',
   values: [],
   selectedValues: [],

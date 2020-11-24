@@ -13,9 +13,9 @@ const ProductSelect = ({
         className='form-control'
         onChange={onChange}
       >
-        <option>{values.length ? 'Please select' : 'No options'}</option>
+        <option value='default'>{values.length ? 'Please select' : 'No options'}</option>
         {values.map(({ _id, name }) => {
-          const value = (prop === 'category' || prop === 'subs') ? _id : name
+          const value = prop === 'category' ? _id : name
           return (
             <option key={_id} value={value}>{name}</option>
           )
