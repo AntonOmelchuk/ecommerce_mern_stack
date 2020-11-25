@@ -1,10 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import Resizer from 'react-image-file-resizer'
 
 import { Avatar, Badge } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import LoadingTitle from '../LoadingTitle/LoadingTitle'
 
 import filesAPI from '../../api/files'
@@ -27,7 +27,7 @@ const FileUpload = ({ values, setValues }) => {
             dispatch(setLoadingValue(false))
           }).catch(err => {
             console.error(err)
-            setLoadingValue(false)
+            dispatch(setLoadingValue(false))
           })
         }, 'base64')
       ))
@@ -59,6 +59,14 @@ const FileUpload = ({ values, setValues }) => {
             />
           </Badge>
         ))
+      )}
+      {loading && (
+      <LoadingOutlined
+        className='text-danger'
+        style={{
+          fontSize: '54px', marginLeft: '30px'
+        }}
+      />
       )}
       <div className='py-3 row'>
         <label className='btn btn-primary'>

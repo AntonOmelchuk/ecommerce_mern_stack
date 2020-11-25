@@ -37,7 +37,7 @@ const ProductCreate = () => {
   const handleSubmit = e => {
     e.preventDefault()
     const {
-      title, description, price, quantity
+      title, description, price, quantity, images
     } = values
 
     const { shipping, color, brand } = selectedValues
@@ -49,12 +49,12 @@ const ProductCreate = () => {
       category: selectedValues.category,
       subs: selectedValues.subs,
       quantity,
+      images,
       shipping,
       color,
       brand
     }
 
-    console.log('new product: ', newProduct)
     dispatch(createProduct(user.token, newProduct, toast, () => setValues(initialState)))
   }
 
