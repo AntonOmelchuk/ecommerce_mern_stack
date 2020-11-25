@@ -59,7 +59,6 @@ const ProductCreate = () => {
   }
 
   const getSubs = id => {
-    console.log('get subs: ', id)
     if (id === 'default') {
       setSelectedValues({ ...selectedValues, subs: [], category: id })
       setValues({ ...values, subs: [] })
@@ -90,7 +89,7 @@ const ProductCreate = () => {
           />
         ) : null
       } if (key === 'images') {
-        return <FileUpload key={key} />
+        return <FileUpload key={key} values={values} setValues={setValues} />
       }
       return (
         <ProductSelect
@@ -119,7 +118,13 @@ const ProductCreate = () => {
           <LoadingTitle loading={loading} title='Create product' />
           <form onSubmit={handleSubmit} className='form-group'>
             {renderFormContent()}
-            <button type='submit' className='btn btn-outline-info'>Save</button>
+            <button
+              type='submit'
+              className='btn btn-outline-info'
+              disabled={loading}
+            >
+              Save
+            </button>
           </form>
         </div>
       </div>

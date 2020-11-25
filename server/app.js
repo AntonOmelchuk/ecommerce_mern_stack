@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
-const bodyParse = require('body-parser')
+const bodyParser = require('body-parser')
 const cors = require('cors')
 const { readdirSync } = require('fs')
 require('dotenv').config()
@@ -23,9 +23,17 @@ mongoose.connect(
 .catch(error => console.log(`DB connection error: ${error}`))
 
 // middlewares
-app.use(morgan('dev'))
-app.use(bodyParse.json())
 app.use(cors())
+app.use(morgan('dev'))
+app.use(bodyParser.json({
+  limit: '50mb'
+}));
+
+app.use(bodyParser.urlencoded({
+  limit: '50mb',
+  parameterLimit: 100000,
+  extended: true
+}));
 
 // routes
 readdirSync('./routes').forEach(route => app.use('/api', require(`./routes/${route}`)))

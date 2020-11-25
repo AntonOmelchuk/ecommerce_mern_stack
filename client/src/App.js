@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer, toast } from 'react-toastify'
 import { auth } from './utils/firebase'
 import { getCurrentUser } from './actions/auth'
+import './index.css'
 
 import Header from './components/nav/Header'
 import Login from './pages/auth/Login'
@@ -24,6 +25,7 @@ import SubCreate from './pages/admin/SubCreate'
 import ProductCreate from './pages/admin/ProductCreate'
 
 const App = () => {
+  const { loading } = useSelector(state => state.general)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const App = () => {
     return () => unsubscribe()
   }, [dispatch])
   return (
-    <>
+    <div className={loading ? 'loadingOverlay' : ''}>
       <Header />
       <ToastContainer />
       <Switch>
@@ -58,7 +60,7 @@ const App = () => {
         <AdminRoute exact path='/admin/sub' children={<SubCreate />} />
         <AdminRoute exact path='/admin/product' children={<ProductCreate />} />
       </Switch>
-    </>
+    </div>
   );
 };
 

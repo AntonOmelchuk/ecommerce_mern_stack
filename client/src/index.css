@@ -1,0 +1,9 @@
+.loadingOverlay {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 1000;
+  background-color: aliceblue;
+  opacity: 0.3;
+  pointer-events: none;
+}

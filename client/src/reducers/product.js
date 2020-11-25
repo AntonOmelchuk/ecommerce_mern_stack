@@ -1,7 +1,7 @@
 import { SET_PRODUCTS } from '../constants/actionTypes'
 
 const initialState = {
-  products: []
+  products: [],
 }
 
 export default function productReducer(state = initialState, action) {
