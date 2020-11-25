@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import Resizer from 'react-image-file-resizer'
 
+import { Avatar } from 'antd'
 import filesAPI from '../../api/files'
 import { setLoadingValue } from '../../actions/general'
 import LoadingTitle from '../LoadingTitle/LoadingTitle'
@@ -33,18 +34,25 @@ const FileUpload = ({ values, setValues }) => {
   }
 
   return (
-    <div className='py-3 row'>
-      <label className='btn btn-primary'>
-        <LoadingTitle title='Choose file' loading={loading} />
-        <input
-          type='file'
-          hidden
-          multiple
-          accept='images/*'
-          onChange={fileUploadhandler}
-        />
-      </label>
-    </div>
+    <>
+      {!!values.images.length && (
+        values.images.map(({ url }) => (
+          <img key={url} src={url} alt='product' width='120px' />
+        ))
+      )}
+      <div className='py-3 row'>
+        <label className='btn btn-primary'>
+          <LoadingTitle title='Choose file' loading={loading} />
+          <input
+            type='file'
+            hidden
+            multiple
+            accept='images/*'
+            onChange={fileUploadhandler}
+          />
+        </label>
+      </div>
+    </>
   )
 }
 
