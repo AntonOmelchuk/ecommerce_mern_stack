@@ -8,8 +8,8 @@ const instance = axios.create({
 })
 
 export default {
-  getProducts() {
-    return instance.get('/products')
+  getProducts(count) {
+    return instance.get(`/products/${count}`)
   },
   getSub(slug) {
     return instance.get(`/sub/${slug}`)

@@ -2,10 +2,10 @@ import { setLoadingValue } from './general'
 import productAPI from '../api/product'
 import { SET_PRODUCTS } from '../constants/actionTypes'
 
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (count = 10) => async (dispatch) => {
   try {
     dispatch(setLoadingValue(true))
-    const { data, status } = await productAPI.getProducts()
+    const { data, status } = await productAPI.getProducts(count)
 
     if (status === 200) {
       dispatch({ type: SET_PRODUCTS, payload: data })
