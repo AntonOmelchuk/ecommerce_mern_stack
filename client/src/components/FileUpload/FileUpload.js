@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import Resizer from 'react-image-file-resizer'
 
-import { Avatar } from 'antd'
+import { Avatar, Badge } from 'antd'
+import LoadingTitle from '../LoadingTitle/LoadingTitle'
+
 import filesAPI from '../../api/files'
 import { setLoadingValue } from '../../actions/general'
-import LoadingTitle from '../LoadingTitle/LoadingTitle'
 
 const FileUpload = ({ values, setValues }) => {
   const { auth: { user }, general: { loading } } = useSelector(state => state)
@@ -33,11 +34,30 @@ const FileUpload = ({ values, setValues }) => {
     }
   }
 
+  const removeImage = id => {
+    dispatch(setLoadingValue(true))
+    filesAPI.remove(user.token, id).then(() => {
+      dispatch(setLoadingValue(false))
+      const filteredImages = values.images.filter(({ public_id }) => public_id !== id)
+      setValues({ ...values, images: filteredImages })
+    }).catch(err => {
+      console.error(err)
+      dispatch(setLoadingValue(false))
+    })
+  }
+
   return (
     <>
       {!!values.images.length && (
-        values.images.map(({ url }) => (
-          <img key={url} src={url} alt='product' width='120px' />
+        values.images.map(({ url, public_id: id }, index) => (
+          <Badge key={id} count='X' onClick={() => removeImage(id)} style={{ cursor: 'pointer' }}>
+            <Avatar
+              src={url}
+              size={90}
+              shape='square'
+              className={index === 0 ? '' : 'ml-3'}
+            />
+          </Badge>
         ))
       )}
       <div className='py-3 row'>

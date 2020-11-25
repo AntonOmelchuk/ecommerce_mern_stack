@@ -15,4 +15,11 @@ export default {
       }
     })
   },
+  remove(authtoken, public_id) {
+    return instance.post('/images/remove', { public_id }, {
+      headers: {
+        Authorization: authtoken
+      }
+    })
+  }
 }
