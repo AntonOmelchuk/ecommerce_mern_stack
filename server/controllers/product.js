@@ -3,9 +3,15 @@ const slugify = require('slugify')
 
 exports.getProducts = async (req, res) => {
   try {
+    const count = req.params?.count ? req.params.count : 10
     const products = await Product.find({})
+      .limit(parseInt(count))
+      .populate('category')
+      .populate('subs')
+      .sort([['createdAt', 'desc']])
+      .exec()
 
-    res.json(products)
+      res.json(products)
   } catch (error) {
     res.status(400).send('Get products failed')
   }
