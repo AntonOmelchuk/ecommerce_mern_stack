@@ -18,9 +18,10 @@ const ProductCard = ({ product }) => {
           src={images[0].url}
           alt='product'
           style={{
-            height: '150px',
+            height: '180px',
             objectFit: 'cover'
           }}
+          className='p-1'
         />
       )}
       className='m-2'
