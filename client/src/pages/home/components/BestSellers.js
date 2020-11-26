@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import { Pagination } from 'antd'
 import SkeletonCard from '../../../components/Card/SkeletonCard'
 import ProductCard from '../../../components/Card/ProductCard'
 
-const BestSellers = ({ loading, products }) => {
+const BestSellers = ({
+  loading, products, count, perPage, page, setPage
+}) => {
   return (
     <>
       <h1 className='text-center dispaly-3 p-3 mt-5 mb-5 jumbotron'>Best Sellers</h1>
@@ -18,6 +22,11 @@ const BestSellers = ({ loading, products }) => {
             ))}
         </div>
       </div>
+      <div className='row'>
+        <nav className='col-md-4 offset-md-4 text-center pt-5 p-3'>
+          <Pagination current={page} total={(count / perPage) * 10} onChange={value => setPage(value)} />
+        </nav>
+      </div>
     </>
   )
 }
@@ -25,6 +34,10 @@ const BestSellers = ({ loading, products }) => {
 BestSellers.propTypes = {
   loading: PropTypes.bool.isRequired,
   products: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  page: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
 }
 
 export default BestSellers

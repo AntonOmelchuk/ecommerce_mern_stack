@@ -16,6 +16,7 @@ const Home = () => {
 
   const [count, setCount] = useState(0)
   const [newArrivalsPage, setNewArrivalPage] = useState(1)
+  const [bestSellersPage, setBestSellersPage] = useState(1)
 
   const dispatch = useDispatch()
 
@@ -25,12 +26,12 @@ const Home = () => {
     batch(() => {
       dispatch(getProducts(PRODUCT_COUNT))
       dispatch(getSortedProducts(CREATE_AT, 'desc', newArrivalsPage))
-      dispatch(getSortedProducts(SOLD, 'desc', 10))
+      dispatch(getSortedProducts(SOLD, 'desc', bestSellersPage))
     })
     productApi.getProductsTotalCount().then(res => {
       setCount(res.data)
     })
-  }, [dispatch, newArrivalsPage])
+  }, [dispatch, newArrivalsPage, bestSellersPage])
 
   return (
     <>
@@ -45,7 +46,14 @@ const Home = () => {
         page={newArrivalsPage}
         setPage={setNewArrivalPage}
       />
-      <BestSellers loading={loading} products={product[SOLD]} />
+      <BestSellers
+        loading={loading}
+        products={product[SOLD]}
+        count={count}
+        perPage={PER_PAGE}
+        page={bestSellersPage}
+        setPage={setBestSellersPage}
+      />
     </>
   )
 }
