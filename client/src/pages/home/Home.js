@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProducts } from '../../actions/product'
 import ProductCard from '../../components/Card/ProductCard'
+import Jumbotron from '../../components/Jumbotron/Jumbotron'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 
 const Home = () => {
@@ -15,8 +16,10 @@ const Home = () => {
 
   return (
     <>
-      <div className='jumbotron'>
-        <LoadingTitle title='All Products' loading={loading} />
+      <div className='jumbotron text-danger h1 font-weight-bold text-center'>
+        {loading
+          ? <LoadingTitle loading={loading} />
+          : <Jumbotron text={['Latest Products', 'New arrivals', 'Best Sellers']} />}
       </div>
       <div className='container'>
         <div className='row'>
