@@ -72,17 +72,30 @@ exports.update = async (req, res) => {
 
 exports.sortList = async (req, res) => {
   try {
-    const { sort, order, limit } = req.body
+    const { sort, order, page } = req.body
+
+    const currentPage = page || 1
+    const perPage = 3
 
     const sortedList = await Product.find({})
+      .skip((currentPage - 1) * perPage)
       .populate('category')
       .populate('sub')
       .sort([[sort, order]])
-      .limit(limit)
+      .limit(perPage)
       .exec()
 
     res.json(sortedList)
   } catch (error) {
     res.status(400).send(error)
   }
+}
+
+exports.total = async (req, res) => {
+ try {
+  const total = await Product.find({}).estimatedDocumentCount().exec()
+  res.json(total)
+ } catch (error) {
+   res.status(400).send(error)
+ }
 }

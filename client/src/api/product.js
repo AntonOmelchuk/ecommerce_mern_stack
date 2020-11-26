@@ -39,7 +39,10 @@ export default {
       }
     })
   },
-  getSortedList(sort, order, limit = 10) {
-    return instance.post('/products-sort', { sort, order, limit })
+  getSortedList(sort, order, page) {
+    return instance.post('/products-sort', { sort, order, page })
+  },
+  getProductsTotalCount() {
+    return instance.get('/products-total')
   }
 }
