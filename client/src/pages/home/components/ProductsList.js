@@ -5,12 +5,12 @@ import { Pagination } from 'antd'
 import SkeletonCard from '../../../components/Card/SkeletonCard'
 import ProductCard from '../../../components/Card/ProductCard'
 
-const NewArrivals = ({
-  loading, products, count, perPage, page, setPage
+const ProductsList = ({
+  loading, products, count, perPage, page, setPage, title
 }) => {
   return (
     <>
-      <h1 className='text-center dispaly-3 p-3 mt-5 mb-5 jumbotron'>New Arrivals</h1>
+      <h1 className='text-center dispaly-3 p-3 mt-5 mb-5 jumbotron'>{title}</h1>
       <div className='container'>
         <div className='row'>
           {loading
@@ -31,7 +31,8 @@ const NewArrivals = ({
   )
 }
 
-NewArrivals.propTypes = {
+ProductsList.propTypes = {
+  title: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   products: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   page: PropTypes.number.isRequired,
@@ -40,4 +41,4 @@ NewArrivals.propTypes = {
   setPage: PropTypes.func.isRequired,
 }
 
-export default NewArrivals
+export default ProductsList

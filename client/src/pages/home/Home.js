@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 
 import Jumbotron from '../../components/Jumbotron/Jumbotron'
-import NewArrivals from './components/NewArrivals'
-import BestSellers from './components/BestSellers'
+import ProductsList from './components/ProductsList'
 
 import productApi from '../../api/product'
 import { getProducts, getSortedProducts } from '../../actions/product'
@@ -38,7 +37,9 @@ const Home = () => {
       <div className='jumbotron text-danger h1 font-weight-bold text-center'>
         <Jumbotron text={loading ? ['Loading...'] : ['Latest Products', 'New arrivals', 'Best Sellers']} />
       </div>
-      <NewArrivals
+
+      <ProductsList
+        title='New Arrivals'
         loading={loading}
         products={product[CREATE_AT]}
         count={count}
@@ -46,7 +47,8 @@ const Home = () => {
         page={newArrivalsPage}
         setPage={setNewArrivalPage}
       />
-      <BestSellers
+      <ProductsList
+        title='Best Sellers'
         loading={loading}
         products={product[SOLD]}
         count={count}
