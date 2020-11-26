@@ -6,7 +6,7 @@ const router = express.Router()
 const { authCheck, adminCheck } = require('../middlewares/auth')
 
 // controllers
-const { getProducts, read, create, remove, update } = require('../controllers/product')
+const { getProducts, read, create, remove, update, sortList } = require('../controllers/product')
 
 // routes
 router.get('/products/:count', getProducts)
@@ -14,5 +14,6 @@ router.get('/product/:slug', authCheck, adminCheck, read)
 router.post('/products', authCheck, adminCheck, create)
 router.delete('/products/:slug', authCheck, adminCheck, remove)
 router.put('/product/:slug', authCheck, adminCheck, update)
+router.post('/products-sort', sortList)
 
 module.exports = router

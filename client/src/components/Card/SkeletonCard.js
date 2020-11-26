@@ -5,7 +5,7 @@ import { Card, Skeleton } from 'antd'
 
 const SkeletonCard = ({ count }) => {
   const CustomCard = () => (
-    <Card className='col m-3'>
+    <Card className='col-md-4 m-3'>
       <Skeleton active />
     </Card>
   )

@@ -1,6 +1,6 @@
 import { setLoadingValue } from './general'
 import productAPI from '../api/product'
-import { SET_PRODUCTS, SET_UPDATE_PRODUCT } from '../constants/actionTypes'
+import { SET_PRODUCTS, SET_SORTED_PRODUCTS, SET_UPDATE_PRODUCT } from '../constants/actionTypes'
 
 export const getProducts = (count = 10) => async dispatch => {
   try {
@@ -102,6 +102,19 @@ export const updateProduct = (token, slug, product, toast) => async dispatch => 
     }
   } catch (error) {
     toast.error(error)
+  } finally {
+    dispatch(setLoadingValue(false))
+  }
+}
+
+export const getSortedProducts = (sort, order, limit) => async dispatch => {
+  try {
+    dispatch(setLoadingValue(true))
+    const { data } = await productAPI.getSortedList(sort, order, limit)
+
+    dispatch({ type: SET_SORTED_PRODUCTS, payload: data, key: sort })
+  } catch (error) {
+    console.error(error)
   } finally {
     dispatch(setLoadingValue(false))
   }

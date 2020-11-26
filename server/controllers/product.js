@@ -69,3 +69,20 @@ exports.update = async (req, res) => {
     res.status(400).send('Product update failed')
   }
 }
+
+exports.sortList = async (req, res) => {
+  try {
+    const { sort, order, limit } = req.body
+
+    const sortedList = await Product.find({})
+      .populate('category')
+      .populate('sub')
+      .sort([[sort, order]])
+      .limit(limit)
+      .exec()
+
+    res.json(sortedList)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}

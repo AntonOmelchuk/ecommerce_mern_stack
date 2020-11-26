@@ -38,5 +38,8 @@ export default {
         Authorization: authtoken
       }
     })
+  },
+  getSortedList(sort, order, limit = 10) {
+    return instance.post('/products-sort', { sort, order, limit })
   }
 }
