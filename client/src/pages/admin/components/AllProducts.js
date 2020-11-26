@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 import Card from '../../../components/Card/Card'
 import LoadingTitle from '../../../components/LoadingTitle/LoadingTitle'
 import AdminNav from '../../../components/nav/AdminNav'
 
-import { getProducts } from '../../../actions/product'
+import { getProducts, removeProduct } from '../../../actions/product'
 
 const AllPoducts = () => {
   const dispatch = useDispatch()
-  const { product: { products }, general: { loading } } = useSelector(state => state)
+  const { auth: { user }, product: { products }, general: { loading } } = useSelector(state => state)
+
+  const removeHandler = slug => {
+    dispatch(removeProduct(user.token, slug, toast))
+  }
 
   useEffect(() => {
     dispatch(getProducts(100))
@@ -26,7 +31,10 @@ const AllPoducts = () => {
           <div className='row'>
             {products.map(product => (
               <div key={product._id} className='col-md-4 '>
-                <Card product={product} />
+                <Card
+                  product={product}
+                  onRemoveIconHandler={() => removeHandler(product.slug)}
+                />
               </div>
             ))}
           </div>

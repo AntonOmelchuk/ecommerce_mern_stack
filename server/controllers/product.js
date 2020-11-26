@@ -30,3 +30,15 @@ exports.create = async (req, res) => {
     res.json({ message: 'Create product failed' })
   }
 }
+
+exports.remove = async (req, res) => {
+  try {
+    const { slug } = req.params
+
+    const deleted = await Product.findOneAndRemove({ slug }).exec()
+
+    res.json(deleted)
+  } catch (error) {
+    return res.status(400).send('Product delete failed')
+  }
+}

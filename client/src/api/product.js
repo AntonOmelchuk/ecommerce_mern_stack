@@ -21,15 +21,15 @@ export default {
       }
     })
   },
-  removeSub(authtoken, slug) {
-    return instance.delete(`/sub/${slug}`, {
+  removeProduct(authtoken, slug) {
+    return instance.delete(`/products/${slug}`, {
       headers: {
         Authorization: authtoken
       }
     })
   },
   updateSub(authtoken, slug, name) {
-    return instance.put(`/sub/${slug}`, { name }, {
+    return instance.put(`/products/${slug}`, { name }, {
       headers: {
         Authorization: authtoken
       }

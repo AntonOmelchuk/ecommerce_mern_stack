@@ -36,3 +36,20 @@ export const createProduct = (token, product, toast, callback) => async (dispatc
     dispatch(setLoadingValue(false))
   }
 }
+
+export const removeProduct = (token, slug, toast) => async (dispatch) => {
+  try {
+    dispatch(setLoadingValue(true))
+    const { data, status } = await productAPI.removeProduct(token, slug)
+    if (status === 200) {
+      dispatch(getProducts())
+      toast.success(`Product ${data.title} deleted`)
+    } else {
+      toast.error(data.message)
+    }
+  } catch (error) {
+    toast.error(error?.data?.message || error)
+  } finally {
+    dispatch(setLoadingValue(false))
+  }
+}

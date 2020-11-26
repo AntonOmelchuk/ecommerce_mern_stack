@@ -5,7 +5,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 const { Meta } = Card
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onRemoveIconHandler }) => {
   const {
     title,
     description,
@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
       className='m-2'
       actions={[
         <EditOutlined className='text-info' />,
-        <DeleteOutlined className='text-danger' />
+        <DeleteOutlined className='text-danger' onClick={onRemoveIconHandler} />
       ]}
     >
       <Meta title={title} description={description} />
@@ -34,7 +34,8 @@ ProductCard.propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape({
       url: PropTypes.string.isRequired
     })),
-  }).isRequired
+  }).isRequired,
+  onRemoveIconHandler: PropTypes.func.isRequired,
 }
 
 export default ProductCard
