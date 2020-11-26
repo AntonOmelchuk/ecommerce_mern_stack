@@ -4,7 +4,7 @@ import { SET_CATEGORIES_DATA, SET_CURRENT_CATEGORY } from '../constants/actionTy
 
 export const setCurrentCategory = category => ({ type: SET_CURRENT_CATEGORY, payload: category })
 
-export const getAllCategories = () => async (dispatch) => {
+export const getAllCategories = () => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
     const response = await categoryAPI.getCategories()
@@ -21,7 +21,7 @@ export const getAllCategories = () => async (dispatch) => {
   }
 }
 
-export const createCategory = (token, name, toast, setName) => async (dispatch) => {
+export const createCategory = (token, name, toast, setName) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
     const { status } = await categoryAPI.createCategory(token, name)
@@ -38,7 +38,7 @@ export const createCategory = (token, name, toast, setName) => async (dispatch) 
   }
 }
 
-export const removeCategory = (token, slug, toast) => async (dispatch) => {
+export const removeCategory = (token, slug, toast) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
     const response = await categoryAPI.removeCategory(token, slug)
@@ -57,7 +57,7 @@ export const removeCategory = (token, slug, toast) => async (dispatch) => {
   }
 }
 
-export const updateCategory = (token, slug, name, toast, history, currentCategory) => async (dispatch) => {
+export const updateCategory = (token, slug, name, toast, history, currentCategory) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
 

@@ -11,8 +11,12 @@ export default {
   getProducts(count) {
     return instance.get(`/products/${count}`)
   },
-  getSub(slug) {
-    return instance.get(`/sub/${slug}`)
+  getProduct(authtoken, slug) {
+    return instance.get(`/product/${slug}`, {
+      headers: {
+        Authorization: authtoken
+      }
+    })
   },
   createProduct(authtoken, product) {
     return instance.post('/products', { product }, {
@@ -28,8 +32,8 @@ export default {
       }
     })
   },
-  updateSub(authtoken, slug, name) {
-    return instance.put(`/products/${slug}`, { name }, {
+  updateProduct(authtoken, slug, product) {
+    return instance.put(`/product/${slug}`, product, {
       headers: {
         Authorization: authtoken
       }

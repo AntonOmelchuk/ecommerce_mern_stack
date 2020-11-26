@@ -4,7 +4,7 @@ import { setLoadingValue } from './general'
 
 export const setCurrentSub = sub => ({ type: SET_CURRENT_SUB, payload: sub })
 
-export const getAllSubs = () => async (dispatch) => {
+export const getAllSubs = () => async dispatch => {
   try {
     const response = await subAPI.getSubs()
 
@@ -18,7 +18,7 @@ export const getAllSubs = () => async (dispatch) => {
   }
 }
 
-export const createSub = (token, name, category, toast, setName) => async (dispatch) => {
+export const createSub = (token, name, category, toast, setName) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
     const { status } = await subAPI.createSub(token, name, category)
@@ -35,7 +35,7 @@ export const createSub = (token, name, category, toast, setName) => async (dispa
   }
 }
 
-export const removeSub = (token, slug, toast) => async (dispatch) => {
+export const removeSub = (token, slug, toast) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
     const response = await subAPI.removeSub(token, slug)
@@ -54,7 +54,7 @@ export const removeSub = (token, slug, toast) => async (dispatch) => {
   }
 }
 
-export const updateSub = (token, slug, name, toast, history, currentSub) => async (dispatch) => {
+export const updateSub = (token, slug, name, toast, history, currentSub) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
 
@@ -76,7 +76,7 @@ export const updateSub = (token, slug, name, toast, history, currentSub) => asyn
   }
 }
 
-export const getCurrentCategorySubs = (id, callback) => async (dispatch) => {
+export const getCurrentCategorySubs = (id, callback) => async dispatch => {
   try {
     const { data, status } = await subAPI.getCurrentCategorySubs(id)
 

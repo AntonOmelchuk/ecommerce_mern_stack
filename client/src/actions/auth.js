@@ -19,7 +19,7 @@ const setUserData = (data, token) => {
   }
 }
 
-export const checkAuth = (authtoken, history, toast, registrationName = '') => async (dispatch) => {
+export const checkAuth = (authtoken, history, toast, registrationName = '') => async dispatch => {
   try {
     const { status, data } = await authAPI.checkAuthToken(authtoken, registrationName)
     if (status === 200) {
@@ -33,7 +33,7 @@ export const checkAuth = (authtoken, history, toast, registrationName = '') => a
   }
 }
 
-export const getCurrentUser = (authtoken, toast) => async (dispatch) => {
+export const getCurrentUser = (authtoken, toast) => async dispatch => {
   try {
     const { status, data } = await authAPI.getCurrentUser(authtoken)
     if (status === 200) {

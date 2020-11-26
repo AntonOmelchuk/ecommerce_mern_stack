@@ -21,7 +21,7 @@ const ProductInput = ({ prop, value, onChange }) => {
 
 ProductInput.propTypes = {
   prop: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   onChange: PropTypes.func.isRequired,
 }
 

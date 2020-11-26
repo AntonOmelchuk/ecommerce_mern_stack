@@ -24,6 +24,7 @@ import CategoryUpdate from './pages/admin/components/CategoryUpdate'
 import SubCreate from './pages/admin/SubCreate'
 import ProductCreate from './pages/admin/ProductCreate'
 import AllPoducts from './pages/admin/components/AllProducts'
+import ProductUpdate from './pages/admin/ProductUpdate'
 
 const App = () => {
   const { loading } = useSelector(state => state.general)
@@ -61,6 +62,7 @@ const App = () => {
         <AdminRoute exact path='/admin/sub' children={<SubCreate />} />
         <AdminRoute exact path='/admin/product' children={<ProductCreate />} />
         <AdminRoute exact path='/admin/products' children={<AllPoducts />} />
+        <AdminRoute exact path='/product/:slug' children={<ProductUpdate />} />
       </Switch>
     </div>
   );
