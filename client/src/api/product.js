@@ -44,5 +44,8 @@ export default {
   },
   getProductsTotalCount() {
     return instance.get('/products-total')
+  },
+  getProductDetails(slug) {
+    return instance.get(`/product-details/${slug}`)
   }
 }

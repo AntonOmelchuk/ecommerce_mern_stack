@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
       )}
       className='m-2'
       actions={[
-        <Link to={`/product/${slug}`}>
+        <Link to={`/product/details/${slug}`}>
           <EyeOutlined className='text-info' />
           {' '}
           <br />

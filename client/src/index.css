@@ -7,3 +7,8 @@
   opacity: 0.3;
   pointer-events: none;
 }
+
+.slider img {
+  height: 450px;
+  object-fit: contain;
+}
