@@ -6,6 +6,7 @@ import ProductsList from './components/ProductsList'
 
 import productApi from '../../api/product'
 import { getProducts, getSortedProducts } from '../../actions/product'
+import CategoryList from '../../components/CategoryList/CategoryList'
 
 const Home = () => {
   const PER_PAGE = 3
@@ -56,6 +57,7 @@ const Home = () => {
         page={bestSellersPage}
         setPage={setBestSellersPage}
       />
+      <CategoryList />
     </>
   )
 }
