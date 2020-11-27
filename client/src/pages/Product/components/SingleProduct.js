@@ -21,7 +21,13 @@ const SingleProduct = ({ product, setRating }) => {
       </div>
       <div className='col-md-5'>
         <h1 className='bg-info p-3'>{title}</h1>
-        <Rating ratings={ratings} id={_id} isSelectable setRating={setRating} />
+        {
+          ratings.length > 0 ? (
+            <Rating ratings={ratings} id={_id} isSelectable setRating={setRating} />
+          ) : (
+            <div className='text-center pt-1 pb-3'>No rating yet</div>
+          )
+        }
         <Card
           actions={[
             <>

@@ -3,46 +3,56 @@ import PropTypes from 'prop-types'
 import { Card } from 'antd'
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import Rating from '../Rating/Rating'
 
 const { Meta } = Card
 
 const ProductCard = ({ product }) => {
   const {
-    title, description, images, slug
+    title, description, images, slug, ratings
   } = product
   const descr = description.length > 43 ? `${description.substring(0, 42)}...` : description
   return (
-    <Card
-      cover={images.length ? (
-        <img src={images[0].url} alt='product' style={{ height: '180px', objectFit: 'cover' }} className='p-1' />
-      ) : (
-        <h1 style={{
-          height: '162px', textAlign: 'center', marginBottom: 0, paddingTop: '18px'
-        }}
-        >
-          no image
-        </h1>
-      )}
-      className='m-2'
-      actions={[
-        <Link to={`/product/details/${slug}`}>
-          <EyeOutlined className='text-info' />
-          {' '}
-          <br />
-          {' '}
-          View Product
-        </Link>,
-        <>
-          <ShoppingCartOutlined className='text-info' />
-          {' '}
-          <br />
-          {' '}
-          Add to Cart
-        </>
-      ]}
-    >
-      <Meta title={title} description={descr} />
-    </Card>
+    <>
+      {
+          ratings.length > 0 ? (
+            <Rating ratings={ratings} isSelectable={false} />
+          ) : (
+            <div className='text-center pt-1 pb-3'>No rating yet</div>
+          )
+        }
+      <Card
+        cover={images.length ? (
+          <img src={images[0].url} alt='product' style={{ height: '180px', objectFit: 'cover' }} className='p-1' />
+        ) : (
+          <h1 style={{
+            height: '162px', textAlign: 'center', marginBottom: 0, paddingTop: '18px'
+          }}
+          >
+            no image
+          </h1>
+        )}
+        className='m-2'
+        actions={[
+          <Link to={`/product/details/${slug}`}>
+            <EyeOutlined className='text-info' />
+            {' '}
+            <br />
+            {' '}
+            View Product
+          </Link>,
+          <>
+            <ShoppingCartOutlined className='text-info' />
+            {' '}
+            <br />
+            {' '}
+            Add to Cart
+          </>
+        ]}
+      >
+        <Meta title={title} description={descr} />
+      </Card>
+    </>
   )
 }
 
@@ -51,6 +61,7 @@ ProductCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
+    ratings: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     images: PropTypes.arrayOf(PropTypes.shape({
       url: PropTypes.string.isRequired
     })),
