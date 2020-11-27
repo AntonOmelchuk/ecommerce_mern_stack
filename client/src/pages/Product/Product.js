@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { toast } from 'react-toastify'
-import { getProductDetails, setProductRating } from '../../actions/product'
+import { getProductDetails, getRelatedProducts, setProductRating } from '../../actions/product'
 import SingleProduct from './components/SingleProduct'
+import RelatedProducts from './components/RelatedProducts'
 
 const Product = () => {
   const location = useLocation()
   const dispatch = useDispatch()
-  const { productDetails } = useSelector(state => state.product)
+  const { productDetails, relatedProducts } = useSelector(state => state.product)
 
   const slug = location.pathname.replace('/product/details/', '')
 
@@ -17,7 +18,10 @@ const Product = () => {
   }
 
   useEffect(() => {
-    dispatch(getProductDetails(slug))
+    batch(() => {
+      dispatch(getProductDetails(slug))
+      dispatch(getRelatedProducts(productDetails.category._id))
+    })
   }, [dispatch])
 
   return (
@@ -33,6 +37,8 @@ const Product = () => {
           <hr />
         </div>
       </div>
+
+      {!!relatedProducts.length && <RelatedProducts relatedProducts={relatedProducts} />}
     </div>
   )
 }

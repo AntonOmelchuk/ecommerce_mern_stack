@@ -1,7 +1,7 @@
 import { setLoadingValue } from './general'
 import productAPI from '../api/product'
 import {
-  SET_PRODUCTS, SET_PRODUCT_WITH_DETAILS, SET_SORTED_PRODUCTS, SET_UPDATE_PRODUCT
+  SET_PRODUCTS, SET_PRODUCT_WITH_DETAILS, SET_RELATED_PRODUCTS, SET_SORTED_PRODUCTS, SET_UPDATE_PRODUCT
 } from '../constants/actionTypes'
 
 export const getProducts = (count = 10) => async dispatch => {
@@ -145,6 +145,24 @@ export const setProductRating = (token, productId, star, slug, toast) => async d
     if (status === 200) {
       dispatch(getProductDetails(slug))
       toast.success('Thanks for your review.')
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    dispatch(setLoadingValue(false))
+  }
+}
+
+export const setRelatedProducts = data => ({ type: SET_RELATED_PRODUCTS, payload: data })
+
+export const getRelatedProducts = productId => async dispatch => {
+  try {
+    dispatch(setLoadingValue(true))
+
+    const { data, status } = await productAPI.getRelated(productId)
+
+    if (status === 200) {
+      dispatch(setRelatedProducts(data))
     }
   } catch (error) {
     console.error(error)

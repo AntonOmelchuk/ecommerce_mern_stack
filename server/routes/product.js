@@ -15,13 +15,15 @@ const {
   sortList,
   total,
   getProductDetails,
-  handleRating
+  handleRating,
+  getRelated
 } = require('../controllers/product')
 
 // routes
 // GET all products
 router.get('/products/:count', getProducts)
 router.post('/products-sort', sortList)
+router.get('/products/related/:category', getRelated)
 
 router.post('/products', authCheck, adminCheck, create)
 router.get('/product/:slug', authCheck, adminCheck, read)

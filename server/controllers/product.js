@@ -149,3 +149,16 @@ exports.handleRating = async (req, res) => {
     res.status(400).send(error)
   }
 }
+
+exports.getRelated = async (req, res) => {
+  try {
+    const { category } = req.params
+
+    const products = await Product.find({})
+    const relatedProducts = products.filter(product => product.category.toString() === category.toString())
+
+    res.json(relatedProducts)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}

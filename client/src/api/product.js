@@ -54,5 +54,8 @@ export default {
         Authorization: authtoken
       }
     })
+  },
+  getRelated(productId) {
+    return instance.get(`/products/related/${productId}`)
   }
 }

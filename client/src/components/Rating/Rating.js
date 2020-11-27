@@ -19,7 +19,7 @@ const Rating = ({
           starSpacing='2px'
           name={id}
           numberOfStars={STARS_COUNT}
-          rating={ratingValue(ratings)}
+          rating={ratings.length > 0 ? ratingValue(ratings) : 0}
           changeRating={(newRating, name) => setRating(token, name, newRating)}
           isSelectable={isSelectable}
           starRatedColor='red'
