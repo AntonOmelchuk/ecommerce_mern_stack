@@ -47,5 +47,12 @@ export default {
   },
   getProductDetails(slug) {
     return instance.get(`/product-details/${slug}`)
+  },
+  setProductRating(authtoken, productId, star) {
+    return instance.put(`/product-rating/${productId}`, { star }, {
+      headers: {
+        Authorization: authtoken
+      }
+    })
   }
 }

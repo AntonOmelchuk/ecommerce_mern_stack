@@ -1,4 +1,5 @@
 const Product = require('../models/product')
+const User = require('../models/user')
 const slugify = require('slugify')
 
 exports.getProducts = async (req, res) => {
@@ -110,6 +111,40 @@ exports.getProductDetails = async (req, res) => {
     .exec()
 
     res.json(product)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+
+exports.handleRating = async (req, res) => {
+  try {
+    const { productId } = req.params
+    const { star } = req.body
+
+    const product = await Product.findById(productId).exec()
+    const user = await User.findOne({ email: req.user.email })
+
+    const productWithRating = product.ratings.find(item => item.postedBy.toString() === user._id.toString())
+
+    if (productWithRating) {
+      const updatedProduct = await Product.updateOne(
+        { ratings: { $elemMatch: productWithRating } },
+        { $set: { 'ratings.$.star': star} },
+        { new: true }
+      ).exec()
+
+      res.json(updatedProduct)
+    } else {
+      const updatedProduct = await Product.findByIdAndUpdate(
+        product._id,
+        {
+          $push: { ratings: { star, postedBy: user._id } }
+        },
+        { new: true }
+      ).exec()
+
+      res.json(updatedProduct)
+    }
   } catch (error) {
     res.status(400).send(error)
   }

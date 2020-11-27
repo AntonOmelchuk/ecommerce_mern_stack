@@ -1,22 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+
 import { Card } from 'antd'
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import ImageCarousel from './ImageCarousel'
 import Details from './Details'
+import ProductTabs from './ProductTabs'
+import Rating from '../../../components/Rating/Rating'
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ product, setRating }) => {
   const {
-    title, images, slug,
+    title, images, slug, description, ratings, _id
   } = product
   return (
     <>
       <div className='col-md-7'>
         {images.length && <ImageCarousel images={images} />}
+        <ProductTabs description={description} />
       </div>
       <div className='col-md-5'>
         <h1 className='bg-info p-3'>{title}</h1>
+        <Rating ratings={ratings} id={_id} isSelectable setRating={setRating} />
         <Card
           actions={[
             <>
@@ -41,9 +46,13 @@ const SingleProduct = ({ product }) => {
 SingleProduct.propTypes = {
   product: PropTypes.shape({
     title: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(PropTypes.shape),
+    description: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(PropTypes.shape({})),
+    ratings: PropTypes.arrayOf(PropTypes.shape({})),
   }).isRequired,
+  setRating: PropTypes.func.isRequired,
 }
 
 export default SingleProduct

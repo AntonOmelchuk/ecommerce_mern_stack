@@ -136,3 +136,19 @@ export const getProductDetails = slug => async dispatch => {
     dispatch(setLoadingValue(false))
   }
 }
+
+export const setProductRating = (token, productId, star, slug, toast) => async dispatch => {
+  try {
+    dispatch(setLoadingValue(true))
+    const { status } = await productAPI.setProductRating(token, productId, star)
+
+    if (status === 200) {
+      dispatch(getProductDetails(slug))
+      toast.success('Thanks for your review.')
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    dispatch(setLoadingValue(false))
+  }
+}

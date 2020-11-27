@@ -32,3 +32,5 @@ export const capitalize = str => {
   }
   return '';
 };
+
+export const ratingValue = ratings => ratings.reduce((acc, item) => acc + item.star, 0)

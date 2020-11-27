@@ -6,10 +6,10 @@ import DetailsMultipleValues from './DetailsMultipleValues'
 
 const Details = ({ product }) => {
   const {
-    price, description, subs, category, shipping, color, brand, quantity
+    price, subs, category, shipping, color, brand, quantity
   } = product
   const productDetails = {
-    category, subs, description, price, color, brand, shipping, quantity
+    category, subs, price, color, brand, shipping, quantity
   }
 
   return (
@@ -20,12 +20,12 @@ const Details = ({ product }) => {
         } if (key === 'category') {
           const { slug, name } = productDetails.category
           return (
-            <Link to={`/category/${slug}`}>
-              <DetailsItem key={key} title={key} value={name} />
+            <Link to={`/category/${slug}`} key={key}>
+              <DetailsItem title={key} value={name} />
             </Link>
           )
         }
-        return <DetailsMultipleValues title='Sub Categories' values={productDetails[key]} />
+        return <DetailsMultipleValues key={key} title='Sub Categories' values={productDetails[key]} />
       })}
     </ul>
   )
@@ -33,13 +33,12 @@ const Details = ({ product }) => {
 
 Details.propTypes = {
   product: PropTypes.shape({
-    description: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
     brand: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    subs: PropTypes.shape({}).isRequired,
+    subs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     category: PropTypes.shape({}).isRequired,
-    shipping: PropTypes.number.isRequired,
+    shipping: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
   }).isRequired,
 }
