@@ -101,12 +101,13 @@ exports.total = async (req, res) => {
 }
 
 exports.getProductDetails = async (req, res) => {
-  console.log('before search: ', req.params)
   try {
-    console.log('server: ', req.params)
     const { slug } = req.params
 
-    const product = await Product.findOne({ slug }).exec()
+    const product = await Product.findOne({ slug })
+    .populate('category')
+    .populate('subs')
+    .exec()
 
     res.json(product)
   } catch (error) {

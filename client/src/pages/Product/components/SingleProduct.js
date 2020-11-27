@@ -1,17 +1,14 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card } from 'antd'
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import ImageCarousel from './ImageCarousel'
-
-const { Meta } = Card
+import Details from './Details'
 
 const SingleProduct = ({ product }) => {
   const {
-    title, description, images, slug
+    title, images, slug,
   } = product
   return (
     <>
@@ -19,6 +16,7 @@ const SingleProduct = ({ product }) => {
         {images.length && <ImageCarousel images={images} />}
       </div>
       <div className='col-md-5'>
+        <h1 className='bg-info p-3'>{title}</h1>
         <Card
           actions={[
             <>
@@ -33,7 +31,7 @@ const SingleProduct = ({ product }) => {
             </Link>
           ]}
         >
-          <Meta title={title} description={description} />
+          <Details product={product} />
         </Card>
       </div>
     </>
@@ -43,7 +41,8 @@ const SingleProduct = ({ product }) => {
 SingleProduct.propTypes = {
   product: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(PropTypes.shape)
+    slug: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(PropTypes.shape),
   }).isRequired,
 }
 
