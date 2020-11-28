@@ -1,7 +1,8 @@
-import { SET_LOADING_VALUE } from '../constants/actionTypes'
+import { SET_LOADING_VALUE, SET_SEARCH_VALUE } from '../constants/actionTypes'
 
 const initialState = {
-  loading: false
+  loading: false,
+  search: ''
 }
 
 export default function generalReducer(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function generalReducer(state = initialState, action) {
       return {
         ...state,
         loading: action.payload
+      }
+    case SET_SEARCH_VALUE:
+      return {
+        ...state,
+        search: action.payload
       }
     default:
       return state

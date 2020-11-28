@@ -7,13 +7,9 @@ import {
 export const getProducts = (count = 10) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
-    const { data, status } = await productAPI.getProducts(count)
+    const { data } = await productAPI.getProducts(count)
 
-    if (status === 200) {
-      dispatch({ type: SET_PRODUCTS, payload: data })
-    } else {
-      console.error(data.error)
-    }
+    dispatch({ type: SET_PRODUCTS, payload: data })
   } catch (error) {
     console.error(error)
   } finally {

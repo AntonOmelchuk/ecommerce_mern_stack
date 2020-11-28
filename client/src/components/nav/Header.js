@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Menu } from 'antd'
 import {
   AppstoreOutlined,
@@ -7,8 +9,9 @@ import {
   SettingOutlined,
   LogoutOutlined
 } from '@ant-design/icons'
-import { Link, useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+
+import SearchForm from '../SearchForm/SearchForm'
+
 import { auth } from '../../utils/firebase'
 import { LOGOUT_USER } from '../../constants/actionTypes'
 
@@ -66,6 +69,9 @@ const Header = () => {
           </SubMenu>
         )
       }
+      <span className='float-right p-1'>
+        <SearchForm />
+      </span>
     </Menu>
   )
 }

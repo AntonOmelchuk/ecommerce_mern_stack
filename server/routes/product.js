@@ -16,7 +16,8 @@ const {
   total,
   getProductDetails,
   handleRating,
-  getRelated
+  getRelated,
+  search
 } = require('../controllers/product')
 
 // routes
@@ -36,5 +37,8 @@ router.get('/products-total', total)
 
 // add/update product rating star
 router.put('/product-rating/:productId', authCheck, handleRating)
+
+// search, filter
+router.post('/products/search/', search)
 
 module.exports = router

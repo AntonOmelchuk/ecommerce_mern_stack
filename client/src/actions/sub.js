@@ -8,13 +8,9 @@ export const setCurrentSub = sub => ({ type: SET_CURRENT_SUB, payload: sub })
 
 export const getAllSubs = () => async dispatch => {
   try {
-    const response = await subAPI.getSubs()
+    const { data } = await subAPI.getSubs()
 
-    if (response.status === 200) {
-      dispatch({ type: SET_SUB_DATA, payload: response.data })
-    } else {
-      console.error(response.error)
-    }
+    dispatch({ type: SET_SUB_DATA, payload: data })
   } catch (error) {
     console.error(error)
   }

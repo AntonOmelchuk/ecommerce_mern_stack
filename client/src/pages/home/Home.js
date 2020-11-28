@@ -51,7 +51,7 @@ const Home = () => {
       <ProductsList
         title='New Arrivals'
         loading={loading}
-        products={product[CREATE_AT]}
+        products={product[CREATE_AT] || []}
         count={count}
         perPage={PER_PAGE}
         page={newArrivalsPage}
@@ -60,7 +60,7 @@ const Home = () => {
       <ProductsList
         title='Best Sellers'
         loading={loading}
-        products={product[SOLD]}
+        products={product[SOLD] || []}
         count={count}
         perPage={PER_PAGE}
         page={bestSellersPage}

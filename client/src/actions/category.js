@@ -7,13 +7,9 @@ export const setCurrentCategory = category => ({ type: SET_CURRENT_CATEGORY, pay
 export const getAllCategories = () => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
-    const response = await categoryAPI.getCategories()
+    const { data } = await categoryAPI.getCategories()
 
-    if (response.status === 200) {
-      dispatch({ type: SET_CATEGORIES_DATA, payload: response.data })
-    } else {
-      console.error(response.error)
-    }
+    dispatch({ type: SET_CATEGORIES_DATA, payload: data })
   } catch (error) {
     console.error(error)
   } finally {

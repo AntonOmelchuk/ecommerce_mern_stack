@@ -1,6 +1,7 @@
 const Product = require('../models/product')
 const User = require('../models/user')
 const slugify = require('slugify')
+const { populate } = require('../models/user')
 
 exports.getProducts = async (req, res) => {
   try {
@@ -158,6 +159,29 @@ exports.getRelated = async (req, res) => {
     const relatedProducts = products.filter(product => product.category.toString() === category.toString())
 
     res.json(relatedProducts)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+
+const handleQuery = async (req, res, query) => {
+  const proudcts = await Product.find({ $text: { $search: query } })
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name')
+    .exec()
+  console.log('products: ', proudcts)
+  res.json(proudcts)
+}
+
+exports.search = async (req, res) => {
+  try {
+    const { query } = req.body
+
+    if (query) {
+      console.log('query: ', query)
+      await handleQuery(req, res, query)
+    }
   } catch (error) {
     res.status(400).send(error)
   }

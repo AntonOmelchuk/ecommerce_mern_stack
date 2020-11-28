@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
@@ -9,7 +8,7 @@ const Rating = ({
   ratings, id, isSelectable, setRating
 }) => {
   const STARS_COUNT = 5
-  const { user: { token } } = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.auth)
 
   return (
     <div className='text-center pt-1 pb-3'>
@@ -20,7 +19,7 @@ const Rating = ({
           name={id}
           numberOfStars={STARS_COUNT}
           rating={ratings.length > 0 ? ratingValue(ratings) : 0}
-          changeRating={(newRating, name) => setRating(token, name, newRating)}
+          changeRating={(newRating, name) => setRating(user?.token, name, newRating)}
           isSelectable={isSelectable}
           starRatedColor='red'
         />
