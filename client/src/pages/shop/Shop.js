@@ -4,16 +4,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import ProductCard from '../../components/Card/ProductCard'
 
-import { getProducts } from '../../actions/product'
+import { getProducts, searchProducts } from '../../actions/product'
 
 const Shop = () => {
   const COUNT = 12
   const dispatch = useDispatch()
-  const { product: { products }, general: { loading } } = useSelector(state => state)
+  const { product: { products }, general: { loading, search } } = useSelector(state => state)
 
   useEffect(() => {
     dispatch(getProducts(COUNT))
   }, [])
+
+  useEffect(() => {
+    if (search.length === 0) {
+      dispatch(getProducts(COUNT))
+    } else {
+      dispatch(searchProducts({ query: search }))
+    }
+  }, [search])
 
   return (
     <div className='container-fluid'>

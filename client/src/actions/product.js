@@ -4,12 +4,14 @@ import {
   SET_PRODUCTS, SET_PRODUCT_WITH_DETAILS, SET_RELATED_PRODUCTS, SET_SORTED_PRODUCTS, SET_UPDATE_PRODUCT
 } from '../constants/actionTypes'
 
+export const setProducts = data => ({ type: SET_PRODUCTS, payload: data })
+
 export const getProducts = (count = 10) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
     const { data } = await productAPI.getProducts(count)
 
-    dispatch({ type: SET_PRODUCTS, payload: data })
+    dispatch(setProducts(data))
   } catch (error) {
     console.error(error)
   } finally {
@@ -164,5 +166,14 @@ export const getRelatedProducts = productId => async dispatch => {
     console.error(error)
   } finally {
     dispatch(setLoadingValue(false))
+  }
+}
+
+export const searchProducts = search => async dispatch => {
+  try {
+    const { data } = await productAPI.searchProducts(search)
+    dispatch(setProducts(data))
+  } catch (error) {
+    console.error(error)
   }
 }

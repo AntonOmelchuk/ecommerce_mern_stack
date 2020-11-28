@@ -57,5 +57,8 @@ export default {
   },
   getRelated(productId) {
     return instance.get(`/products/related/${productId}`)
+  },
+  searchProducts(search) {
+    return instance.post('/products/search', search)
   }
 }

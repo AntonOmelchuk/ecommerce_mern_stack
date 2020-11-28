@@ -1,8 +1,8 @@
 const Product = require('../models/product')
 const User = require('../models/user')
 const slugify = require('slugify')
-const { populate } = require('../models/user')
 
+// ==== GET ALL PRODUCTS ===== //
 exports.getProducts = async (req, res) => {
   try {
     const count = req.params?.count ? req.params.count : 10
@@ -31,7 +31,7 @@ exports.read = async (req, res) => {
     res.status(400).send('Get product details failed')
   }
 }
-
+// ==== CREATE PRODUCT ===== //
 exports.create = async (req, res) => {
   try {
     const { product } = req.body
@@ -45,7 +45,7 @@ exports.create = async (req, res) => {
     res.json({ message: 'Create product failed' })
   }
 }
-
+// ==== REMOVE PRODUCT ===== //
 exports.remove = async (req, res) => {
   try {
     const { slug } = req.params
@@ -57,7 +57,7 @@ exports.remove = async (req, res) => {
     return res.status(400).send('Product delete failed')
   }
 }
-
+// ==== UPDATE PRODUCT ===== //
 exports.update = async (req, res) => {
   try {
     if (req.body.title) {
@@ -71,7 +71,7 @@ exports.update = async (req, res) => {
     res.status(400).send('Product update failed')
   }
 }
-
+// ==== SORT PRODUCTS ===== //
 exports.sortList = async (req, res) => {
   try {
     const { sort, order, page } = req.body
@@ -92,7 +92,7 @@ exports.sortList = async (req, res) => {
     res.status(400).send(error)
   }
 }
-
+// ==== TOTAL PRODUCTS COUNT ===== //
 exports.total = async (req, res) => {
  try {
   const total = await Product.find({}).estimatedDocumentCount().exec()
@@ -101,7 +101,7 @@ exports.total = async (req, res) => {
    res.status(400).send(error)
  }
 }
-
+// ==== PRODUCT DETAILS ===== //
 exports.getProductDetails = async (req, res) => {
   try {
     const { slug } = req.params
@@ -116,7 +116,7 @@ exports.getProductDetails = async (req, res) => {
     res.status(400).send(error)
   }
 }
-
+// ==== HANDLE PRODUCT RATING ===== //
 exports.handleRating = async (req, res) => {
   try {
     const { productId } = req.params
@@ -150,7 +150,7 @@ exports.handleRating = async (req, res) => {
     res.status(400).send(error)
   }
 }
-
+// ==== REALTED PRODUCTS ===== //
 exports.getRelated = async (req, res) => {
   try {
     const { category } = req.params
@@ -164,22 +164,21 @@ exports.getRelated = async (req, res) => {
   }
 }
 
+// ==== SEARCH PRODUCTS ===== //
 const handleQuery = async (req, res, query) => {
   const proudcts = await Product.find({ $text: { $search: query } })
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .populate('postedBy', '_id name')
     .exec()
-  console.log('products: ', proudcts)
+
   res.json(proudcts)
 }
 
 exports.search = async (req, res) => {
   try {
     const { query } = req.body
-
     if (query) {
-      console.log('query: ', query)
       await handleQuery(req, res, query)
     }
   } catch (error) {
