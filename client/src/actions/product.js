@@ -171,9 +171,12 @@ export const getRelatedProducts = productId => async dispatch => {
 
 export const searchProducts = search => async dispatch => {
   try {
+    dispatch(setLoadingValue(true))
     const { data } = await productAPI.searchProducts(search)
     dispatch(setProducts(data))
   } catch (error) {
     console.error(error)
+  } finally {
+    dispatch(setLoadingValue(false))
   }
 }

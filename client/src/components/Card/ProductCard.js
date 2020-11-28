@@ -9,7 +9,7 @@ const { Meta } = Card
 
 const ProductCard = ({ product }) => {
   const {
-    title, description, images, slug, ratings
+    title, description, images, slug, ratings, price
   } = product
   const descr = description.length > 43 ? `${description.substring(0, 42)}...` : description
   return (
@@ -50,7 +50,7 @@ const ProductCard = ({ product }) => {
           </>
         ]}
       >
-        <Meta title={title} description={descr} />
+        <Meta title={`${title} - $${price}`} description={descr} />
       </Card>
     </>
   )
@@ -59,6 +59,7 @@ const ProductCard = ({ product }) => {
 ProductCard.propTypes = {
   product: PropTypes.shape({
     title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
     ratings: PropTypes.arrayOf(PropTypes.shape({})).isRequired,

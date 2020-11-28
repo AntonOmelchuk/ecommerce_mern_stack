@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useDispatch, useSelector, batch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { getProductDetails, getRelatedProducts, setProductRating } from '../../actions/product'
 import SingleProduct from './components/SingleProduct'
@@ -18,16 +18,17 @@ const Product = () => {
   }
 
   useEffect(() => {
-    batch(() => {
-      dispatch(getProductDetails(slug))
+    console.log('use effect')
+    dispatch(getProductDetails(slug))
+    if (productDetails?.category) {
       dispatch(getRelatedProducts(productDetails.category._id))
-    })
-  }, [dispatch])
+    }
+  }, [dispatch, slug])
 
   return (
     <div className='container-fluid'>
       <div className='row pt-4'>
-        <SingleProduct product={productDetails} setRating={setRating} />
+        {productDetails && <SingleProduct product={productDetails} setRating={setRating} />}
       </div>
 
       <div className='row p-5'>

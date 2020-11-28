@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import ProductCard from '../../components/Card/ProductCard'
+import PriceFilter from './components/PriceFilter'
 
 import { getProducts, searchProducts } from '../../actions/product'
 
@@ -16,18 +17,26 @@ const Shop = () => {
   }, [])
 
   useEffect(() => {
-    if (search.length === 0) {
-      dispatch(getProducts(COUNT))
-    } else {
-      dispatch(searchProducts({ query: search }))
-    }
+    const delayed = setTimeout(() => {
+      if (search.length === 0) {
+        dispatch(getProducts(COUNT))
+      } else {
+        dispatch(searchProducts({ query: search }))
+      }
+    }, 500)
+
+    return () => clearTimeout(delayed)
   }, [search])
 
   return (
     <div className='container-fluid'>
       <div className='row'>
-        <div className='col-md-3'>search/filter menu</div>
-        <div className='col-md-9'>
+        <div className='col-md-3'>
+          <h4 className='pt-2'>Search/Filter</h4>
+          <hr />
+          <PriceFilter />
+        </div>
+        <div className='col-md-9 pt-2'>
           <LoadingTitle loading={loading} title='Products' />
           {
           products.length < 1 ? (

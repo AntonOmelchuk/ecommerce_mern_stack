@@ -157,7 +157,6 @@ exports.getRelated = async (req, res) => {
 
     const products = await Product.find({})
     const relatedProducts = products.filter(product => product.category.toString() === category.toString())
-
     res.json(relatedProducts)
   } catch (error) {
     res.status(400).send(error)
@@ -165,22 +164,40 @@ exports.getRelated = async (req, res) => {
 }
 
 // ==== SEARCH PRODUCTS ===== //
-const handleQuery = async (req, res, query) => {
-  const proudcts = await Product.find({ $text: { $search: query } })
+const handleQuery = async query => {
+  const products = await Product.find({ $text: { $search: query } })
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .populate('postedBy', '_id name')
     .exec()
 
-  res.json(proudcts)
+  return products
+}
+
+const handlePrice = async price => {
+  const products = await Product.find({
+    price: {
+      $gte: price[0],
+      $lte: price[1]
+    }
+  })
+
+  return products
 }
 
 exports.search = async (req, res) => {
   try {
-    const { query } = req.body
-    if (query) {
-      await handleQuery(req, res, query)
+    let products
+    const { query, price } = req.body
+
+    if (query && !price) {
+      products = await handleQuery(query)
     }
+    if (price) {
+      products = await handlePrice(price, req)
+    }
+
+    res.json(products)
   } catch (error) {
     res.status(400).send(error)
   }

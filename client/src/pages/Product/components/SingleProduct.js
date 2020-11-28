@@ -13,10 +13,11 @@ const SingleProduct = ({ product, setRating }) => {
   const {
     title, images, slug, description, ratings, _id
   } = product
+
   return (
     <>
       <div className='col-md-7'>
-        {images.length && <ImageCarousel images={images} />}
+        {!!images.length && <ImageCarousel images={images} />}
         <ProductTabs description={description} />
       </div>
       <div className='col-md-5'>
