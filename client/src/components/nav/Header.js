@@ -7,7 +7,8 @@ import {
   UserOutlined,
   UserAddOutlined,
   SettingOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  ShoppingOutlined
 } from '@ant-design/icons'
 
 import SearchForm from '../SearchForm/SearchForm'
@@ -35,6 +36,9 @@ const Header = () => {
     <Menu onClick={({ key }) => setState(key)} selectedKeys={[state]} mode='horizontal'>
       <Item key='home' icon={<AppstoreOutlined />}>
         <Link to='/'>Home</Link>
+      </Item>
+      <Item key='shop' icon={<ShoppingOutlined />}>
+        <Link to='/shop'>Shop</Link>
       </Item>
       {
         !user && (
