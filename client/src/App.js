@@ -67,6 +67,7 @@ const App = () => {
         <AdminRoute exact path='/product/:slug' children={<ProductUpdate />} />
         <Route exact path='/product/details/:slug' children={<Product />} />
         <Route exact path='/category/:slug' children={<CategoryHome />} />
+        <Route exact path='/sub/:slug' children={<CategoryHome />} />
       </Switch>
     </div>
   );

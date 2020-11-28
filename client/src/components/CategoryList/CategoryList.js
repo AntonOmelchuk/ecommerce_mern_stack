@@ -1,29 +1,30 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
-import { getAllCategories } from '../../actions/category'
+import React from 'react'
+import PropTypes from 'prop-types'
 import CategotyItem from './CategotyItem'
 
-const CategoryList = () => {
-  const dispatch = useDispatch()
-  const { categories } = useSelector(state => state.category)
-
-  useEffect(() => {
-    dispatch(getAllCategories())
-  }, [])
-
+const CategoryList = ({ categories, title, subs }) => {
   return (
     <>
       <h1 className='text-center p-3 mt-5 mb-5 dispaly-4 jumbotron'>
-        Categories
+        {title}
       </h1>
       <div className='container'>
         <div className='row'>
-          {categories.map(category => <CategotyItem key={category._id} category={category} />)}
+          {categories.map(category => <CategotyItem key={category._id} subs={subs} category={category} />)}
         </div>
       </div>
     </>
   )
+}
+
+CategoryList.propTypes = {
+  subs: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+}
+
+CategoryList.defaultProps = {
+  subs: false,
 }
 
 export default CategoryList

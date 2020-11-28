@@ -95,9 +95,9 @@ export const removeProduct = (token, slug, toast) => async dispatch => {
 export const updateProduct = (token, slug, product, toast) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
-    console.log('product: ', product)
-    const { status, data } = await productAPI.updateProduct(token, slug, product)
-    console.log('status: ', status, data)
+
+    const { status } = await productAPI.updateProduct(token, slug, product)
+
     if (status === 200) {
       toast.success(`${product.title} updated`)
       dispatch(getProducts())

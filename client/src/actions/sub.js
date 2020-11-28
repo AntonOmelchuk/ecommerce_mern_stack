@@ -1,5 +1,7 @@
 import subAPI from '../api/sub'
-import { SET_SUB_DATA, SET_CURRENT_SUB, SET_CATEGORY_SUBS } from '../constants/actionTypes'
+import {
+  SET_SUB_DATA, SET_CURRENT_SUB, SET_CATEGORY_SUBS, SET_SUB_PRODUCTS
+} from '../constants/actionTypes'
 import { setLoadingValue } from './general'
 
 export const setCurrentSub = sub => ({ type: SET_CURRENT_SUB, payload: sub })
@@ -88,5 +90,22 @@ export const getCurrentCategorySubs = (id, callback) => async dispatch => {
     }
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const setSubRelatedProducts = data => ({ type: SET_SUB_PRODUCTS, payload: data })
+
+export const getSubRelatedProducts = slug => async dispatch => {
+  try {
+    dispatch(setLoadingValue(true))
+
+    const { data } = await subAPI.getSub(slug)
+
+    dispatch(setSubRelatedProducts(data.products))
+  } catch (error) {
+    console.error(error)
+  } finally {
+    dispatch(setCurrentSub(''))
+    dispatch(setLoadingValue(false))
   }
 }

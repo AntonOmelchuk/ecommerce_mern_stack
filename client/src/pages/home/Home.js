@@ -7,6 +7,8 @@ import ProductsList from './components/ProductsList'
 import productApi from '../../api/product'
 import { getProducts, getSortedProducts } from '../../actions/product'
 import CategoryList from '../../components/CategoryList/CategoryList'
+import { getAllCategories } from '../../actions/category'
+import { getAllSubs } from '../../actions/sub'
 
 const Home = () => {
   const PER_PAGE = 3
@@ -20,13 +22,20 @@ const Home = () => {
 
   const dispatch = useDispatch()
 
-  const { product, general: { loading } } = useSelector(state => state)
+  const {
+    product,
+    general: { loading },
+    category: { categories },
+    sub: { subs }
+  } = useSelector(state => state)
 
   useEffect(() => {
     batch(() => {
       dispatch(getProducts(PRODUCT_COUNT))
       dispatch(getSortedProducts(CREATE_AT, 'desc', newArrivalsPage))
       dispatch(getSortedProducts(SOLD, 'desc', bestSellersPage))
+      dispatch(getAllCategories())
+      dispatch(getAllSubs())
     })
     productApi.getProductsTotalCount().then(res => {
       setCount(res.data)
@@ -57,7 +66,8 @@ const Home = () => {
         page={bestSellersPage}
         setPage={setBestSellersPage}
       />
-      <CategoryList />
+      <CategoryList categories={categories} title='Categories' />
+      <CategoryList subs categories={subs} title='Sub Categories' />
     </>
   )
 }

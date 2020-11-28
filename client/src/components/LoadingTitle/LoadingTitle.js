@@ -9,12 +9,12 @@ const LoadingTitle = ({ loading, title, styles }) => (
 
 LoadingTitle.propTypes = {
   loading: PropTypes.bool.isRequired,
-  styles: PropTypes.shape({}),
+  styles: PropTypes.string,
   title: PropTypes.string.isRequired,
 }
 
 LoadingTitle.defaultProps = {
-  styles: {},
+  styles: '',
 }
 
 export default LoadingTitle

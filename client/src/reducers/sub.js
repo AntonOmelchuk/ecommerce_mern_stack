@@ -1,9 +1,12 @@
-import { SET_SUB_DATA, SET_CURRENT_SUB, SET_CATEGORY_SUBS } from '../constants/actionTypes'
+import {
+  SET_SUB_DATA, SET_CURRENT_SUB, SET_CATEGORY_SUBS, SET_SUB_PRODUCTS
+} from '../constants/actionTypes'
 
 const initialState = {
   subs: [],
   currentSub: undefined,
-  categorySubs: []
+  categorySubs: [],
+  subProducts: []
 }
 
 export default function categoryReducer(state = initialState, action) {
@@ -26,6 +29,11 @@ export default function categoryReducer(state = initialState, action) {
         categorySubs: action.payload
       }
     }
+    case SET_SUB_PRODUCTS:
+      return {
+        ...state,
+        subProducts: action.payload
+      }
     default:
       return state
   }

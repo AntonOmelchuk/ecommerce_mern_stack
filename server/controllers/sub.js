@@ -1,4 +1,5 @@
 const Sub = require('../models/sub')
+const Product = require('../models/product')
 const slugify = require('slugify')
 
 exports.list = async (req, res) => {
@@ -15,8 +16,9 @@ exports.read = async (req, res) => {
     const { slug } = req.params
 
     const sub = await Sub.findOne({ slug }).exec()
+    const products = await Product.find({ subs: sub }).populate('category').exec()
 
-    if (sub) return res.json(sub)
+    if (sub) return res.json({ sub, products })
     else return res.send(`Sub ${slug} not found`)
   } catch (error) {
     res.status(400).send(error)
