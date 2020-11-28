@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, batch } from 'react-redux'
-import { Menu, Slider } from 'antd'
+import { Slider, Menu } from 'antd'
 import { DollarOutlined } from '@ant-design/icons'
 import { searchProducts } from '../../../actions/product'
 import { SET_SEARCH_VALUE } from '../../../constants/actionTypes'
@@ -27,11 +27,8 @@ const PriceFilter = () => {
   }
 
   return (
-    <Menu defaultOpenKeys={['1']} mode='inline'>
-      <SubMenu
-        key='1'
-        title={title}
-      >
+    <Menu defaultActiveFirst mode='inline'>
+      <SubMenu title={title}>
         <div>
           <Slider
             className='ml-4 mr-4'

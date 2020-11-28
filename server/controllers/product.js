@@ -181,6 +181,10 @@ const handlePrice = async price => {
       $lte: price[1]
     }
   })
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name')
+    .exec()
 
   return products
 }
@@ -188,17 +192,25 @@ const handlePrice = async price => {
 exports.search = async (req, res) => {
   try {
     let products
-    const { query, price } = req.body
+    const { query, price, category } = req.body
 
-    if (query && !price) {
+    if (query) {
       products = await handleQuery(query)
     }
     if (price) {
       products = await handlePrice(price, req)
     }
+    if (category) {
+      products = await Product.find({ category })
+        .populate('category', '_id name')
+        .populate('subs', '_id name')
+        .populate('postedBy', '_id name')
+        .exec()
+    }
 
     res.json(products)
   } catch (error) {
+    console.log('error: ', error)
     res.status(400).send(error)
   }
 }

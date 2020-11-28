@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import LoadingTitle from '../../components/LoadingTitle/LoadingTitle'
 import ProductCard from '../../components/Card/ProductCard'
 import PriceFilter from './components/PriceFilter'
+import CategoryFilter from './components/CategoryFilter'
 
 import { getProducts, searchProducts } from '../../actions/product'
 
@@ -35,6 +36,7 @@ const Shop = () => {
           <h4 className='pt-2'>Search/Filter</h4>
           <hr />
           <PriceFilter />
+          <CategoryFilter />
         </div>
         <div className='col-md-9 pt-2'>
           <LoadingTitle loading={loading} title='Products' />
