@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Card } from 'antd'
-import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
+
+import { Card, Tooltip } from 'antd'
+import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import Rating from '../Rating/Rating'
+
+import { setCartValue } from '../../actions/cart'
 
 const { Meta } = Card
 
 const ProductCard = ({ product }) => {
+  const [tooltip, setTooltip] = useState('Click to add')
+
+  const dispatch = useDispatch()
+  const { cart } = useSelector(state => state.cart)
+
   const {
     title, description, images, slug, ratings, price
   } = product
   const descr = description.length > 43 ? `${description.substring(0, 42)}...` : description
+
+  const handleSetCartValue = () => {
+    cart.push({
+      ...product,
+      count: 1
+    })
+
+    const unique = _.unionWith(cart, _.isEqual)
+
+    dispatch(setCartValue(unique))
+    setTooltip('Added')
+  }
+
   return (
     <>
       {
@@ -41,13 +64,15 @@ const ProductCard = ({ product }) => {
             {' '}
             View Product
           </Link>,
-          <>
-            <ShoppingCartOutlined className='text-info' />
-            {' '}
-            <br />
-            {' '}
-            Add to Cart
-          </>
+          <Tooltip title={tooltip}>
+            <div onClick={handleSetCartValue}>
+              <ShoppingCartOutlined className='text-info' />
+              {' '}
+              <br />
+              {' '}
+              Add to Cart
+            </div>
+          </Tooltip>
         ]}
       >
         <Meta title={`${title} - $${price}`} description={descr} />

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -38,7 +39,7 @@ const Login = ({ history }) => {
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password)
       const { token } = await user.getIdTokenResult()
-      dispatch(checkAuth(token, history, toast))
+      dispatch(checkAuth(token, history))
     } catch (error) {
       if (error.message !== 'The email address is badly formatted.') {
         toast.error(`Error: ${error.message}`)
@@ -55,7 +56,7 @@ const Login = ({ history }) => {
       const { user } = await auth.signInWithPopup(googleAuthProvider)
       const { token } = await user.getIdTokenResult()
 
-      dispatch(checkAuth(token, history, toast))
+      dispatch(checkAuth(token, history))
     } catch (error) {
       toast.error(`Error: ${error.message}`)
     } finally {

@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Menu } from 'antd'
+import { Menu, Badge } from 'antd'
 import {
   AppstoreOutlined,
   UserOutlined,
   UserAddOutlined,
   SettingOutlined,
   LogoutOutlined,
-  ShoppingOutlined
+  ShoppingOutlined,
+  ShoppingCartOutlined
 } from '@ant-design/icons'
 
 import SearchForm from '../SearchForm/SearchForm'
@@ -22,6 +23,7 @@ const Header = () => {
   const [state, setState] = useState('home')
 
   const { user } = useSelector(store => store.auth)
+  const { cart } = useSelector(store => store.cart)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -39,6 +41,13 @@ const Header = () => {
       </Item>
       <Item key='shop' icon={<ShoppingOutlined />}>
         <Link to='/shop'>Shop</Link>
+      </Item>
+      <Item key='cart' icon={<ShoppingCartOutlined />}>
+        <Link to='/cart'>
+          <Badge count={cart.length} offset={[9, 0]}>
+            Cart
+          </Badge>
+        </Link>
       </Item>
       {
         !user && (

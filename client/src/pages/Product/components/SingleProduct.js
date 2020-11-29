@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
-import { Card } from 'antd'
+import { Card, Tooltip } from 'antd'
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import ImageCarousel from './ImageCarousel'
 import Details from './Details'
@@ -10,10 +12,28 @@ import ProductTabs from './ProductTabs'
 import Rating from '../../../components/Rating/Rating'
 import LoadingTitle from '../../../components/LoadingTitle/LoadingTitle'
 
+import { setCartValue } from '../../../actions/cart'
+
 const SingleProduct = ({ product, setRating }) => {
+  const [tooltip, setTooltip] = useState('Click to add')
   const {
     title, images, slug, description, ratings, _id
   } = product
+
+  const dispatch = useDispatch()
+  const { cart } = useSelector(state => state.cart)
+
+  const handleSetCartValue = () => {
+    cart.push({
+      ...product,
+      count: 1
+    })
+
+    const unique = _.unionWith(cart, _.isEqual)
+
+    dispatch(setCartValue(unique))
+    setTooltip('Added')
+  }
 
   if (!title || !slug || !ratings) {
     return <LoadingTitle />
@@ -30,11 +50,15 @@ const SingleProduct = ({ product, setRating }) => {
         <Rating ratings={ratings} id={_id} isSelectable setRating={setRating} />
         <Card
           actions={[
-            <>
-              <ShoppingCartOutlined className='text-success' />
-              {' '}
-              Add to Cart
-            </>,
+            <Tooltip title={tooltip}>
+              <div onClick={handleSetCartValue}>
+                <ShoppingCartOutlined className='text-info' />
+                {' '}
+                <br />
+                {' '}
+                Add to Cart
+              </div>
+            </Tooltip>,
             <Link to={`/product-to-favourite/${slug}`}>
               <HeartOutlined className='text-info' />
               {' '}

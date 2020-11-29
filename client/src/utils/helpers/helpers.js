@@ -16,6 +16,11 @@ export const validation = (email, password, name) => {
 }
 
 export const redirectUserByRole = (role, history) => {
+  constants.log('history: ', history)
+  const intended = history.location.state;
+  if (intended) {
+    history.push(intended.from);
+  }
   if (role === constants.ADMIN) {
     return history.push('/admin/dashboard')
   }
@@ -38,4 +43,8 @@ export const ratingValue = ratings => {
   const averageCount = starCount / ratings.length
 
   return averageCount
+}
+
+export const totalCost = cart => {
+  return cart.reduce((acc, item) => acc + item.count * item.price, 0)
 }

@@ -4,6 +4,7 @@ import categoryReducer from './category'
 import subReducer from './sub'
 import generalReducer from './general'
 import productReducer from './product'
+import cartReducer from './cart'
 
 export default combineReducers({
   auth: authReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   sub: subReducer,
   general: generalReducer,
   product: productReducer,
+  cart: cartReducer,
 })

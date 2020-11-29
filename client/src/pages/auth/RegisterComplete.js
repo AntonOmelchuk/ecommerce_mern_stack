@@ -44,7 +44,7 @@ const RegisterComplete = ({ history }) => {
 
         const { token } = await user.getIdTokenResult()
 
-        dispatch(checkAuth(token, history, toast, name))
+        dispatch(checkAuth(token, history, name))
       } else {
         toast.error('Something went wrong. Please, try one more time')
       }

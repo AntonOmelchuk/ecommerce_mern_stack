@@ -28,6 +28,7 @@ import ProductUpdate from './pages/admin/ProductUpdate'
 import Product from './pages/Product/Product'
 import CategoryHome from './pages/category/CategoryHome'
 import Shop from './pages/shop/Shop'
+import Cart from './pages/cart/Cart'
 
 const App = () => {
   const { loading } = useSelector(state => state.general)
@@ -70,6 +71,7 @@ const App = () => {
         <Route exact path='/category/:slug' children={<CategoryHome />} />
         <Route exact path='/sub/:slug' children={<CategoryHome />} />
         <Route exact path='/shop' children={<Shop />} />
+        <Route exact path='/cart' children={<Cart />} />
       </Switch>
     </div>
   );

@@ -19,17 +19,13 @@ const setUserData = (data, token) => {
   }
 }
 
-export const checkAuth = (authtoken, history, toast, registrationName = '') => async dispatch => {
+export const checkAuth = (authtoken, history, registrationName = '') => async dispatch => {
   try {
-    const { status, data } = await authAPI.checkAuthToken(authtoken, registrationName)
-    if (status === 200) {
-      dispatch(setUserData(data, authtoken))
-      redirectUserByRole(data.role, history)
-    } else {
-      toast.error(`Error: ${data.error.message}`)
-    }
+    const { data } = await authAPI.checkAuthToken(authtoken, registrationName)
+    redirectUserByRole(data.role, history)
+    dispatch(setUserData(data, authtoken))
   } catch (error) {
-    toast.error(`Error: ${error.message}`)
+    console.error(`Error: ${error.message}`)
   }
 }
 
