@@ -4,7 +4,8 @@ import {
   SET_SORTED_PRODUCTS,
   SET_PRODUCT_WITH_DETAILS,
   SET_RELATED_PRODUCTS,
-  SET_FILTER_VALUE
+  SET_FILTER_VALUE,
+  CLEAR_RELATED_PRODUCTS
 } from '../constants/actionTypes'
 
 const initialState = {
@@ -51,6 +52,11 @@ export default function productReducer(state = initialState, action) {
       return {
         ...state,
         filter: { ...state.filter, ...action.payload }
+      }
+    case CLEAR_RELATED_PRODUCTS:
+      return {
+        ...state,
+        relatedProducts: [],
       }
     default:
       return state

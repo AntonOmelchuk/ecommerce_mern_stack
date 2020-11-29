@@ -8,16 +8,21 @@ import ImageCarousel from './ImageCarousel'
 import Details from './Details'
 import ProductTabs from './ProductTabs'
 import Rating from '../../../components/Rating/Rating'
+import LoadingTitle from '../../../components/LoadingTitle/LoadingTitle'
 
 const SingleProduct = ({ product, setRating }) => {
   const {
     title, images, slug, description, ratings, _id
   } = product
 
+  if (!title || !slug || !ratings) {
+    return <LoadingTitle />
+  }
+
   return (
     <>
       <div className='col-md-7'>
-        {!!images.length && <ImageCarousel images={images} />}
+        {images.length && <ImageCarousel images={images} />}
         <ProductTabs description={description} />
       </div>
       <div className='col-md-5'>

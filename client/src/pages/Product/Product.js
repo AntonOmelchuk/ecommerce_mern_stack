@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { getProductDetails, getRelatedProducts, setProductRating } from '../../actions/product'
+import { clearRelatedProducts, getProductDetails, setProductRating } from '../../actions/product'
 import SingleProduct from './components/SingleProduct'
 import RelatedProducts from './components/RelatedProducts'
 
@@ -18,11 +18,8 @@ const Product = () => {
   }
 
   useEffect(() => {
-    console.log('use effect')
     dispatch(getProductDetails(slug))
-    if (productDetails?.category) {
-      dispatch(getRelatedProducts(productDetails.category._id))
-    }
+    return () => dispatch(clearRelatedProducts())
   }, [dispatch, slug])
 
   return (

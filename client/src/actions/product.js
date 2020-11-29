@@ -1,6 +1,8 @@
+/* eslint-disable no-use-before-define */
 import { setLoadingValue } from './general'
 import productAPI from '../api/product'
 import {
+  CLEAR_RELATED_PRODUCTS,
   SET_FILTER_VALUE,
   SET_PRODUCTS, SET_PRODUCT_WITH_DETAILS, SET_RELATED_PRODUCTS, SET_SORTED_PRODUCTS, SET_UPDATE_PRODUCT
 } from '../constants/actionTypes'
@@ -121,21 +123,6 @@ export const getSortedProducts = (sort, order, limit) => async dispatch => {
   }
 }
 
-export const setProductDetails = product => ({ type: SET_PRODUCT_WITH_DETAILS, payload: product })
-
-export const getProductDetails = slug => async dispatch => {
-  try {
-    dispatch(setLoadingValue(true))
-    const { data } = await productAPI.getProductDetails(slug)
-
-    dispatch(setProductDetails(data))
-  } catch (error) {
-    console.error(error)
-  } finally {
-    dispatch(setLoadingValue(false))
-  }
-}
-
 export const setProductRating = (token, productId, star, slug, toast) => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
@@ -152,23 +139,39 @@ export const setProductRating = (token, productId, star, slug, toast) => async d
   }
 }
 
-export const setRelatedProducts = data => ({ type: SET_RELATED_PRODUCTS, payload: data })
-
 export const getRelatedProducts = productId => async dispatch => {
   try {
     dispatch(setLoadingValue(true))
 
-    const { data, status } = await productAPI.getRelated(productId)
+    const { data } = await productAPI.getRelated(productId)
 
-    if (status === 200) {
-      dispatch(setRelatedProducts(data))
-    }
+    dispatch(setRelatedProducts(data))
   } catch (error) {
     console.error(error)
   } finally {
     dispatch(setLoadingValue(false))
   }
 }
+
+export const setProductDetails = product => ({ type: SET_PRODUCT_WITH_DETAILS, payload: product })
+
+export const getProductDetails = slug => async dispatch => {
+  try {
+    dispatch(setLoadingValue(true))
+    const { data } = await productAPI.getProductDetails(slug)
+
+    dispatch(setProductDetails(data))
+    dispatch(getRelatedProducts(data.category._id))
+  } catch (error) {
+    console.error(error)
+  } finally {
+    dispatch(setLoadingValue(false))
+  }
+}
+
+export const setRelatedProducts = data => ({ type: SET_RELATED_PRODUCTS, payload: data })
+
+export const clearRelatedProducts = () => ({ type: CLEAR_RELATED_PRODUCTS })
 
 export const searchProducts = search => async dispatch => {
   try {
