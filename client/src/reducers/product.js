@@ -1,12 +1,23 @@
 import {
-  SET_PRODUCTS, SET_UPDATE_PRODUCT, SET_SORTED_PRODUCTS, SET_PRODUCT_WITH_DETAILS, SET_RELATED_PRODUCTS
+  SET_PRODUCTS,
+  SET_UPDATE_PRODUCT,
+  SET_SORTED_PRODUCTS,
+  SET_PRODUCT_WITH_DETAILS,
+  SET_RELATED_PRODUCTS,
+  SET_FILTER_VALUE
 } from '../constants/actionTypes'
 
 const initialState = {
   products: [],
   updateProduct: {},
   productDetails: {},
-  relatedProducts: []
+  relatedProducts: [],
+  filter: {
+    price: [0, 0],
+    category: [],
+    rating: 0,
+    colors: []
+  }
 }
 
 export default function productReducer(state = initialState, action) {
@@ -35,6 +46,11 @@ export default function productReducer(state = initialState, action) {
       return {
         ...state,
         relatedProducts: action.payload
+      }
+    case SET_FILTER_VALUE:
+      return {
+        ...state,
+        filter: { ...state.filter, ...action.payload }
       }
     default:
       return state

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { useDispatch, batch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Slider, Menu } from 'antd'
 import { DollarOutlined } from '@ant-design/icons'
-import { searchProducts } from '../../../actions/product'
-import { SET_SEARCH_VALUE } from '../../../constants/actionTypes'
+import { filterProducts } from '../../../actions/product'
 
 const { SubMenu } = Menu
 
@@ -19,11 +18,8 @@ const PriceFilter = () => {
     </span>
   )
 
-  const filterProducts = () => {
-    batch(() => {
-      dispatch({ type: SET_SEARCH_VALUE, payload: '' })
-      dispatch(searchProducts({ price, query: '' }))
-    })
+  const handleSetPrice = () => {
+    dispatch(filterProducts({ price }))
   }
 
   return (
@@ -36,7 +32,7 @@ const PriceFilter = () => {
             range
             value={price}
             onChange={value => setPrice(value)}
-            onAfterChange={filterProducts}
+            onAfterChange={handleSetPrice}
             max='4999'
           />
         </div>

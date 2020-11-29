@@ -1,6 +1,7 @@
 import { setLoadingValue } from './general'
 import productAPI from '../api/product'
 import {
+  SET_FILTER_VALUE,
   SET_PRODUCTS, SET_PRODUCT_WITH_DETAILS, SET_RELATED_PRODUCTS, SET_SORTED_PRODUCTS, SET_UPDATE_PRODUCT
 } from '../constants/actionTypes'
 
@@ -180,3 +181,5 @@ export const searchProducts = search => async dispatch => {
     dispatch(setLoadingValue(false))
   }
 }
+
+export const filterProducts = filter => ({ type: SET_FILTER_VALUE, payload: filter })

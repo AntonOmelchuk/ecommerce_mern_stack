@@ -6,13 +6,18 @@ import ProductCard from '../../components/Card/ProductCard'
 import PriceFilter from './components/PriceFilter'
 import CategoryFilter from './components/CategoryFilter'
 
-import { getProducts, searchProducts } from '../../actions/product'
+import { filterProducts, getProducts, searchProducts } from '../../actions/product'
+import StarsFilter from './components/StarsFilter'
+import ColorsFilter from './components/ColorsFilter'
 
 const Shop = () => {
   const COUNT = 12
-  const dispatch = useDispatch()
-  const { product: { products }, general: { loading, search } } = useSelector(state => state)
 
+  const dispatch = useDispatch()
+  const { product: { products, filter }, general: { loading, search } } = useSelector(state => state)
+  const {
+    category, price, rating, colors
+  } = filter
   useEffect(() => {
     dispatch(getProducts(COUNT))
   }, [])
@@ -26,8 +31,37 @@ const Shop = () => {
       }
     }, 500)
 
-    return () => clearTimeout(delayed)
+    return () => {
+      clearTimeout(delayed)
+      dispatch(filterProducts({
+        price: [0, 0],
+        category: [],
+        rating: 0,
+        colors: []
+      }))
+    }
   }, [search])
+
+  const filteredProdcuts = () => {
+    let newProducts = [...products]
+    if (price[1] > 0) {
+      newProducts = products.filter(product => product.price >= price[0] && product.price <= price[0])
+    }
+    if (category.length > 0) {
+      newProducts = newProducts.filter(product => category.includes(product.category.name))
+    }
+    if (rating > 0) {
+      newProducts = newProducts.filter(product => (
+        product.ratings.length > 0
+        && Math.floor((product.ratings.reduce((acc, item) => acc + item.star, 0) / product.ratings.length)) === rating
+      ))
+    }
+    if (colors.length > 0) {
+      newProducts = newProducts.filter(product => colors.includes(product.color))
+    }
+
+    return newProducts
+  }
 
   return (
     <div className='container-fluid'>
@@ -37,15 +71,17 @@ const Shop = () => {
           <hr />
           <PriceFilter />
           <CategoryFilter />
+          <StarsFilter />
+          <ColorsFilter />
         </div>
         <div className='col-md-9 pt-2'>
           <LoadingTitle loading={loading} title='Products' />
           {
-          products.length < 1 ? (
+          filteredProdcuts().length < 1 ? (
             <p>No products found</p>
           ) : (
             <div className='row'>
-              {products.map(product => (
+              {filteredProdcuts().map(product => (
                 <div key={product._id} className='col-md-4'>
                   <ProductCard product={product} />
                 </div>

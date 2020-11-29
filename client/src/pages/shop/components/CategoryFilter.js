@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Checkbox, Menu } from 'antd'
 import { DownSquareOutlined } from '@ant-design/icons'
 import { getAllCategories } from '../../../actions/category'
-import { searchProducts } from '../../../actions/product'
+import { filterProducts } from '../../../actions/product'
 
 const { SubMenu } = Menu
 
 const CategoryFilter = () => {
   const dispatch = useDispatch()
-  const [categoriesIds, setCategoriesIds] = useState([])
+  const { filter } = useSelector(state => state.product)
   const { categories } = useSelector(state => state.category)
 
   const title = (
@@ -22,30 +22,28 @@ const CategoryFilter = () => {
 
   useEffect(() => {
     dispatch(getAllCategories())
-
-    if (categoriesIds.length) {
-      dispatch(searchProducts({ category: categoriesIds, query: '' }))
-    }
-  }, [dispatch, categoriesIds])
+  }, [dispatch])
 
   const handleCheck = ({ target }) => {
-    if (categoriesIds.includes(target.value)) {
-      setCategoriesIds(prev => prev.filter(id => id !== target.value))
+    if (filter.category.includes(target.value)) {
+      const newCategories = filter.category.filter(name => name !== target.value)
+      dispatch(filterProducts({ category: newCategories }))
     } else {
-      setCategoriesIds(prev => prev.concat(target.value))
+      const newCategories = filter.category.concat(target.value)
+      dispatch(filterProducts({ category: newCategories }))
     }
   }
 
   return (
     <Menu defaultActiveFirst mode='inline'>
-      <SubMenu title={title}>
+      <SubMenu key='1' title={title}>
         <div>
           {categories && categories.map(({ _id, name }) => (
             <div key={_id}>
               <Checkbox
-                value={_id}
+                value={name}
                 onChange={handleCheck}
-                checked={categoriesIds.includes(_id)}
+                checked={filter.category.includes(name)}
                 className='pb-2 pl-4 pr-4'
               >
                 {name}

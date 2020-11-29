@@ -38,7 +38,7 @@ router.get('/products-total', total)
 // add/update product rating star
 router.put('/product-rating/:productId', authCheck, handleRating)
 
-// search, filter
+// search
 router.post('/products/search/', search)
 
 module.exports = router

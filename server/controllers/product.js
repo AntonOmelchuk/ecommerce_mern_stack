@@ -164,51 +164,22 @@ exports.getRelated = async (req, res) => {
 }
 
 // ==== SEARCH PRODUCTS ===== //
-const handleQuery = async query => {
+const handleQuery = async (req, res, query) => {
   const products = await Product.find({ $text: { $search: query } })
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .populate('postedBy', '_id name')
     .exec()
 
-  return products
-}
-
-const handlePrice = async price => {
-  const products = await Product.find({
-    price: {
-      $gte: price[0],
-      $lte: price[1]
-    }
-  })
-    .populate('category', '_id name')
-    .populate('subs', '_id name')
-    .populate('postedBy', '_id name')
-    .exec()
-
-  return products
+  res.json(products)
 }
 
 exports.search = async (req, res) => {
   try {
-    let products
-    const { query, price, category } = req.body
-
+    const { query } = req.body
     if (query) {
-      products = await handleQuery(query)
+      await handleQuery(req, res, query)
     }
-    if (price) {
-      products = await handlePrice(price, req)
-    }
-    if (category) {
-      products = await Product.find({ category })
-        .populate('category', '_id name')
-        .populate('subs', '_id name')
-        .populate('postedBy', '_id name')
-        .exec()
-    }
-
-    res.json(products)
   } catch (error) {
     console.log('error: ', error)
     res.status(400).send(error)
