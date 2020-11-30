@@ -1,18 +1,23 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { totalCost } from '../../utils/helpers/helpers'
+import { useSelector } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
 import CartTable from './components/CartTable'
+
+import { totalCost } from '../../utils/helpers/helpers'
+import userAPI from '../../api/user'
 
 const Cart = () => {
   const { cart: { cart }, auth: { user } } = useSelector(state => state)
-  const dispatch = useDispatch()
+  const history = useHistory()
 
   const cartCount = cart.length
 
   const buttonHandler = () => {
-
+    userAPI.saveCart(user.token, cart).then(res => {
+      if (res.data.ok) {
+        history.push('/checkout')
+      }
+    }).catch(err => console.error(err))
   }
 
   return (

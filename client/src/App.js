@@ -29,6 +29,7 @@ import Product from './pages/Product/Product'
 import CategoryHome from './pages/category/CategoryHome'
 import Shop from './pages/shop/Shop'
 import Cart from './pages/cart/Cart'
+import Checkout from './pages/checkout/Checkout'
 
 const App = () => {
   const { loading } = useSelector(state => state.general)
@@ -72,6 +73,7 @@ const App = () => {
         <Route exact path='/sub/:slug' children={<CategoryHome />} />
         <Route exact path='/shop' children={<Shop />} />
         <Route exact path='/cart' children={<Cart />} />
+        <UserRoute exact path='/checkout' children={<Checkout />} />
       </Switch>
     </div>
   );

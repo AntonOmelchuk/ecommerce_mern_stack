@@ -2,13 +2,14 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import ModalImage from 'react-modal-image'
+import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined } from '@ant-design/icons'
 import { setCartValue } from '../../../actions/cart'
 
 const ProductInCartTable = ({ item }) => {
   const defaultColors = ['Black', 'White', 'Silver', 'Brown', 'Blue']
 
   const {
-    images, title, price, brand, count, color, shipping, _id
+    images, title, price, brand, count, color, shipping, _id, quantity
   } = item
 
   const dispatch = useDispatch()
@@ -21,6 +22,24 @@ const ProductInCartTable = ({ item }) => {
       }
       return cartItem
     })
+
+    dispatch(setCartValue(newCart))
+  }
+
+  const handleCountChange = ({ target }) => {
+    if (target.value < 1 || target.value > quantity) return
+    const newCart = cart.map(cartItem => {
+      if (cartItem._id === _id) {
+        return { ...cartItem, count: target.value }
+      }
+      return cartItem
+    })
+
+    dispatch(setCartValue(newCart))
+  }
+
+  const handleRemove = () => {
+    const newCart = cart.filter(cartItem => cartItem._id !== _id)
 
     dispatch(setCartValue(newCart))
   }
@@ -44,8 +63,15 @@ const ProductInCartTable = ({ item }) => {
             ))}
           </select>
         </td>
-        <td>{count}</td>
-        <td>{shipping}</td>
+        <td className='text-center'>
+          <input type='number' className='form-control' value={count} onChange={handleCountChange} />
+        </td>
+        <td className='text-center'>
+          {shipping === 'Yes' ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+        </td>
+        <td className='text-center'>
+          <CloseOutlined className='text-danger pointer' onClick={handleRemove} />
+        </td>
       </tr>
     </tbody>
   )
@@ -62,6 +88,7 @@ ProductInCartTable.propTypes = {
     brand: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
     count: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
     shipping: PropTypes.string.isRequired,
   }).isRequired
 }

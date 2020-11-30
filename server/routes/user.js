@@ -2,10 +2,10 @@ const express = require('express')
 
 const router = express.Router()
 
-router.get('/user', (req, res) => {
-  res.json({
-    data: `You hit /api/user api endpoint`
-  })
-})
+const { authCheck } = require('../middlewares/auth')
+
+const { saveCart } = require('../controllers/user')
+
+router.post('/cart', authCheck, saveCart)
 
 module.exports = router
