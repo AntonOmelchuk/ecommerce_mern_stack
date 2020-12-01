@@ -22,4 +22,11 @@ export default {
       }
     })
   },
+  removeCart(authtoken) {
+    return instance.delete('/cart', {
+      headers: {
+        Authorization: authtoken
+      }
+    })
+  },
 }

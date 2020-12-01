@@ -87,7 +87,7 @@ ProductInCartTable.propTypes = {
     price: PropTypes.number.isRequired,
     brand: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
-    count: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
     quantity: PropTypes.number.isRequired,
     shipping: PropTypes.string.isRequired,
   }).isRequired

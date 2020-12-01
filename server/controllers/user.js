@@ -54,8 +54,19 @@ exports.getCart = async (req, res) => {
       .populate('products.product', '_id title price totalWithDiscount')
       .exec()
     const { products, total, totalWithDiscount } = cart
-    console.log('server: ', cart)
+
     res.json({ products, total, totalWithDiscount })
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+
+exports.emptyCart = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email })
+    const cart = await Cart.findByIdAndRemove({ orderedBy: user._id })
+
+    res.json(cart)
   } catch (error) {
     res.status(400).send(error)
   }

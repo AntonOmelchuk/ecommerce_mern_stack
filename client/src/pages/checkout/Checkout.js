@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCart } from '../../actions/cart'
 import Button from './components/Button'
+
+import userAPI from '../../api/user'
+import { getCart, setCartValue } from '../../actions/cart'
 
 const Checkout = () => {
   const dispatch = useDispatch()
@@ -13,6 +15,11 @@ const Checkout = () => {
 
   const saveAddress = () => {
 
+  }
+
+  const removeCart = () => {
+    userAPI.removeCart(user.token)
+    dispatch(setCartValue([]))
   }
   const { total, products = [] } = cart
   return (
@@ -46,8 +53,16 @@ const Checkout = () => {
         <p>{`Cart Total: $${total}`}</p>
 
         <div className='row'>
-          <Button title='PLACE ORDER' />
-          <Button title='EMPTY OREDER' />
+          <Button
+            title='PLACE ORDER'
+            onClick={() => {}}
+            disabled={!products.length}
+          />
+          <Button
+            title='EMPTY CART'
+            onClick={() => removeCart()}
+            disabled={!products.length}
+          />
         </div>
       </div>
     </div>
