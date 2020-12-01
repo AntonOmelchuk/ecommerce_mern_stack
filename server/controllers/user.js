@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const Cart = require('../models/cart')
 const Product = require('../models/product')
+const { populate } = require('../models/user')
 
 exports.saveCart = async (req, res) => {
   try {
@@ -36,10 +37,26 @@ exports.saveCart = async (req, res) => {
         total,
         orderedBy: user._id
       }).save()
-      res.json(newCart)
+      console.log('server new cart: ', newCart)
+      res.json({ ok: true })
     }
   } catch (error) {
     console.log('error: ', error)
+    res.status(400).send(error)
+  }
+}
+
+exports.getCart = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email })
+
+    const cart = await Cart.findOne({ orderedBy: user._id})
+      .populate('products.product', '_id title price totalWithDiscount')
+      .exec()
+    const { products, total, totalWithDiscount } = cart
+    console.log('server: ', cart)
+    res.json({ products, total, totalWithDiscount })
+  } catch (error) {
     res.status(400).send(error)
   }
 }

@@ -15,4 +15,11 @@ export default {
       }
     })
   },
+  getCart(authtoken) {
+    return instance.get('/cart', {
+      headers: {
+        Authorization: authtoken
+      }
+    })
+  },
 }

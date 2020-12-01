@@ -72,7 +72,7 @@ const App = () => {
         <Route exact path='/category/:slug' children={<CategoryHome />} />
         <Route exact path='/sub/:slug' children={<CategoryHome />} />
         <Route exact path='/shop' children={<Shop />} />
-        <Route exact path='/cart' children={<Cart />} />
+        <UserRoute exact path='/cart' children={<Cart />} />
         <UserRoute exact path='/checkout' children={<Checkout />} />
       </Switch>
     </div>
