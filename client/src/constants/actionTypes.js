@@ -34,3 +34,6 @@ export const SET_CART_VALUE = 'SET_CART_VALUE'
 export const ADD_TO_CART = 'ADD_TO_CART'
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 export const GET_CART = 'GET_CART'
+
+// COUPON
+export const GET_COUPONS = 'GET_COUPONS'

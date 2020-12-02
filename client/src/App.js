@@ -30,6 +30,7 @@ import CategoryHome from './pages/category/CategoryHome'
 import Shop from './pages/shop/Shop'
 import Cart from './pages/cart/Cart'
 import Checkout from './pages/checkout/Checkout'
+import CraeteCoupon from './pages/admin/coupon/CraeteCoupon'
 
 const App = () => {
   const { loading } = useSelector(state => state.general)
@@ -68,6 +69,7 @@ const App = () => {
         <AdminRoute exact path='/admin/product' children={<ProductCreate />} />
         <AdminRoute exact path='/admin/products' children={<AllPoducts />} />
         <AdminRoute exact path='/product/:slug' children={<ProductUpdate />} />
+        <AdminRoute exact path='/admin/coupon' children={<CraeteCoupon />} />
         <Route exact path='/product/details/:slug' children={<Product />} />
         <Route exact path='/category/:slug' children={<CategoryHome />} />
         <Route exact path='/sub/:slug' children={<CategoryHome />} />
