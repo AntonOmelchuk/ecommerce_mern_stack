@@ -29,4 +29,11 @@ export default {
       }
     })
   },
+  saveAddress(authtoken, address) {
+    return instance.post('/address', { address }, {
+      headers: {
+        Authorization: authtoken
+      }
+    })
+  }
 }

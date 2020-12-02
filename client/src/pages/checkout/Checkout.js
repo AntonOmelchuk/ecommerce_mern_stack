@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import ReactQuill from 'react-quill'
 import Button from './components/Button'
+import 'react-quill/dist/quill.snow.css'
 
 import userAPI from '../../api/user'
 import { getCart, setCartValue } from '../../actions/cart'
 
 const Checkout = () => {
+  const [address, setAddress] = useState('')
+  const [savedAddress, setSavedAddress] = useState(false)
   const dispatch = useDispatch()
   const { auth: { user }, cart: { cart } } = useSelector(state => state)
 
@@ -13,8 +18,13 @@ const Checkout = () => {
     dispatch(getCart(user.token))
   }, [])
 
-  const saveAddress = () => {
+  const saveAddress = async () => {
+    const { data } = await userAPI.saveAddress(user.token, address)
 
+    if (data.ok) {
+      setSavedAddress(true)
+      toast.success('Address saved')
+    }
   }
 
   const removeCart = () => {
@@ -28,7 +38,7 @@ const Checkout = () => {
         <h4>Delivery Adress</h4>
         <br />
         <br />
-        textarea
+        <ReactQuill theme='snow' value={address} onChange={value => setAddress(value)} />
         <button type='button' className='btn btn-primary mt-2' onClick={saveAddress}>
           Save
         </button>
@@ -50,13 +60,13 @@ const Checkout = () => {
           </div>
         ))}
         <hr />
-        <p>{`Cart Total: $${total}`}</p>
+        <p>{`Cart Total: $${total || ''}`}</p>
 
         <div className='row'>
           <Button
             title='PLACE ORDER'
             onClick={() => {}}
-            disabled={!products.length}
+            disabled={!products.length || !savedAddress}
           />
           <Button
             title='EMPTY CART'
