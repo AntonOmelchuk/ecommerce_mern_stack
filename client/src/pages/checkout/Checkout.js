@@ -2,21 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import ReactQuill from 'react-quill'
-import Button from './components/Button'
 import 'react-quill/dist/quill.snow.css'
+
+import Button from './components/Button'
+import ApplyCoupon from './components/ApplyCoupon'
 
 import userAPI from '../../api/user'
 import { getCart, setCartValue } from '../../actions/cart'
+import { applyCoupon } from '../../actions/coupon'
 
 const Checkout = () => {
   const [address, setAddress] = useState('')
   const [savedAddress, setSavedAddress] = useState(false)
+  const [coupon, setCoupon] = useState('')
   const dispatch = useDispatch()
-  const { auth: { user }, cart: { cart } } = useSelector(state => state)
+  const { auth: { user }, cart: { cartFromDB } } = useSelector(state => state)
 
   useEffect(() => {
     dispatch(getCart(user.token))
-  }, [])
+  }, [dispatch])
 
   const saveAddress = async () => {
     const { data } = await userAPI.saveAddress(user.token, address)
@@ -30,8 +34,15 @@ const Checkout = () => {
   const removeCart = () => {
     userAPI.removeCart(user.token)
     dispatch(setCartValue([]))
+    setCoupon('')
   }
-  const { total, products = [] } = cart
+
+  const applyCouponHandler = () => {
+    dispatch(applyCoupon(user.token, coupon, toast))
+    setCoupon('')
+  }
+
+  const { total, products = [], totalWithDiscount = 0 } = cartFromDB
   return (
     <div className='row'>
       <div className='col-md-6'>
@@ -45,7 +56,11 @@ const Checkout = () => {
         <hr />
         <h4>Got Coupon?</h4>
         <br />
-        coupon input and apply button
+        <ApplyCoupon
+          value={coupon}
+          onChange={setCoupon}
+          onBtnClick={applyCouponHandler}
+        />
       </div>
       <div className='col-md-6'>
         <h4>Order Summary</h4>
@@ -62,6 +77,11 @@ const Checkout = () => {
         <hr />
         <p>{`Cart Total: $${total || ''}`}</p>
 
+        {totalWithDiscount > 0 && (
+          <p className='bg-success p-2'>
+            {`Discount Applied: Total Payable: $${totalWithDiscount}`}
+          </p>
+        )}
         <div className='row'>
           <Button
             title='PLACE ORDER'

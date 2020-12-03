@@ -1,5 +1,6 @@
 import couponAPI from '../api/coupon'
 import { GET_COUPONS } from '../constants/actionTypes'
+import { getCart } from './cart'
 import { setLoadingValue } from './general'
 
 export const getCoupons = () => async dispatch => {
@@ -37,6 +38,24 @@ export const removeCoupon = (token, id) => async dispatch => {
 
     if (data.ok) {
       dispatch(getCoupons())
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    dispatch(setLoadingValue(false))
+  }
+}
+
+export const applyCoupon = (token, coupon, toast) => async dispatch => {
+  try {
+    dispatch(setLoadingValue(true))
+    const { data } = await couponAPI.applyCoupon(token, coupon)
+
+    if (data) {
+      dispatch(getCart(token))
+    }
+    if (data.error) {
+      toast.error(data.error)
     }
   } catch (error) {
     console.error(error)

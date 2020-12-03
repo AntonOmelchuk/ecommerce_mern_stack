@@ -25,4 +25,11 @@ export default {
       }
     })
   },
+  applyCoupon(authtoken, coupon) {
+    return instance.post('/coupon', { coupon }, {
+      headers: {
+        Authorization: authtoken
+      }
+    })
+  }
 }

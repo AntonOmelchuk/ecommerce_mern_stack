@@ -1,7 +1,8 @@
 import { GET_CART, SET_CART_VALUE } from '../constants/actionTypes'
 
 const initialState = {
-  cart: []
+  cart: [],
+  cartFromDB: {}
 }
 
 export default function cartReducer(state = initialState, action) {
@@ -14,7 +15,7 @@ export default function cartReducer(state = initialState, action) {
     case GET_CART:
       return {
         ...state,
-        cart: action.payload
+        cartFromDB: action.payload
       }
     default:
       return state

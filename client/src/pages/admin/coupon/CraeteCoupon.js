@@ -1,28 +1,29 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
 import DatePicker from 'react-datepicker'
 import { DeleteOutlined } from '@ant-design/icons'
 import 'react-datepicker/dist/react-datepicker.css'
 import AdminNav from '../../../components/nav/AdminNav'
 import LoadingTitle from '../../../components/LoadingTitle/LoadingTitle'
 
-import { createCoupon, getCoupons } from '../../../actions/coupon'
+import { createCoupon, getCoupons, removeCoupon } from '../../../actions/coupon'
 
 const CraeteCoupon = () => {
   const [couponValues, setCouponValue] = useState({ name: '', discount: '', expire: '' })
   const dispatch = useDispatch()
   const { general: { loading }, auth: { user }, coupons: { coupons } } = useSelector(state => state)
 
-  useEffect(() => {
-    dispatch(getCoupons())
-  }, [dispatch])
-
   const handleSubmit = e => {
     e.preventDefault()
     dispatch(createCoupon(user.token, couponValues))
+    setCouponValue({ name: '', discount: '', expire: '' })
   }
+
+  const handleRemove = id => dispatch(removeCoupon(user.token, id))
+
+  useEffect(() => {
+    dispatch(getCoupons())
+  }, [])
 
   return (
     <div className='container-fluid px-5 py-2'>
@@ -78,6 +79,33 @@ const CraeteCoupon = () => {
 
             </button>
           </form>
+
+          <br />
+
+          <table className='table table-bordered'>
+            <thead className='thead-light'>
+              <tr>
+                <th scope='col'>Name</th>
+                <th scope='col'>Expire</th>
+                <th scope='col'>Discount</th>
+                <th scope='col'>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {coupons.map(({
+                _id, name, discount, expire
+              }) => (
+                <tr key={_id}>
+                  <td>{name}</td>
+                  <td>{new Date(expire).toLocaleDateString()}</td>
+                  <td>{`${discount}%`}</td>
+                  <td>
+                    <DeleteOutlined onClick={() => handleRemove(_id)} className='text-danger pointer' />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
