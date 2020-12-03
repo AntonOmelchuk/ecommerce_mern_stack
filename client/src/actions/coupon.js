@@ -1,5 +1,6 @@
+import { batch } from 'react-redux'
 import couponAPI from '../api/coupon'
-import { GET_COUPONS } from '../constants/actionTypes'
+import { COUPON_APPLIED, GET_COUPONS } from '../constants/actionTypes'
 import { getCart } from './cart'
 import { setLoadingValue } from './general'
 
@@ -52,12 +53,17 @@ export const applyCoupon = (token, coupon, toast) => async dispatch => {
     const { data } = await couponAPI.applyCoupon(token, coupon)
 
     if (data) {
-      dispatch(getCart(token))
+      batch(() => {
+        dispatch({ type: COUPON_APPLIED, payload: true })
+        dispatch(getCart(token))
+      })
     }
     if (data.error) {
+      dispatch({ type: COUPON_APPLIED, payload: false })
       toast.error(data.error)
     }
   } catch (error) {
+    dispatch({ type: COUPON_APPLIED, payload: false })
     console.error(error)
   } finally {
     dispatch(setLoadingValue(false))

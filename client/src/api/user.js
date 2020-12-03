@@ -35,5 +35,12 @@ export default {
         Authorization: authtoken
       }
     })
+  },
+  getAddress(authtoken) {
+    return instance.get('/address', {
+      headers: {
+        Authorization: authtoken
+      }
+    })
   }
 }

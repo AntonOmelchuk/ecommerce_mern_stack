@@ -37,3 +37,4 @@ export const GET_CART = 'GET_CART'
 
 // COUPON
 export const GET_COUPONS = 'GET_COUPONS'
+export const COUPON_APPLIED = 'COUPON_APPLIED'

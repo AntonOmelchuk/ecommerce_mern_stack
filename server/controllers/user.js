@@ -84,3 +84,16 @@ exports.saveAddress = async (req, res) => {
     res.status(400).send(error)
   }
 }
+
+exports.getAddress = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email })
+
+    if (user.address) {
+      res.json(user.address)
+    }
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+

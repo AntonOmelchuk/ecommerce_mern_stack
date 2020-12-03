@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
+import { useHistory } from 'react-router-dom'
 import Button from './components/Button'
 import ApplyCoupon from './components/ApplyCoupon'
 
@@ -15,11 +16,20 @@ const Checkout = () => {
   const [address, setAddress] = useState('')
   const [savedAddress, setSavedAddress] = useState(false)
   const [coupon, setCoupon] = useState('')
+
+  const history = useHistory()
   const dispatch = useDispatch()
+
   const { auth: { user }, cart: { cartFromDB } } = useSelector(state => state)
 
   useEffect(() => {
     dispatch(getCart(user.token))
+    userAPI.getAddress(user.token).then(({ data }) => {
+      if (data) {
+        setAddress(data)
+        setSavedAddress(true)
+      }
+    })
   }, [dispatch])
 
   const saveAddress = async () => {
@@ -85,7 +95,7 @@ const Checkout = () => {
         <div className='row'>
           <Button
             title='PLACE ORDER'
-            onClick={() => {}}
+            onClick={() => history.push('/payment')}
             disabled={!products.length || !savedAddress}
           />
           <Button

@@ -31,6 +31,7 @@ import Shop from './pages/shop/Shop'
 import Cart from './pages/cart/Cart'
 import Checkout from './pages/checkout/Checkout'
 import CraeteCoupon from './pages/admin/coupon/CraeteCoupon'
+import Payment from './pages/payment/Payment'
 
 const App = () => {
   const { loading } = useSelector(state => state.general)
@@ -76,6 +77,7 @@ const App = () => {
         <Route exact path='/shop' children={<Shop />} />
         <UserRoute exact path='/cart' children={<Cart />} />
         <UserRoute exact path='/checkout' children={<Checkout />} />
+        <UserRoute exact path='/payment' children={<Payment />} />
       </Switch>
     </div>
   );

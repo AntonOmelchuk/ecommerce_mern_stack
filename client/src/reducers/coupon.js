@@ -1,7 +1,8 @@
-import { GET_COUPONS } from '../constants/actionTypes'
+import { COUPON_APPLIED, GET_COUPONS } from '../constants/actionTypes'
 
 const initialState = {
-  coupons: []
+  coupons: [],
+  appliedCoupon: false
 }
 
 export default function couponReducer(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function couponReducer(state = initialState, action) {
       return {
         ...state,
         coupons: action.payload
+      }
+    case COUPON_APPLIED:
+      return {
+        ...state,
+        appliedCoupon: action.payload
       }
     default:
       return state
