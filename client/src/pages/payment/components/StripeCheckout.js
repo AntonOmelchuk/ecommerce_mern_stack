@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useDispatch, useSelector } from 'react-redux'
-import { Card } from 'antd'
-import { DollarOutlined, CheckOutlined } from '@ant-design/icons'
 import stripeAPI from '../../../api/stripe'
+import userAPI from '../../../api/user'
+import { setCartValue } from '../../../actions/cart'
 
 const cartStyle = {
   style: {
@@ -71,7 +71,14 @@ const StripeCheckout = () => {
       setError(`Payment failed ${payload.error.message}`)
       setProccesing(false)
     } else {
-      console.log(payload)
+      userAPI.createOrder(user.token, payload)
+        .then(({ data }) => {
+          if (data.ok) {
+            localStorage.removeItem('cart')
+            dispatch(setCartValue([]))
+            userAPI.removeCart(user.token)
+          }
+        })
       setError(null)
       setProccesing(false)
       setSucceeded(true)

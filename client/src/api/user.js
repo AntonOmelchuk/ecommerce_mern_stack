@@ -42,5 +42,12 @@ export default {
         Authorization: authtoken
       }
     })
+  },
+  createOrder(authtoken, stripeResponse) {
+    return instance.post('/user/order', { stripeResponse }, {
+      headers: {
+        Authorization: authtoken
+      }
+    })
   }
 }
