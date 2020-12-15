@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -65,13 +66,13 @@ const ProductCard = ({ product }) => {
             View Product
           </Link>,
           <Tooltip title={tooltip}>
-            <div onClick={handleSetCartValue}>
+            <a onClick={handleSetCartValue} disabled={product.quantity < 1}>
               <ShoppingCartOutlined className='text-info' />
               {' '}
               <br />
               {' '}
-              Add to Cart
-            </div>
+              {product.quantity < 1 ? 'Out of stock' : 'Add to Cart'}
+            </a>
           </Tooltip>
         ]}
       >
@@ -86,6 +87,7 @@ ProductCard.propTypes = {
     title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
     slug: PropTypes.string.isRequired,
     ratings: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     images: PropTypes.arrayOf(PropTypes.shape({

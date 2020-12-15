@@ -49,5 +49,12 @@ export default {
         Authorization: authtoken
       }
     })
-  }
+  },
+  getOrders(authtoken) {
+    return instance.get('/user/orders', {
+      headers: {
+        Authorization: authtoken
+      }
+    })
+  },
 }

@@ -127,3 +127,17 @@ exports.createOrder = async (req, res) => {
     res.status(400).send(error)
   }
 }
+
+exports.getOrders = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email }).exec()
+
+    const userOrders = await Order.find({ orderedBy: user._id })
+      .populate('products.product')
+      .exec()
+
+    res.json(userOrders)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
