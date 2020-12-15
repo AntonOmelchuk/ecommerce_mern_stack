@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const Cart = require('../models/cart')
 const Product = require('../models/product')
+const Order = require('../models/order')
 
 exports.saveCart = async (req, res) => {
   try {
@@ -74,7 +75,7 @@ exports.emptyCart = async (req, res) => {
 
 exports.saveAddress = async (req, res) => {
   try {
-    const userAddress = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { email: req.user.email },
       { address: req.body.address }
     )
@@ -97,3 +98,22 @@ exports.getAddress = async (req, res) => {
   }
 }
 
+exports.createOrder = async (req, res) => {
+  try {
+    const {paymentIntent} = req.body.stripeResponse
+
+    const user = await User.findOne({ email: req.user.email }).exec()
+
+    const { products } = await Cart.findOne({ orderedBy: user._id }).exec()
+
+    const newOrder = new Order({
+      products,
+      paymentIntent,
+      orderedBy: user._id
+    }).save()
+
+    res.json({ ok: true })
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}

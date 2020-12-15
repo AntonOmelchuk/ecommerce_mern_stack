@@ -8,8 +8,8 @@ const instance = axios.create({
 })
 
 export default {
-  createPayment(authtoken) {
-    return instance.post('/create-payment', {}, {
+  createPayment(authtoken, coupon) {
+    return instance.post('/create-payment', { coupon }, {
       headers: {
         Authorization: authtoken
       }

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useDispatch, useSelector } from 'react-redux'
+import { Card } from 'antd'
+import { DollarOutlined, CheckOutlined } from '@ant-design/icons'
 import stripeAPI from '../../../api/stripe'
 
 const cartStyle = {
@@ -27,6 +29,7 @@ const StripeCheckout = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.auth)
+  const { coupons } = useSelector(state => state.coupons)
 
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState(null)
@@ -34,13 +37,20 @@ const StripeCheckout = () => {
   const [disabled, setDisabled] = useState(true)
   const [clientSecret, setClientSecret] = useState('')
 
+  const [cartTotal, setCartTotal] = useState(0)
+  const [cartWithDiscount, setCartWithDiscount] = useState(0)
+  const [payable, setPayable] = useState(0)
+
   const stripe = useStripe()
   const elements = useElements()
 
   useEffect(() => {
-    stripeAPI.createPayment(user.token)
-      .then(res => {
-        setClientSecret(res.data.clientSecret)
+    stripeAPI.createPayment(user.token, coupons)
+      .then(({ data }) => {
+        setClientSecret(data.clientSecret)
+        setPayable(data.payable)
+        setCartTotal(data.total)
+        setCartWithDiscount(data?.totalWithDiscount || null)
       })
   }, [])
 
@@ -61,6 +71,7 @@ const StripeCheckout = () => {
       setError(`Payment failed ${payload.error.message}`)
       setProccesing(false)
     } else {
+      console.log(payload)
       setError(null)
       setProccesing(false)
       setSucceeded(true)
@@ -79,6 +90,11 @@ const StripeCheckout = () => {
         {' '}
         <Link to='/user/history'>See it in your purchase history</Link>
       </p>
+
+      <div className='text-info'>
+        {`Total payable $${(payable / 100).toFixed(2)}`}
+      </div>
+
       <form id='payment-form' className='stripe-form' onSubmit={handleSubmit}>
         <CardElement id='card-element' options={cartStyle} onChange={handleChange} />
         <button
