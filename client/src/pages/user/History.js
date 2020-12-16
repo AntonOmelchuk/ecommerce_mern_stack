@@ -17,7 +17,7 @@ const History = () => {
     userAPI.getOrders(user.token)
       .then(res => serOrders(res.data))
   }, [])
-
+  console.log('orders: ', orders)
   return (
     <div className='container-fluid px-5 py-2'>
       <div className='row'>
