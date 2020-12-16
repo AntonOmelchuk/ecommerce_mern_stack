@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useDispatch, useSelector } from 'react-redux'
 import stripeAPI from '../../../api/stripe'
@@ -26,7 +25,6 @@ const cartStyle = {
 };
 
 const StripeCheckout = () => {
-  const history = useHistory()
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.auth)
   const { coupons } = useSelector(state => state.coupons)
@@ -37,8 +35,6 @@ const StripeCheckout = () => {
   const [disabled, setDisabled] = useState(true)
   const [clientSecret, setClientSecret] = useState('')
 
-  const [cartTotal, setCartTotal] = useState(0)
-  const [cartWithDiscount, setCartWithDiscount] = useState(0)
   const [payable, setPayable] = useState(0)
 
   const stripe = useStripe()
@@ -49,8 +45,6 @@ const StripeCheckout = () => {
       .then(({ data }) => {
         setClientSecret(data.clientSecret)
         setPayable(data.payable)
-        setCartTotal(data.total)
-        setCartWithDiscount(data?.totalWithDiscount || null)
       })
   }, [])
 

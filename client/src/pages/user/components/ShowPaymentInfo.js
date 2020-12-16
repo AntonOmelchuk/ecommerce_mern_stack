@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 const ShowPaymentInfo = ({ order }) => {
   const { paymentIntent } = order;
-  console.log('order: ', order)
-  const formatedAmount = (paymentIntent.amount /= 100).toLocaleString('en-US', {
+
+  const formatedAmount = (paymentIntent.amount / 100).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD'
   })
@@ -28,7 +28,7 @@ ShowPaymentInfo.propTypes = {
     orderStatus: PropTypes.string.isRequired,
     paymentIntent: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      amount: PropTypes.string.isRequired,
+      amount: PropTypes.number.isRequired,
       currency: PropTypes.string.isRequired,
       payment_method_types: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,

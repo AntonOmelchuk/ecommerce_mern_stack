@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import OrderItemTable from './OrderItemTable'
 import ShowPaymentInfo from './ShowPaymentInfo'
+import DownloadLink from './DownloadLink'
 
 const OrderItem = ({ order }) => {
   return (
@@ -10,7 +11,7 @@ const OrderItem = ({ order }) => {
       <OrderItemTable order={order} />
       <div className='row'>
         <div className='col'>
-          <p>PDF download</p>
+          <DownloadLink order={order} />
         </div>
       </div>
     </div>
