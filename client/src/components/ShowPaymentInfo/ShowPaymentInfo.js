@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ShowPaymentInfo = ({ order }) => {
+const ShowPaymentInfo = ({ order, showStatus }) => {
   const { paymentIntent } = order;
 
   const formatedAmount = (paymentIntent.amount / 100).toLocaleString('en-US', {
@@ -17,7 +17,8 @@ const ShowPaymentInfo = ({ order }) => {
         <span>{`Method: ${paymentIntent.payment_method_types[0]} / `}</span>
         <span>{`Payment: ${paymentIntent.status.toUpperCase()} / `}</span>
         <span>{`Ordered on: ${new Date(paymentIntent.created * 1000).toLocaleString()} / `}</span>
-        <span className='badge bg-primary text-white'>{`Status: ${order.orderStatus} `}</span>
+        <br />
+        {showStatus && <span className='badge bg-primary text-white'>{`Status: ${order.orderStatus} `}</span>}
       </p>
     </div>
   )
@@ -25,17 +26,18 @@ const ShowPaymentInfo = ({ order }) => {
 
 ShowPaymentInfo.propTypes = {
   order: PropTypes.shape({
-    orderStatus: PropTypes.string.isRequired,
+    orderStatus: PropTypes.string,
     paymentIntent: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      amount: PropTypes.number.isRequired,
-      currency: PropTypes.string.isRequired,
-      payment_method_types: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired,
-      created: PropTypes.string.isRequired,
-      orderStatus: PropTypes.string.isRequired,
+      id: PropTypes.string,
+      amount: PropTypes.number,
+      currency: PropTypes.string,
+      payment_method_types: PropTypes.arrayOf(PropTypes.string),
+      status: PropTypes.string,
+      created: PropTypes.number,
+      orderStatus: PropTypes.string,
     })
-  }).isRequired
+  }).isRequired,
+  showStatus: PropTypes.bool.isRequired,
 }
 
 export default ShowPaymentInfo
