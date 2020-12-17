@@ -16,9 +16,9 @@ const ShowPaymentInfo = ({ order, showStatus }) => {
         <span>{`Currency: ${paymentIntent.currency.toUpperCase()} / `}</span>
         <span>{`Method: ${paymentIntent.payment_method_types[0]} / `}</span>
         <span>{`Payment: ${paymentIntent.status.toUpperCase()} / `}</span>
-        <span>{`Ordered on: ${new Date(paymentIntent.created * 1000).toLocaleString()} / `}</span>
+        <span>{`Ordered on: ${new Date(paymentIntent.created * 1000).toLocaleString()}`}</span>
         <br />
-        {showStatus && <span className='badge bg-primary text-white'>{`Status: ${order.orderStatus} `}</span>}
+        {showStatus && <span className='badge bg-primary text-white'>{` / Status: ${order.orderStatus} `}</span>}
       </p>
     </div>
   )

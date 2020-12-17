@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Document, Page, Text, StyleSheet, View 
+  Document, Page, Text, StyleSheet
 } from '@react-pdf/renderer';
 import {
   Table, TableHeader, TableCell, TableBody, DataTableCell

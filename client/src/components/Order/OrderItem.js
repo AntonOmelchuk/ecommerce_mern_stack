@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import OrderItemTable from './OrderItemTable'
-import ShowPaymentInfo from '../../../components/ShowPaymentInfo/ShowPaymentInfo'
+import ShowPaymentInfo from '../ShowPaymentInfo/ShowPaymentInfo'
 import DownloadLink from './DownloadLink'
 
 const OrderItem = ({ order }) => {
@@ -19,7 +19,7 @@ const OrderItem = ({ order }) => {
 }
 
 OrderItem.propTypes = {
-  order: PropTypes.shape({}).isRequired
+  order: PropTypes.shape({}).isRequired,
 }
 
 export default OrderItem

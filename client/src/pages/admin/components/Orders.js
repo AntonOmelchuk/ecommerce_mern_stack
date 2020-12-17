@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import ShowPaymentInfo from '../../../components/ShowPaymentInfo/ShowPaymentInfo'
+import OrderItemTable from '../../../components/Order/OrderItemTable'
 
 const Orders = ({ orders, handleOrderStatus }) => {
   return (
@@ -28,6 +27,7 @@ const Orders = ({ orders, handleOrderStatus }) => {
                 </select>
               </div>
             </div>
+            <OrderItemTable order={order} />
           </div>
         </div>
       ))}

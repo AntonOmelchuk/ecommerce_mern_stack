@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import UserNav from '../../components/nav/UserNav'
+import OrderItem from '../../components/Order/OrderItem'
 import userAPI from '../../api/user'
-import OrderItem from './components/OrderItem'
 
 const History = () => {
   const { user } = useSelector(state => state.auth)
